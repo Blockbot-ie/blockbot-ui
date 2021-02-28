@@ -28,7 +28,6 @@ const Strategies = (props: any) => {
           })
             .then(res => {
               const strategies = res.data;
-              console.log(strategies)
               setStrategyState({
                   ...strategyState,
                   strategies: strategies

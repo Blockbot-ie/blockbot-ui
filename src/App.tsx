@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Nav from './Components/Nav';
 import LoginForm from './Components/accounts/LoginForm';
 import SignupForm from './Components/accounts/SignUpForm';
@@ -142,7 +142,8 @@ const App = () => {
         <Route exact path="/strategies">
           <Strategies authUserState={authUserState} />
         </Route>
-        <Route path="/strategy/:id" component={ConnectStrategy} />
+        <Route path="/strategy/:id" render={(props) => 
+          <ConnectStrategy logged_in={authUserState.logged_in} {...props} />}/>
       </Switch>
     </div>
     </Router>
