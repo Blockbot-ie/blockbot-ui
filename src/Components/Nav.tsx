@@ -5,8 +5,7 @@ import {
     Route,
     Link
   } from "react-router-dom";
-import LoginForm from './accounts/LoginForm';
-import SignupForm from './accounts/SignUpForm';
+
 
 const Nav = (props: any) => {
     const logged_out_nav = (

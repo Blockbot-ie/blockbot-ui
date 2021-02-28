@@ -10,15 +10,14 @@ type UserState = {
 }
 
 const LoginForm = (props: any) => {
-    const history = useHistory()
     
     const [userState, setUserState] = useState<UserState>({
         username: '',
         password: ''
     })
-    console.log(props.logged_in)
+    
     if (props.logged_in) {
-        console.log('Yes')
+        
         return <Redirect to="/" />;
     }
     return <>

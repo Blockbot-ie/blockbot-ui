@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import Nav from './Components/Nav';
 import LoginForm from './Components/accounts/LoginForm';
 import SignupForm from './Components/accounts/SignUpForm';
+import axios from 'axios';
 import './App.css';
 import {
   HashRouter as Router,
@@ -11,6 +12,8 @@ import {
   useHistory,
   Redirect
 } from "react-router-dom";
+import Strategies from './Components/strategies/Strategies';
+import ConnectStrategy from './Components/strategies/ConnectStrategy';
 
 type AuthUser = {
   displayed_form: String,
@@ -35,61 +38,66 @@ const App = () => {
 
 
   useEffect(() => {
-    console.log(authUserState.logged_in)
+    
     if (authUserState.logged_in) {
-      fetch('http://localhost:8000/bb/current_user/', {
+      axios.get('http://localhost:8000/bb/current_user/', {
         headers: {
           Authorization: `JWT ${localStorage.getItem('token')}`
         }
       })
-        .then(res => res.json())
-        .then(json => {
-          setAuthUserState({...authUserState, username: json.username });
-        });
+        .then(res => {
+          const user = res.data;
+          setAuthUserState({...authUserState, username: user.username})
+        })
+    } else {
+      loginScreen()
     }
   }, [authUserState.logged_in])
 
+  const loginScreen = () => {
+    return <Redirect to="/login"/>
+  }
+
   const handle_login = (e: any, data: UserState) => {
-    console.log('Hello')
     e.preventDefault();
-    fetch('http://localhost:8000/token-auth/', {
-      method: 'POST',
+    axios.post('http://localhost:8000/token-auth/', JSON.stringify(data), {
       headers: {
         'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data)
+      }
     })
-      .then(res => res.json())
-      .then(json => {
-        localStorage.setItem('token', json.token);
+      .then(res => {
+        const token = res.data;
+        localStorage.setItem('token', token.token);
         setAuthUserState({
           ...authUserState,
           logged_in: true,
           displayed_form: '',
-          username: json.user.username
+          username: token.user.username
         })
         return <Redirect to="/"/>
-      });
+      })
+      .catch(function (error) {
+        console.log(error);
+      });;
       
   };
 
   const handle_signup = (e: any, data: UserState) => {
     e.preventDefault();
-    fetch('http://localhost:8000/bb/users/', {
+    axios.post('http://localhost:8000/bb/users/', JSON.stringify(data),  {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data)
+      }
     })
-      .then(res => res.json())
-      .then(json => {
-        localStorage.setItem('token', json.token);
+      .then(res => {
+        const user = res.data;
+        localStorage.setItem('token', user.token);
         setAuthUserState({
           ...authUserState,
           logged_in: true,
           displayed_form: '',
-          username: json.user.username
+          username: user.user.username
         })
       });
 
@@ -97,7 +105,6 @@ const App = () => {
   };
 
   const handle_logout = () => {
-    console.log('Hi')
     localStorage.removeItem('token');
     setAuthUserState({
       ...authUserState,
@@ -106,13 +113,6 @@ const App = () => {
     })
     return <Redirect to="/"/>
   };
-
-  const display_form = (form: String) => {
-    setAuthUserState({
-      ...authUserState,
-      displayed_form: form
-    })
-  };   
   return (
     
     <Router>
@@ -120,27 +120,30 @@ const App = () => {
       <Nav
         logged_in={authUserState.logged_in}
       />
+        
       <Switch>
         <Route exact path="/">
-          <h1>hey</h1>
+        <h3>
+          {authUserState.logged_in
+            ? `Hello, ${authUserState.username}`
+            : 'Please Log In'}
+        </h3>
         </Route>
         <Route exact path="/login">
           <LoginForm handle_login={handle_login} logged_in={authUserState.logged_in} />
         </Route>
         
-        <Route path="/signup">
+        <Route exact path="/signup">
             <SignupForm handle_signup={handle_signup} />
         </Route>
-        <Route path="/logout">
+        <Route exact path="/logout">
           {handle_logout}
         </Route>
-        </Switch>
-      <h3>
-        {authUserState.logged_in
-          ? `Hello, ${authUserState.username}`
-          : 'Please Log In'}
-      </h3>
-
+        <Route exact path="/strategies">
+          <Strategies authUserState={authUserState} />
+        </Route>
+        <Route path="/strategy/:id" component={ConnectStrategy} />
+      </Switch>
     </div>
     </Router>
   );
