@@ -2,7 +2,9 @@ import React from 'react';
 import { useState, createRef } from "react";
 import PropTypes from 'prop-types';
 import { Form } from 'semantic-ui-react'
+import { connect } from 'react-redux';
 import { Redirect, useHistory } from 'react-router-dom';
+import { login } from '../../actions/auth';
 
 type UserState = {
     username: String,
@@ -16,11 +18,12 @@ const LoginForm = (props: any) => {
         password: ''
     })
     
-    if (props.logged_in) {
-        
-        return <Redirect to="/" />;
-    }
+    const onSubmit = (e: any) => {
+        e.preventDefault();
+        props.login(userState.username, userState.password);
+      };
     return <>
+    {!props.isAuthenticated ? 
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
     <div className="max-w-md w-full space-y-8">
         <div>
@@ -35,7 +38,7 @@ const LoginForm = (props: any) => {
             </a>
         </p>
         </div>
-        <form onSubmit={e => props.handle_login(e, userState)} className="mt-8 space-y-6" action="#" method="POST">
+        <form onSubmit={onSubmit} className="mt-8 space-y-6" action="#" method="POST">
         <input type="hidden" name="remember" value="true" />
         <div className="rounded-md shadow-sm -space-y-px">
             <div>
@@ -78,7 +81,7 @@ const LoginForm = (props: any) => {
             <span className="absolute left-0 inset-y-0 flex items-center pl-3">
                 
                 <svg className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
+                <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
                 </svg>
             </span>
             Sign in
@@ -87,44 +90,13 @@ const LoginForm = (props: any) => {
         </form>
     </div>
     </div>
-    </>
-    
-{/*     
-    <h1>Login</h1>
-      <Form size="large" onSubmit={e => props.handle_login(e, userState)}>
-        <Form.Group css={{marginBottom: "16px !important"}}>
-          <Form.Field width={16}>
-            <label>Username</label>
-                <Form.Input
-                type="text"
-                name="username"
-                onChange={(_, { value }) => {
-                    const trimmed = value.trim()
-                    setUserState({ ...userState, username: trimmed })
-                }}
-                />
-          </Form.Field>
-        </Form.Group>
-        <Form.Group css={{marginBottom: "16px !important"}}>
-          <Form.Field width={16}>
-            <label>Password</label>
-                <Form.Input
-                type="password"
-                name="password"
-                onChange={(_, { value }) => {
-                    const trimmed = value.trim()
-                    setUserState({ ...userState, password: trimmed })
-                }}
-                />
-          </Form.Field>
-        </Form.Group>
-        <Form.Group>
-            <Form.Field>
-                <Form.Input
-                type="submit"
-                />
-            </Form.Field>
-        </Form.Group>
-    </Form> */}
+    :
+    <Redirect to="/" />
+    }
+    </> 
 }
-export default LoginForm;
+const mapStateToProps = (state: { auth: { isAuthenticated: any; }; }) => ({
+    isAuthenticated: state.auth.isAuthenticated,
+  });
+  
+export default connect(mapStateToProps, { login })(LoginForm);

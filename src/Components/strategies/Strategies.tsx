@@ -3,6 +3,8 @@ import React, { useEffect } from 'react';
 import { useState, createRef } from "react";
 import { Link } from 'react-router-dom';
 import { ListItem } from 'semantic-ui-react';
+import { connect } from 'react-redux';
+import { getStrategies } from '../../actions/strategies';
 
 type Strategy = {
     strategy_id: String,
@@ -20,21 +22,10 @@ const Strategies = (props: any) => {
     });
 
     useEffect(() => {
-        if (props.authUserState.logged_in) {
-          axios.get('http://localhost:8000/bb/strategies/', {
-            headers: {
-              Authorization: `JWT ${localStorage.getItem('token')}`
-            }
-          })
-            .then(res => {
-              const strategies = res.data;
-              setStrategyState({
-                  ...strategyState,
-                  strategies: strategies
-              })
-            })
-        }
-      }, [props.authUserState.logged_in])
+      console.log(props)
+      props.getStrategies();
+      console.log(props)
+    })
     
     const listItems = strategyState.strategies.map((strategy) =>
         <li><Link to={`/strategy/${strategy.strategy_id}`}>{strategy.name}</Link></li>
@@ -46,4 +37,7 @@ const Strategies = (props: any) => {
     );
   }
 
-  export default Strategies;
+  const mapStateToProps = (state) => (
+    console.log(state));
+  
+  export default connect(mapStateToProps, { getStrategies })(Strategies);
