@@ -49,8 +49,10 @@ const App = () => {
           const user = res.data;
           setAuthUserState({...authUserState, username: user.username})
         })
-    } else {
-      loginScreen()
+        .catch(err => {
+          setAuthUserState({...authUserState, logged_in: false})
+          loginScreen()
+        })
     }
   }, [authUserState.logged_in])
 
