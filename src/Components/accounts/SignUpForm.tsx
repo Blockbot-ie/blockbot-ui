@@ -2,6 +2,10 @@ import React from 'react';
 import { useState, createRef } from "react";
 import PropTypes from 'prop-types';
 import { Form } from 'semantic-ui-react'
+import { connect } from 'react-redux';
+import { register } from '../../actions/auth';
+import { createMessage } from '../../actions/messages';
+import { Redirect } from 'react-router-dom';
 
 type UserState = {
     username: String,
@@ -29,7 +33,7 @@ const SignupForm = (props: any) => {
       };
 
     return <>
-    <h1>Signup</h1>
+    {!props.isAuthenticated ? 
       <Form size="large" onSubmit={onSubmit}>
         <Form.Group css={{marginBottom: "16px !important"}}>
           <Form.Field width={16}>
@@ -91,6 +95,14 @@ const SignupForm = (props: any) => {
             </Form.Field>
         </Form.Group>
     </Form>
+    :
+    <Redirect to="/" />
+    }
     </>
 }
-export default SignupForm;
+
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+});
+
+export default connect(mapStateToProps, { register, createMessage })(SignupForm);

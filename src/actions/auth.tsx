@@ -16,7 +16,6 @@ import {
 export const loadUser = () => (dispatch, getState) => {
   // User Loading
   dispatch({ type: USER_LOADING });
-
   axios
     .get('http://localhost:8000/api/auth/user', tokenConfig(getState))
     .then((res) => {
@@ -46,7 +45,7 @@ export const login = (username: String, password: String) => (dispatch: (arg0: {
   const body = JSON.stringify({ username, password });
 
   axios
-    .post('http://localhost:8000/api/login', body, config)
+    .post('http://localhost:8000/api/auth/login', body, config)
     .then((res) => {
       console.log(res)
       dispatch({
@@ -75,7 +74,7 @@ export const register = ({ username, password, email }) => (dispatch: (arg0: { t
   const body = JSON.stringify({ username, email, password });
 
   axios
-    .post('http://localhost:8000/api/users/', body, config)
+    .post('http://localhost:8000/api/auth/users/', body, config)
     .then((res) => {
       dispatch({
         type: REGISTER_SUCCESS,
@@ -93,8 +92,9 @@ export const register = ({ username, password, email }) => (dispatch: (arg0: { t
 // LOGOUT USER
 export const logout = () => (dispatch: (arg0: { type: string; payload?: { msg: String; status: any; }; }) => void, getState: any) => {
   axios
-    .post('/api/auth/logout/', null, tokenConfig(getState))
+    .post('http://localhost:8000/api/auth/logout/', null, tokenConfig(getState))
     .then((res) => {
+      console.log('Logging out')
       dispatch({
         type: LOGOUT_SUCCESS,
       });
@@ -120,6 +120,5 @@ export const tokenConfig = (getState: any) => {
   if (token) {
     config.headers['Authorization'] = `Token ${token}`;
   }
-
   return config;
 };

@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import {
     BrowserRouter as Router,
     Switch,
     Route,
     Link
   } from "react-router-dom";
+import store from '../store';
+import { logout } from '../actions/auth';
 
 const Nav = (props: any) => {
-console.log(props.logged_in)
 const [navbarOpen, setNavbarOpen] = useState(false);
 
 const toggleDropdown = () => {
@@ -17,6 +19,13 @@ const toggleDropdown = () => {
       setNavbarOpen(true);
     }
   }
+
+  const logoutClick = () => {
+    if (props.isAuthenticated) {
+      store.dispatch<any>(logout());
+    }
+  }
+
   return (
     <>
     <nav className="bg-gray-800">
@@ -44,15 +53,15 @@ const toggleDropdown = () => {
                 <a href="#" className="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium">Dashboard</a>
                 <a href="#" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Team</a>
                 
-                <a className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"><Link to="/strategies">Strategies</Link></a>
+                <Link className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium" to="/strategies">Strategies</Link>
                 <a href="#" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Calendar</a>
               </div>
             </div>
           </div>
-          {!props.logged_in ?
+          {!props.isAuthenticated ?
           <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-            <li className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"><Link to="/login">Login</Link></li>
-            <li className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"><Link to="/signup">Signup</Link></li>
+            <Link className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium" to="/login">Login</Link>
+            <Link className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium" to="/signup">Signup</Link>
           </div> :
 
           <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
@@ -75,7 +84,7 @@ const toggleDropdown = () => {
               <div className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5" role="menu" aria-orientation="vertical" aria-labelledby="user-menu">
               <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Your Profile</a>
               <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Settings</a>
-              <li className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem"><Link to="/logout">Logout</Link></li>
+              <button className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" onClick={logoutClick}>Logut</button>
             </div> :
             <div></div>
             }
@@ -101,4 +110,7 @@ const toggleDropdown = () => {
   );
 }
 
-export default Nav;
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+});
+export default connect(mapStateToProps)(Nav);

@@ -4,7 +4,7 @@ import { useState, createRef } from "react";
 import { Link } from 'react-router-dom';
 import { ListItem } from 'semantic-ui-react';
 import { connect } from 'react-redux';
-import { getStrategies } from '../../actions/strategies';
+import { getStrategies } from '../../actions/common';
 
 type Strategy = {
     strategy_id: String,
@@ -22,13 +22,13 @@ const Strategies = (props: any) => {
     });
 
     useEffect(() => {
-      console.log(props)
-      props.getStrategies();
-      console.log(props)
-    })
+      if (props.strategies.length < 1){
+        props.getStrategies()
+        }
+      }, []);
     
-    const listItems = strategyState.strategies.map((strategy) =>
-        <li><Link to={`/strategy/${strategy.strategy_id}`}>{strategy.name}</Link></li>
+    const listItems = props.strategies.map((strategy) =>
+        <li key={strategy.strategy_id}><Link to={`/strategy/${strategy.strategy_id}`}>{strategy.name}</Link></li>
     );
     return (
       <ul>
@@ -37,7 +37,8 @@ const Strategies = (props: any) => {
     );
   }
 
-  const mapStateToProps = (state) => (
-    console.log(state));
+  const mapStateToProps = (state) => ({
+    strategies: state.common.strategies,
+  });
   
   export default connect(mapStateToProps, { getStrategies })(Strategies);
