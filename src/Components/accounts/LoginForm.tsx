@@ -20,6 +20,7 @@ const LoginForm = (props: any) => {
     
     const onSubmit = (e: any) => {
         e.preventDefault();
+        console.log(e)
         props.login(userState.username, userState.password);
       };
     return <>

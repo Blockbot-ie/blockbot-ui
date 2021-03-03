@@ -5,7 +5,7 @@ import SignupForm from './Components/accounts/SignUpForm';
 import './App.css';
 import { HashRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import Strategies from './Components/strategies/Strategies';
-import ConnectStrategy from './Components/strategies/ConnectStrategy';
+import ConnectExhange from './Components/strategies/ConnectExchange';
 import PrivateRoute from './Components/common/PrivateRoute';
 import { Provider } from 'react-redux';
 import store from './store';
@@ -51,8 +51,8 @@ const App = () => {
                   <LoginForm />
                 </Route>
                 
-                <Route exact path="/strategy/:id">
-                  <ConnectStrategy />
+                <Route exact path="/connect_exchange">
+                  <ConnectExhange />
                 </Route>
               </Switch>
             </div>

@@ -10,7 +10,7 @@ import { Redirect } from 'react-router-dom';
 type UserState = {
     username: String,
     email: String,
-    password1: String,
+    password: String,
     password2: String
 }
 
@@ -19,13 +19,13 @@ const SignupForm = (props: any) => {
     const [userState, setUserState] = useState<UserState>({
         username: '',
         email: '',
-        password1: '',
+        password: '',
         password2: '',
     })
 
     const onSubmit = (e: any) => {
         e.preventDefault();
-        if (userState.password1 !== userState.password2) {
+        if (userState.password !== userState.password2) {
           props.createMessage({ passwordNotMatch: 'Passwords do not match' });
         } else {
           props.register({userState});
@@ -66,10 +66,10 @@ const SignupForm = (props: any) => {
             <label>Password</label>
                 <Form.Input
                 type="password"
-                name="password1"
+                name="password"
                 onChange={(_, { value }) => {
                     const trimmed = value.trim()
-                    setUserState({ ...userState, password1: trimmed })
+                    setUserState({ ...userState, password: trimmed })
                 }}
                 />
           </Form.Field>

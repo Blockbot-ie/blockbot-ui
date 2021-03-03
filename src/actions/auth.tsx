@@ -47,7 +47,6 @@ export const login = (username: String, password: String) => (dispatch: (arg0: {
   axios
     .post('http://localhost:8000/api/auth/login', body, config)
     .then((res) => {
-      console.log(res)
       dispatch({
         type: LOGIN_SUCCESS,
         payload: res.data,
@@ -62,19 +61,18 @@ export const login = (username: String, password: String) => (dispatch: (arg0: {
 };
 
 // REGISTER USER
-export const register = ({ username, password, email }) => (dispatch: (arg0: { type: string; payload?: any; }) => void) => {
+export const register = (state) => (dispatch: (arg0: { type: string; payload?: any; }) => void) => {
   // Headers
   const config = {
     headers: {
       'Content-Type': 'application/json',
     },
   };
-
   // Request Body
-  const body = JSON.stringify({ username, email, password });
+  const body = JSON.stringify(state.userState);
 
   axios
-    .post('http://localhost:8000/api/auth/users/', body, config)
+    .post('http://localhost:8000/api/auth/register', body, config)
     .then((res) => {
       dispatch({
         type: REGISTER_SUCCESS,
@@ -92,7 +90,7 @@ export const register = ({ username, password, email }) => (dispatch: (arg0: { t
 // LOGOUT USER
 export const logout = () => (dispatch: (arg0: { type: string; payload?: { msg: String; status: any; }; }) => void, getState: any) => {
   axios
-    .post('http://localhost:8000/api/auth/logout/', null, tokenConfig(getState))
+    .post('http://localhost:8000/api/auth/logout', null, tokenConfig(getState))
     .then((res) => {
       console.log('Logging out')
       dispatch({
@@ -120,5 +118,6 @@ export const tokenConfig = (getState: any) => {
   if (token) {
     config.headers['Authorization'] = `Token ${token}`;
   }
+  console.log(config)
   return config;
 };
