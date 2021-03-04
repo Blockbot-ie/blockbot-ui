@@ -38,7 +38,7 @@ export const connectExchange = (state) => (dispatch: (arg0: { type: string; payl
   const token = getState().auth.token
   const config = {
     headers: {
-      'Content-Type': 'multipart/form-data; boundary=----WebKitFormBoundaryLty0n9GLuBw4ngxl',
+      'Content-Type': 'application/json',
       'Authorization': `Token ${token}`
     },
   };

@@ -28,7 +28,7 @@ const SignupForm = (props: any) => {
         if (userState.password !== userState.password2) {
           props.createMessage({ passwordNotMatch: 'Passwords do not match' });
         } else {
-          props.register({userState});
+          props.register(userState.email, userState.username, userState.password);
         }
       };
 
