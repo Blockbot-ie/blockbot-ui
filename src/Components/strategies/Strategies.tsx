@@ -21,6 +21,8 @@ const Strategies = (props: any) => {
         strategies: []
     });
 
+    const { next } = props.navigation;
+
     useEffect(() => {
       if (props.strategies.length < 1){
         props.getStrategies()

@@ -21,7 +21,6 @@ type ConnectExchange = {
 }
 
 const ConnectExhange = (props: any) => {
-    
     const [exchangeState, setExchangeState] = useState<Exchanges>({
         exchanges: []
     });
@@ -38,16 +37,21 @@ const ConnectExhange = (props: any) => {
         }
       }, []);
 
-    const handleSubmit = (e: any) => {
-      e.preventDefault()
-      props.connectExchange({ connectedExchangeState })
-    }
+      const { next } = props.navigation;
+      const handleSubmit = (e: any) => {
+        e.preventDefault()
+        props.connectExchange({ connectedExchangeState })
+
+        if (props.connectedExchange) {
+
+        }
+
+      }
     
     const exchangeList = props.exchanges.map((exchange, i) => 
         <option key={i} value={exchange.exchange_id.toString()}>{exchange.display_name}</option>
     )
     return <>
-    {!props.connectedExchange ?
     <div className="mt-5 md:mt-0 md:col-span-2">
     <form onSubmit={handleSubmit} method="POST">
       <div className="shadow overflow-hidden sm:rounded-md">
@@ -89,17 +93,21 @@ const ConnectExhange = (props: any) => {
             </div>
         </div>
         <div className="px-4 py-3 bg-gray-50 text-right sm:px-6">
+          {!props.connectedExchange &&
           <button type="submit" className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
             Save
           </button>
+          }
         </div>
       </div>
       </div>
     </form>
-  </div>
-  :
-  <Redirect to="/" />
+    {props.connectedExchange &&
+          <button onClick={next} className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            Next
+          </button>
     }
+  </div>
     </>
 }
 

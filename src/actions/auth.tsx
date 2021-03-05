@@ -118,6 +118,5 @@ export const tokenConfig = (getState: any) => {
   if (token) {
     config.headers['Authorization'] = `Token ${token}`;
   }
-  console.log(config)
   return config;
 };

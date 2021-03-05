@@ -35,9 +35,9 @@ export default function (state = initialState, action) {
         connectedExchange: true,
       };
     case CONNECT_EXCHANGE_FAIL:
-      console.log('hi')
       return {
-        ...state
+        ...state,
+        connectedExchange: false,
       };
     default:
       return state;

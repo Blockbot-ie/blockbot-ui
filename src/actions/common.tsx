@@ -32,7 +32,7 @@ export const getExchanges = () => (dispatch, getState) => {
 };
 
 // GET LEADS
-export const connectExchange = (state) => (dispatch: (arg0: { type: string; payload?: any; }) =>  void, getState: any) => {
+export const connectExchange = (state) => (dispatch: (arg0: { type: String; payload?: any; }) =>  void, getState: any) => {
     // Headers
   
   const token = getState().auth.token
@@ -48,6 +48,7 @@ export const connectExchange = (state) => (dispatch: (arg0: { type: string; payl
   axios
     .post('http://localhost:8000/api/connect-exchange', body, tokenConfig(getState))
     .then((res) => {
+      dispatch(createMessage({ connectExchange: 'Exchange Connected' }));
       dispatch({
         type: CONNECT_EXCHANGE_SUCCESS,
         payload: res.data,

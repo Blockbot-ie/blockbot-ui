@@ -1,6 +1,6 @@
 import { CREATE_MESSAGE, GET_ERRORS } from './types';
 
-export const createMessage = (msg: String) => {
+export const createMessage = (msg: any) => {
   return {
     type: CREATE_MESSAGE,
     payload: msg,
