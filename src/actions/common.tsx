@@ -2,7 +2,7 @@ import axios from 'axios';
 import { createMessage, returnErrors } from './messages';
 import { tokenConfig } from './auth';
 
-import { GET_STRATEGIES, GET_EXCHANGES, CONNECT_EXCHANGE_FAIL, CONNECT_EXCHANGE_SUCCESS } from './types';
+import { GET_STRATEGIES, GET_EXCHANGES, CONNECT_EXCHANGE_FAIL, CONNECT_EXCHANGE_SUCCESS, GET_CONNECTED_EXCHANGES } from './types';
 
 // GET LEADS
 export const getStrategies = () => (dispatch, getState) => {
@@ -31,7 +31,7 @@ export const getExchanges = () => (dispatch, getState) => {
     .catch((err) => dispatch(returnErrors(err.response.data, err.response.status)));
 };
 
-// GET LEADS
+// Connect Exchange
 export const connectExchange = (state) => (dispatch: (arg0: { type: String; payload?: any; }) =>  void, getState: any) => {
     // Headers
   
@@ -61,3 +61,18 @@ export const connectExchange = (state) => (dispatch: (arg0: { type: String; payl
       });
     });
 };
+
+export const getConnectedExchanges = (state) => (dispatch: (arg0: { type: String; payload?: any }) => void, getState: any) => {
+
+  const token = getState().auth.tokenConfigcons
+
+  axios
+    .get('http://localhost:8000/api/connect-exchange', tokenConfig(getState))
+    .then((res) => {
+      dispatch({
+        type: GET_CONNECTED_EXCHANGES,
+        payload: res.data,
+      });
+    })
+    .catch((err) => dispatch(returnErrors(err.response.data, err.response.status)));
+}

@@ -1,9 +1,9 @@
-import { GET_STRATEGIES, CLEAR_STRATEGIES, GET_EXCHANGES, CLEAR_EXCHANGES, CONNECT_EXCHANGE_SUCCESS, CONNECT_EXCHANGE_FAIL } from '../actions/types';
+import { GET_STRATEGIES, CLEAR_STRATEGIES, GET_EXCHANGES, CLEAR_EXCHANGES, CONNECT_EXCHANGE_SUCCESS, CONNECT_EXCHANGE_FAIL, GET_CONNECTED_EXCHANGES } from '../actions/types';
 
 const initialState = {
   strategies: [],
   exchanges: [],
-  connectedExchange: false
+  connectedExchanges: []
 };
 
 export default function (state = initialState, action) {
@@ -29,15 +29,19 @@ export default function (state = initialState, action) {
         ...state,
         exchanges: [],
       };
+    case GET_CONNECTED_EXCHANGES:
     case CONNECT_EXCHANGE_SUCCESS:
+      if (action.payload == undefined) {
+        action.payload = [];
+      }
       return {
         ...state,
-        connectedExchange: true,
+        connectedExchanges: action.payload,
       };
     case CONNECT_EXCHANGE_FAIL:
       return {
         ...state,
-        connectedExchange: false,
+        connectedExchanges: [],
       };
     default:
       return state;
