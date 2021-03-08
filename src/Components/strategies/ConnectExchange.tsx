@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useEffect } from 'react';
 import { useState, createRef } from "react";
-import { getExchanges, connectExchange, getConnectedExchanges } from '../../actions/common';
+import { getExchanges, connectExchange, getConnectedExchanges, getStrategyPairs } from '../../actions/common';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import ConnectExchangeForm from '../forms/connectExchangeForm';
@@ -27,6 +27,8 @@ const ConnectExhange = (props: any) => {
     
 
     useEffect(() => {
+      console.log(props)
+      props.getStrategyPairs()
       props.getConnectedExchanges();
       if (props.exchanges.length < 1){
         props.getExchanges()
@@ -56,4 +58,4 @@ const mapStateToProps = (state) => ({
   connectedExchanges: state.common.connectedExchanges
 });
 
-export default connect(mapStateToProps, { getExchanges, connectExchange, getConnectedExchanges })(ConnectExhange);
+export default connect(mapStateToProps, { getExchanges, connectExchange, getConnectedExchanges, getStrategyPairs })(ConnectExhange);

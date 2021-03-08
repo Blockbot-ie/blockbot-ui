@@ -1,9 +1,12 @@
-import { GET_STRATEGIES, CLEAR_STRATEGIES, GET_EXCHANGES, CLEAR_EXCHANGES, CONNECT_EXCHANGE_SUCCESS, CONNECT_EXCHANGE_FAIL, GET_CONNECTED_EXCHANGES } from '../actions/types';
+import { CommentActions } from 'semantic-ui-react';
+import { GET_STRATEGIES, CLEAR_STRATEGIES, GET_EXCHANGES, CLEAR_EXCHANGES, CONNECT_EXCHANGE_SUCCESS, CONNECT_EXCHANGE_FAIL, GET_CONNECTED_EXCHANGES, GET_CONNECTED_STRATEGIES, CONNECT_STRATEGY_SUCCESS, CONNECT_STRATEGY_FAIL, GET_STRATEGY_PAIRS } from '../actions/types';
 
 const initialState = {
   strategies: [],
   exchanges: [],
-  connectedExchanges: []
+  connectedExchanges: [],
+  connectedStrategies: [],
+  strategyPairs: []
 };
 
 export default function (state = initialState, action) {
@@ -43,6 +46,22 @@ export default function (state = initialState, action) {
         ...state,
         connectedExchanges: [],
       };
+    case CONNECT_STRATEGY_SUCCESS:
+    case GET_CONNECTED_STRATEGIES:
+      return {
+        ...state,
+        connectedStrategies: action.payload
+      }
+    case CONNECT_STRATEGY_FAIL:
+      return {
+        ...state,
+        connectedStrategies: []
+      }
+    case GET_STRATEGY_PAIRS:
+      return {
+        ...state,
+        strategyPairs: action.payload
+      }
     default:
       return state;
   }
