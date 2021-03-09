@@ -15,30 +15,12 @@ import { loadUser } from './actions/auth';
 import Alerts from './Components/layout/Alerts';
 import Main from './Components/settings/main';
 
-type AuthUser = {
-  displayed_form: String,
-  logged_in: Boolean,
-  username: String
-}
-
-type UserState = {
-  username: String,
-  password: String
-}
-
 const App = () => {
 
   // Alert Options
   const alertOptions = {
-    timeout: 3000,
-    position: 'top center',
+    timeout: 3000
   };
-
-  const [authUserState, setAuthUserState] = useState<AuthUser>({
-    displayed_form: '',
-    logged_in: localStorage.getItem('token') ? true: false,
-    username: ''
-  })
 
 
   useEffect(() => {
