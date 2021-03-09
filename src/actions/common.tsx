@@ -1,13 +1,12 @@
-import axios from 'axios';
+import axios from "./axios";
 import { createMessage, returnErrors } from './messages';
 import { tokenConfig } from './auth';
-
 import { GET_STRATEGIES, GET_EXCHANGES, CONNECT_EXCHANGE_FAIL, CONNECT_EXCHANGE_SUCCESS, GET_CONNECTED_EXCHANGES, GET_CONNECTED_STRATEGIES, CONNECT_STRATEGY_SUCCESS, CONNECT_STRATEGY_FAIL, GET_STRATEGY_PAIRS } from './types';
 
 // GET LEADS
 export const getStrategies = () => (dispatch, getState) => {
   axios
-    .get('http://localhost:8000/api/strategies/', tokenConfig(getState))
+    .get('/api/strategies/', tokenConfig(getState))
     .then((res) => {
       dispatch({
         type: GET_STRATEGIES,
@@ -21,7 +20,7 @@ export const getStrategies = () => (dispatch, getState) => {
 export const getExchanges = () => (dispatch, getState) => {
   
   axios
-    .get('http://localhost:8000/api/exchanges/', tokenConfig(getState))
+    .get('/api/exchanges/', tokenConfig(getState))
     .then((res) => {
       dispatch({
         type: GET_EXCHANGES,
@@ -46,7 +45,7 @@ export const connectExchange = (state) => (dispatch: (arg0: { type: String; payl
   // Request Body
   const body = JSON.stringify(state.connectedExchangeState);
   axios
-    .post('http://localhost:8000/api/connect-exchange', body, tokenConfig(getState))
+    .post('/api/connect-exchange', body, tokenConfig(getState))
     .then((res) => {
       dispatch(createMessage({ connectExchange: 'Exchange Connected' }));
       dispatch({
@@ -65,7 +64,7 @@ export const connectExchange = (state) => (dispatch: (arg0: { type: String; payl
 export const getConnectedExchanges = (state) => (dispatch: (arg0: { type: String; payload?: any }) => void, getState: any) => {
 
   axios
-    .get('http://localhost:8000/api/connect-exchange', tokenConfig(getState))
+    .get('/api/connect-exchange', tokenConfig(getState))
     .then((res) => {
       dispatch({
         type: GET_CONNECTED_EXCHANGES,
@@ -79,7 +78,7 @@ export const connectStrategy = (state) => (dispatch: (arg0: { type: String; payl
   // Request Body
   const body = JSON.stringify(state.connectedStrategyState);
   axios
-    .post('http://localhost:8000/api/connect-strategies', body, tokenConfig(getState))
+    .post('/api/connect-strategies', body, tokenConfig(getState))
     .then((res) => {
       dispatch(createMessage({ connectExchange: 'Strategy Connected' }));
       dispatch({
@@ -98,7 +97,7 @@ export const connectStrategy = (state) => (dispatch: (arg0: { type: String; payl
 export const getConnectedStrategies = (state) => (dispatch: (arg0: { type: String; payload?: any }) => void, getState: any) => {
 
   axios
-    .get('http://localhost:8000/api/connect-strategies', tokenConfig(getState))
+    .get('/api/connect-strategies', tokenConfig(getState))
     .then((res) => {
       dispatch({
         type: GET_CONNECTED_STRATEGIES,
@@ -111,7 +110,7 @@ export const getConnectedStrategies = (state) => (dispatch: (arg0: { type: Strin
 export const getStrategyPairs = (state) => (dispatch: (arg0: { type: String; payload?: any }) => void, getState: any) => {
 
   axios
-    .get('http://localhost:8000/api/strategy_pairs', tokenConfig(getState))
+    .get('/api/strategy_pairs', tokenConfig(getState))
     .then((res) => {
       dispatch({
         type: GET_STRATEGY_PAIRS,

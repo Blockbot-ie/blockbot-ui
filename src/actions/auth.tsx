@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from "./axios";
 import { returnErrors } from './messages';
 
 import {
@@ -17,7 +17,7 @@ export const loadUser = () => (dispatch, getState) => {
   // User Loading
   dispatch({ type: USER_LOADING });
   axios
-    .get('http://localhost:8000/api/auth/user', tokenConfig(getState))
+    .get('/api/auth/user', tokenConfig(getState))
     .then((res) => {
       dispatch({
         type: USER_LOADED,
@@ -45,7 +45,7 @@ export const login = (username: String, password: String) => (dispatch: (arg0: {
   const body = JSON.stringify({ username, password });
 
   axios
-    .post('http://localhost:8000/api/auth/login', body, config)
+    .post('/api/auth/login', body, config)
     .then((res) => {
       dispatch({
         type: LOGIN_SUCCESS,
@@ -72,7 +72,7 @@ export const register = (state) => (dispatch: (arg0: { type: string; payload?: a
   const body = JSON.stringify(state.userState);
 
   axios
-    .post('http://localhost:8000/api/auth/register', body, config)
+    .post('/api/auth/register', body, config)
     .then((res) => {
       dispatch({
         type: REGISTER_SUCCESS,
@@ -90,7 +90,7 @@ export const register = (state) => (dispatch: (arg0: { type: string; payload?: a
 // LOGOUT USER
 export const logout = () => (dispatch: (arg0: { type: string; payload?: { msg: String; status: any; }; }) => void, getState: any) => {
   axios
-    .post('http://localhost:8000/api/auth/logout', null, tokenConfig(getState))
+    .post('/api/auth/logout', null, tokenConfig(getState))
     .then((res) => {
       console.log('Logging out')
       dispatch({
