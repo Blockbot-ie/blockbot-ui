@@ -27,7 +27,6 @@ const ConnectExhange = (props: any) => {
     
 
     useEffect(() => {
-      console.log(props)
       props.getStrategyPairs()
       props.getConnectedExchanges();
       if (props.exchanges.length < 1){
@@ -55,7 +54,9 @@ const ConnectExhange = (props: any) => {
 const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
   exchanges: state.common.exchanges,
-  connectedExchanges: state.common.connectedExchanges
+  connectedExchanges: state.common.connectedExchanges,
+  connectedStrategies: state.common.connectedStrategies,
+  strategies: state.common.strategies
 });
 
 export default connect(mapStateToProps, { getExchanges, connectExchange, getConnectedExchanges, getStrategyPairs })(ConnectExhange);

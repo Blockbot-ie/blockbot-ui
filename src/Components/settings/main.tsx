@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { useForm, useStep } from "react-hooks-helper";
+import { connect } from "react-redux";
 import ConnectExchange from "../strategies/ConnectExchange";
 import Strategies from "../strategies/Strategies";
+import { getExchanges, getConnectedExchanges, getStrategies, getStrategyPairs } from '../../actions/common';
 
 const steps = [
   { id: "connectExchange" },
@@ -13,7 +15,7 @@ type TabSate = {
     tab: HTMLHtmlElement
 }
 
-const Main = (images: any) => {
+const Main = (props: any) => {
     const [formData, setForm] = useForm(0);
     const { step, navigation } = useStep({ initialStep: 0, steps });
 
@@ -21,7 +23,23 @@ const Main = (images: any) => {
         tab: <div></div>
     })
 
-    const props = { navigation };
+    useEffect(() => {
+
+        if (props.exchanges.length < 1){
+            props.getExchanges()
+        }
+        if (props.strategies.length < 1) {
+            props.getStrategies()
+            console.log('Hi')
+        }
+        if (props.connectedExchanges.length < 1){
+            props.getConnectedExchanges();
+        }
+        if (props.strategyPairs.length < 1) {
+            props.getStrategyPairs()
+        }
+        console.log(props)
+    }, []);
     const change = (val: any) =>  {
         if (val == "1") {
             setTabState({
@@ -54,4 +72,12 @@ const Main = (images: any) => {
     </>
 };
 
-export default Main;
+const mapStateToProps = (state) => ({
+    exchanges: state.common.exchanges,
+    strategies: state.common.strategies,
+    connectedExchanges: state.common.connectedExchanges,
+    connectedStrategies: state.common.connectedStrategies,
+    strategyPairs: state.common.strategyPairs
+  });
+
+export default connect(mapStateToProps, { getExchanges, getStrategies, getStrategyPairs, getConnectedExchanges })(Main);

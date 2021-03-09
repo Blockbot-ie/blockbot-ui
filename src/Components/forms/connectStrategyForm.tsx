@@ -1,4 +1,5 @@
-import { useState } from "react"
+import { symbol } from "prop-types";
+import { useEffect, useState } from "react"
 import { connect } from "react-redux"
 import { getStrategies, connectStrategy } from '../../actions/common';
 
@@ -17,22 +18,47 @@ type ExchangeAccount = {
 }
 
 const ConnectStrategyForm = (props: any) => {
+    const [exchaneAccount, setExchangeAccount] = useState(0)
+
+    useEffect(() => {
+        console.log(props)
+        if (props.strategies.length < 1){
+            props.getStrategies()
+        }
+        if (props.strategyPairs.length > 0) {
+            const strategyPairs = props.strategyPairs.filter(x => x.strategy == props.strategies[0].strategy_id)
+            let i = strategyPairs[0].pair.indexOf('/')
+            let symbol1 = strategyPairs[0].pair.substring(0, i);
+            let symbol2 = strategyPairs[0].pair.substring(i+1, strategyPairs[0].length);
+            setPairs({
+                ...pairs,
+                pairs: strategyPairs,
+                symbol1: symbol1,
+                symbol2: symbol2
+            })
+            setConnectedStrategyState({
+                ...connectedStrategyState,
+                current_currency: symbol2
+            })
+        }
+    }, [props.strategies])
+
+
+    const [pairs, setPairs] = useState({
+        pairs: [],
+        symbol1: '',
+        symbol2: ''
+    })
 
     const [connectedStrategyState, setConnectedStrategyState] = useState<ConnectStrategy>({
-        strategy: '',
-        user_exchange_account: '',
-        pair: '',
+        strategy: props.strategies[0].strategy_id,
+        user_exchange_account: props.connectExchanges[0].user_exchange_account_id,
+        pair: pairs.pairs[0],
         initial_first_symbol_balance: null,
         initial_second_symbol_balance: null,
         current_currency: '',
-        current_currency_balance: null
+        current_currency_balance: 0
       })
-
-    const [exchaneAccount, setExchangeAccount] = useState(0)
-
-    const [pairs, setPairs] = useState({
-        pairs: []
-    })
 
 
     const strategyList = props.strategies.map((strategy, i) => 
@@ -40,27 +66,53 @@ const ConnectStrategyForm = (props: any) => {
     )
 
     const connectedExchangeAccounts = props.connectExchanges.map((exchange, i) => 
-        <option key={i} value={exchange.exchange}>{exchange.name}</option>
+        <option key={i} value={exchange.user_exchange_account_id}>{exchange.name}</option>
     )
 
     const exchangePairs = pairs.pairs.map((pair, i) => 
         <option key={i} value={pair.pair}>{pair.pair}</option>
     )
 
-    const onExchangeAccountChange = (e: any) => {
-        console.log(props.strategyPairs)
+    const onStrategyChange = (e: any) => {
         console.log(e.target.value)
-        const exchangePairs = props.strategyPairs.filter(x => x.strategy == e.target.value)
+        if (props.strategyPairs.length > 0) {
+            const strategyPairs = props.strategyPairs.filter(x => x.strategy == e.target.value)
+            console.log(strategyPairs)
+            let i = strategyPairs[0].pair.indexOf('/')
+            let symbol1 = strategyPairs[0].pair.substring(0, i);
+            let symbol2 = strategyPairs[0].pair.substring(i+1, strategyPairs[0].pair.length);
+            setPairs({
+                ...pairs,
+                pairs: strategyPairs,
+                symbol1: symbol1,
+                symbol2: symbol2
+            })
+        }
+    }
 
+    const onPairChange = (e: any) => {
+        let i = e.target.value.indexOf('/')
+        let symbol1 = e.target.value.substring(0, i);
+        let symbol2 = e.target.value.substring(i+1, e.target.value.length);
         setPairs({
             ...pairs,
-            pairs: exchangePairs
+            symbol1: symbol1,
+            symbol2: symbol2 
         })
+
+        setConnectedStrategyState({
+            ...connectedStrategyState,
+            current_currency: symbol2
+        })
+    }
+
+    const showState = () => {
+        console.log(connectedStrategyState)
     }
 
     const handleSubmit = (e: any) => {
         e.preventDefault()
-        props.connectExchange({ connectedStrategyState })
+        props.connectStrategy({ connectedStrategyState }) 
     }
     return <>
     <div className="mt-5 md:mt-0 md:col-span-2">
@@ -73,6 +125,7 @@ const ConnectStrategyForm = (props: any) => {
               <label htmlFor="strategy" className="block text-sm font-medium text-gray-700">Strategy</label>
               <select
                 onChange={(e: any): void => {
+                  onStrategyChange(e)
                   const trimmed = e.target.value.trim()
                   setConnectedStrategyState({ ...connectedStrategyState, strategy: trimmed })}
                 }
@@ -86,7 +139,6 @@ const ConnectStrategyForm = (props: any) => {
               <label htmlFor="user_exchange_account" className="block text-sm font-medium text-gray-700">Exchange Account</label>
               <select
                 onChange={(e: any): void => {
-                  onExchangeAccountChange(e)
                   const trimmed = e.target.value.trim()
                   setConnectedStrategyState({ ...connectedStrategyState, user_exchange_account: trimmed })}
                 }
@@ -100,7 +152,7 @@ const ConnectStrategyForm = (props: any) => {
               <label htmlFor="pair" className="block text-sm font-medium text-gray-700">Pair</label>
               <select
                 onChange={(e: any): void => {
-                    console.log(e)
+                  onPairChange(e)
                   const trimmed = e.target.value.trim()
                   setConnectedStrategyState({ ...connectedStrategyState, pair: trimmed })}
                 }
@@ -109,36 +161,39 @@ const ConnectStrategyForm = (props: any) => {
               </select>
             </div>
           </div>
+          <p id="symbols">
+          <label><input type="radio" name="current_currency" value={pairs.symbol1} 
+            onChange={(e: any): void =>
+            setConnectedStrategyState({ ...connectedStrategyState, current_currency: e.target.value, current_currency_balance: 0})} 
+            />
+             <span>{pairs.symbol1}</span></label>
+          <label><input type="radio" name="current_currency" value={pairs.symbol2} 
+            onChange={(e: any): void =>
+            setConnectedStrategyState({ ...connectedStrategyState, current_currency: e.target.value, current_currency_balance: 0})} 
+            defaultChecked/>
+          <span>{pairs.symbol2}</span></label>
+          </p>
           <div className="grid grid-cols-6 gap-6">
             <div className="col-span-6 sm:col-span-3">
-              <label htmlFor="initial_second_symbol_balance" className="block text-sm font-medium text-gray-700">API Password</label>
+            <label htmlFor="current_currency_balance" className="block text-sm font-medium text-gray-700">Initial {connectedStrategyState.current_currency} balance</label>
               <input
                 onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
-                  setConnectedStrategyState({ ...connectedStrategyState, current_currency: e.target.value.trim() })}
+                    const pair = connectedStrategyState.pair;
+                    let i = pair.indexOf('/');
+                    let symbol1 = pair.substring(0, i);
+                    let symbol2 = pair.substring(i+1, pair.length);
+                    if (connectedStrategyState.current_currency == symbol1) {
+                        setConnectedStrategyState({ ...connectedStrategyState, initial_first_symbol_balance: parseInt(e.target.value), current_currency_balance: parseInt(e.target.value) })
+                    }
+                    if (connectedStrategyState.current_currency == symbol2) {
+                        setConnectedStrategyState({ ...connectedStrategyState, initial_second_symbol_balance: parseInt(e.target.value), current_currency_balance: parseInt(e.target.value) })
+                    }
+                }
               }
-              type="text" name="current_currency" id="current_currency" autoComplete="initial_second_symbol_balance" className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+              value={connectedStrategyState.current_currency_balance.toString()}
+              type="number" name="current_currency_balance" id="current_currency_balance" autoComplete="current_currency_balance" className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
             </div>
         </div>
-          <div className="grid grid-cols-6 gap-6">
-            <div className="col-span-6 sm:col-span-3">
-              <label htmlFor="initial_first_symbol_balance" className="block text-sm font-medium text-gray-700">API Secret</label>
-              <input
-                onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
-                  setConnectedStrategyState({ ...connectedStrategyState, initial_first_symbol_balance: parseInt(e.target.value) })}
-              }
-              type="number" name="initial_first_symbol_balance" id="initial_first_symbol_balance" autoComplete="initial_first_symbol_balance" className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
-            </div>
-        </div>
-        <div className="grid grid-cols-6 gap-6">
-            <div className="col-span-6 sm:col-span-3">
-              <label htmlFor="initial_second_symbol_balance" className="block text-sm font-medium text-gray-700">API Password</label>
-              <input
-                onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
-                  setConnectedStrategyState({ ...connectedStrategyState, initial_second_symbol_balance: parseInt(e.target.value) })}
-              }
-              type="number" name="initial_second_symbol_balance" id="initial_second_symbol_balance" autoComplete="initial_second_symbol_balance" className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
-            </div>
-        </div>        
         <div className="px-4 py-3 bg-gray-50 text-right sm:px-6">
           <button type="submit" className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
             Save
@@ -147,6 +202,9 @@ const ConnectStrategyForm = (props: any) => {
       </div>
       </div>
     </form>
+    <button onClick={showState} className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            Show
+          </button>
     </div>
 </>
 

@@ -43,6 +43,7 @@ const App = () => {
 
   useEffect(() => {
     store.dispatch<any>(loadUser());
+    
   })
 
   return (

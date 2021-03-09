@@ -27,7 +27,6 @@ const Strategies = (props: any) => {
     const [showForm, setShowForm] = useState(false);
 
     useEffect(() => {
-      console.log(props)
       if (props.strategies.length < 1){
         props.getStrategies()
       }
@@ -37,7 +36,7 @@ const Strategies = (props: any) => {
       if (props.strategyPairs.length < 1){
         props.getStrategyPairs()
         }
-      
+        console.log(props)
       }, []);
     
     // const listItems = props.strategies.map((strategy) =>
@@ -46,6 +45,7 @@ const Strategies = (props: any) => {
     return <>
     {(props.connectedStrategies.length < 1 || showForm) && props.isAuthenticated ?
       <ConnectStrategyForm />
+
       :
       <div>
         Connected
