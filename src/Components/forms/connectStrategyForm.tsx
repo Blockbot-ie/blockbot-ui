@@ -1,7 +1,7 @@
 import { symbol } from "prop-types";
 import { useEffect, useState } from "react"
 import { connect } from "react-redux"
-import { getStrategies, connectStrategy } from '../../actions/common';
+import { getStrategies, connectStrategy, connectExchange, getConnectedExchanges } from '../../actions/common';
 
 type ConnectStrategy = {
     strategy: String,
@@ -18,12 +18,40 @@ type ExchangeAccount = {
 }
 
 const ConnectStrategyForm = (props: any) => {
-    const [exchaneAccount, setExchangeAccount] = useState(0)
+  
+    const [connectedStrategyState, setConnectedStrategyState] = useState<ConnectStrategy>({
+      strategy: '',
+      user_exchange_account: '',
+      pair: '',
+      initial_first_symbol_balance: null,
+      initial_second_symbol_balance: null,
+      current_currency: '',
+      current_currency_balance: 0
+    })
+
+    const [pairs, setPairs] = useState({
+      pairs: [],
+      symbol1: '',
+      symbol2: ''
+  })
 
     useEffect(() => {
         console.log(props)
         if (props.strategies.length < 1){
             props.getStrategies()
+            setConnectedStrategyState({
+              ...connectedStrategyState,
+              strategy: props.strategies[0].strategy_id
+            })
+        }
+        if (props.connectedExchanges.length < 1) {
+          props.getConnectedExchanges()
+          if (props.connectedExchanges > 1) {
+            setConnectedStrategyState({
+              ...connectedStrategyState,
+              user_exchange_account: props.connectExchanges[0].user_exchange_account_id
+            })
+          }
         }
         if (props.strategyPairs.length > 0) {
             const strategyPairs = props.strategyPairs.filter(x => x.strategy == props.strategies[0].strategy_id)
@@ -38,34 +66,17 @@ const ConnectStrategyForm = (props: any) => {
             })
             setConnectedStrategyState({
                 ...connectedStrategyState,
+                pair: pairs[0],
                 current_currency: symbol2
             })
         }
-    }, [props.strategies])
-
-
-    const [pairs, setPairs] = useState({
-        pairs: [],
-        symbol1: '',
-        symbol2: ''
-    })
-
-    const [connectedStrategyState, setConnectedStrategyState] = useState<ConnectStrategy>({
-        strategy: props.strategies[0].strategy_id,
-        user_exchange_account: props.connectExchanges[0].user_exchange_account_id,
-        pair: pairs.pairs[0],
-        initial_first_symbol_balance: null,
-        initial_second_symbol_balance: null,
-        current_currency: '',
-        current_currency_balance: 0
-      })
-
+    }, [])
 
     const strategyList = props.strategies.map((strategy, i) => 
         <option key={i} value={strategy.strategy_id.toString()}>{strategy.name}</option>
     )
 
-    const connectedExchangeAccounts = props.connectExchanges.map((exchange, i) => 
+    const connectedExchangeAccounts = props.connectedExchanges.map((exchange, i) => 
         <option key={i} value={exchange.user_exchange_account_id}>{exchange.name}</option>
     )
 
@@ -74,10 +85,8 @@ const ConnectStrategyForm = (props: any) => {
     )
 
     const onStrategyChange = (e: any) => {
-        console.log(e.target.value)
         if (props.strategyPairs.length > 0) {
             const strategyPairs = props.strategyPairs.filter(x => x.strategy == e.target.value)
-            console.log(strategyPairs)
             let i = strategyPairs[0].pair.indexOf('/')
             let symbol1 = strategyPairs[0].pair.substring(0, i);
             let symbol2 = strategyPairs[0].pair.substring(i+1, strategyPairs[0].pair.length);
@@ -115,6 +124,7 @@ const ConnectStrategyForm = (props: any) => {
         props.connectStrategy({ connectedStrategyState }) 
     }
     return <>
+    {props.connectedExchanges.length > 0 ?
     <div className="mt-5 md:mt-0 md:col-span-2">
     <form onSubmit={handleSubmit} method="POST">
       <div className="shadow overflow-hidden sm:rounded-md">
@@ -204,16 +214,23 @@ const ConnectStrategyForm = (props: any) => {
     </form>
     <button onClick={showState} className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
             Show
-          </button>
+    </button>
     </div>
+    :
+    <div>
+      <h1>Please connect with an exchange first</h1>
+    </div>
+  }
+    
 </>
 
 }
 
 const mapStateToProps = (state) => ({
     strategies: state.common.strategies,
-    connectExchanges: state.common.connectedExchanges,
+    connectedExchanges: state.common.connectedExchanges,
+    connectedStrategies: state.common.connectedStrategies,
     strategyPairs: state.common.strategyPairs
   });
 
-export default connect(mapStateToProps, { getStrategies, connectStrategy })(ConnectStrategyForm);
+export default connect(mapStateToProps, { getStrategies, connectStrategy, connectExchange, getConnectedExchanges })(ConnectStrategyForm);

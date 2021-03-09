@@ -62,10 +62,7 @@ const App = () => {
                 <Route exact path="/login">
                   <LoginForm />
                 </Route>
-                
-                <Route exact path="/settings">
-                  <Main />
-                </Route>
+                <PrivateRoute exact path="/settings" component={Main} />
               </Switch>
             </div>
           </Fragment>

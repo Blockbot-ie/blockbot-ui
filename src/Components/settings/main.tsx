@@ -4,7 +4,7 @@ import { useForm, useStep } from "react-hooks-helper";
 import { connect } from "react-redux";
 import ConnectExchange from "../strategies/ConnectExchange";
 import Strategies from "../strategies/Strategies";
-import { getExchanges, getConnectedExchanges, getStrategies, getStrategyPairs } from '../../actions/common';
+import { getExchanges, getConnectedExchanges, getConnectedStrategies, getStrategies, getStrategyPairs } from '../../actions/common';
 
 const steps = [
   { id: "connectExchange" },
@@ -30,13 +30,15 @@ const Main = (props: any) => {
         }
         if (props.strategies.length < 1) {
             props.getStrategies()
-            console.log('Hi')
         }
         if (props.connectedExchanges.length < 1){
             props.getConnectedExchanges();
         }
         if (props.strategyPairs.length < 1) {
             props.getStrategyPairs()
+        }
+        if (props.connectedStrategies.length < 1) {
+            props.getConnectedStrategies()
         }
         console.log(props)
     }, []);
@@ -80,4 +82,4 @@ const mapStateToProps = (state) => ({
     strategyPairs: state.common.strategyPairs
   });
 
-export default connect(mapStateToProps, { getExchanges, getStrategies, getStrategyPairs, getConnectedExchanges })(Main);
+export default connect(mapStateToProps, { getExchanges, getStrategies, getStrategyPairs, getConnectedExchanges, getConnectedStrategies })(Main);

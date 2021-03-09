@@ -9,6 +9,8 @@ import { Redirect } from 'react-router-dom';
 
 type UserState = {
     username: String,
+    first_name: String,
+    last_name: String,
     email: String,
     password: String,
     password2: String
@@ -18,6 +20,8 @@ const SignupForm = (props: any) => {
     
     const [userState, setUserState] = useState<UserState>({
         username: '',
+        first_name: '',
+        last_name: '',
         email: '',
         password: '',
         password2: '',
@@ -28,7 +32,7 @@ const SignupForm = (props: any) => {
         if (userState.password !== userState.password2) {
           props.createMessage({ passwordNotMatch: 'Passwords do not match' });
         } else {
-          props.register(userState.email, userState.username, userState.password);
+          props.register({ userState });
         }
       };
 
@@ -44,6 +48,32 @@ const SignupForm = (props: any) => {
                 onChange={(_, { value }) => {
                     const trimmed = value.trim()
                     setUserState({ ...userState, username: trimmed })
+                }}
+                />
+          </Form.Field>
+        </Form.Group>
+        <Form.Group css={{marginBottom: "16px !important"}}>
+          <Form.Field width={16}>
+            <label>First Name</label>
+                <Form.Input
+                type="text"
+                name="first_name"
+                onChange={(_, { value }) => {
+                    const trimmed = value.trim()
+                    setUserState({ ...userState, first_name: trimmed })
+                }}
+                />
+          </Form.Field>
+        </Form.Group>
+        <Form.Group css={{marginBottom: "16px !important"}}>
+          <Form.Field width={16}>
+            <label>Last Name</label>
+                <Form.Input
+                type="text"
+                name="last_name"
+                onChange={(_, { value }) => {
+                    const trimmed = value.trim()
+                    setUserState({ ...userState, last_name: trimmed })
                 }}
                 />
           </Form.Field>

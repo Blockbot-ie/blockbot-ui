@@ -9,46 +9,77 @@ import ConnectStrategyForm from '../forms/connectStrategyForm';
 
 type Strategy = {
     strategy_id: String,
-    name: String
+    name: String,
+    pair: String,
+    current_currency: String,
+    current_balance: Number
 }
 
 type Strategies = {
-    strategies: Strategy[]
+  strategies: Strategy[]
 }
 
 const Strategies = (props: any) => {
 
-    const [strategyState, setStrategyState] = useState<Strategies>({
-        strategies: []
-    });
+  const [strategyState, setStrategyState] = useState<Strategies>({
+    strategies: []
+  });
 
-    const { next } = props.navigation;
+  const [showForm, setShowForm] = useState(false);
 
-    const [showForm, setShowForm] = useState(false);
-
-    useEffect(() => {
-      if (props.strategies.length < 1){
-        props.getStrategies()
+  useEffect(() => {
+    if (props.strategies.length < 1){
+      props.getStrategies()
+    }
+    if (props.connectedStrategies.length < 1){
+      props.getConnectedStrategies()
       }
-      if (props.strategies.length < 1){
-        props.getConnectedStrategies()
-        }
-      if (props.strategyPairs.length < 1){
-        props.getStrategyPairs()
-        }
-        console.log(props)
-      }, []);
+    if (props.strategyPairs.length < 1){
+      props.getStrategyPairs()
+    }
     
-    // const listItems = props.strategies.map((strategy) =>
-    //     <li key={strategy.strategy_id}><Link to={`/strategy/${strategy.strategy_id}`}>{strategy.name}</Link></li>
-    // );
+    props.connectedStrategies.forEach((strategy) => {
+      let check = strategyState.strategies.find(x => x.strategy_id == strategy.strategy)
+      if (check == null) {
+        let strategyName = props.strategies.find(x => x.strategy_id == strategy.strategy)
+        const newStrategy: Strategy = {
+          strategy_id: strategy.strategy,
+          name: strategyName.name,
+          pair: strategy.pair,
+          current_currency: strategy.current_currency,
+          current_balance: strategy.current_currency_balance,
+        }
+        setStrategyState((prevState) => ({
+          strategies: [...(prevState.strategies ?? []), newStrategy]
+        }));
+      }
+    })
+    console.log(strategyState)
+  }, []);
+
+  const connectedStrategies = () => {
+    const { strategies } = strategyState
+    console.log(strategies)
+    let connectedStrategies = []
+    strategies.forEach(strategy => {
+      connectedStrategies.push(
+        <ul>
+        <li>{strategy.name}</li>
+        <li>{strategy.pair}</li>
+        <li>{strategy.current_currency}</li>
+        <li>{strategy.current_balance}</li>
+        </ul>
+      )
+    })
+    return connectedStrategies
+  }
+     
     return <>
     {(props.connectedStrategies.length < 1 || showForm) && props.isAuthenticated ?
       <ConnectStrategyForm />
-
       :
       <div>
-        Connected
+        {connectedStrategies()}
         <div className="px-4 py-3 bg-gray-50 text-right sm:px-6">
           <button onClick={() => setShowForm(true)} type="submit" className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
             Add New
