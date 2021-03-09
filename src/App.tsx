@@ -24,6 +24,7 @@ const App = () => {
 
 
   useEffect(() => {
+    console.log('Up')
     store.dispatch<any>(loadUser());
     
   })
