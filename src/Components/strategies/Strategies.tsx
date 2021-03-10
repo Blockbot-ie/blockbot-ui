@@ -27,6 +27,12 @@ const Strategies = (props: any) => {
 
   const [showForm, setShowForm] = useState(false);
 
+  const [addModalOpen, setAddModalOpen] = React.useState(false);
+
+  const handleClose = ()=> {
+    setAddModalOpen(false)
+  } 
+
   useEffect(() => {
     if (props.strategies.length < 1){
       props.getStrategies()
@@ -75,13 +81,13 @@ const Strategies = (props: any) => {
   }
      
     return <>
-    {(props.connectedStrategies.length < 1 || showForm) && props.isAuthenticated ?
-      <ConnectStrategyForm />
+    {(props.connectedStrategies.length < 1 || addModalOpen) && props.isAuthenticated ?
+      <ConnectStrategyForm isOpen={addModalOpen} handleClose={handleClose} />
       :
       <div>
         {connectedStrategies()}
         <div className="px-4 py-3 bg-gray-50 text-right sm:px-6">
-          <button onClick={() => setShowForm(true)} type="submit" className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+          <button onClick={() => setAddModalOpen(true)} type="submit" className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
             Add New
           </button>
         </div>

@@ -37,15 +37,14 @@ const App = () => {
             <Nav />
             <Alerts />
             <div className="container">
-              <Switch>
-                <PrivateRoute exact path="/get-started" component={Main} />
+              <Switch>                
                 <Route exact path="/signup">
                   <SignupForm />
                 </Route>
                 <Route exact path="/login">
                   <LoginForm />
                 </Route>
-                <PrivateRoute exact path="/settings" component={Main} />
+                <Route path="/settings" component={Main} />
               </Switch>
             </div>
           </Fragment>

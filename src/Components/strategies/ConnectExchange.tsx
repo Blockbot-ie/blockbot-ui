@@ -22,9 +22,11 @@ const ConnectExhange = (props: any) => {
         exchanges: []
     });
 
-    const [showForm, setShowForm] = useState(false);
+    const [addModalOpen, setAddModalOpen] = React.useState(false);
 
-    
+    const handleClose = ()=> {
+      setAddModalOpen(false)
+    } 
 
     useEffect(() => {
       props.getStrategyPairs()
@@ -36,13 +38,13 @@ const ConnectExhange = (props: any) => {
 
     
     return <>
-    {(props.connectedExchanges.length < 1 || showForm) && props.isAuthenticated ?
-    <ConnectExchangeForm />
+    {(props.connectedExchanges.length < 1 || addModalOpen) && props.isAuthenticated ?
+    <ConnectExchangeForm isOpen={addModalOpen} handleClose={handleClose}/>
   :
   <div>
     Connected
     <div className="px-4 py-3 bg-gray-50 text-right sm:px-6">
-      <button onClick={() => setShowForm(true)} type="submit" className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+      <button onClick={() => setAddModalOpen(true)} type="submit" className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
         Add New
       </button>
     </div>
