@@ -37,8 +37,8 @@ const ConnectStrategyForm = (props: any) => {
       symbol2: ''
   })
 
+  const strategyPairs = props.strategyPairs.filter(x => x.strategy == props.strategies[0].strategy_id)
     useEffect(() => {
-      const strategyPairs = props.strategyPairs.filter(x => x.strategy == props.strategies[0].strategy_id)
         let i = strategyPairs[0].pair.indexOf('/')
         let symbol1 = strategyPairs[0].pair.substring(0, i);
         let symbol2 = strategyPairs[0].pair.substring(i+1, strategyPairs[0].length);
@@ -48,32 +48,21 @@ const ConnectStrategyForm = (props: any) => {
             symbol1: symbol1,
             symbol2: symbol2
         })
-    }, [props])
+    }, [])
 
     useEffect(() => {  
       
-        const strategyPairs = props.strategyPairs.filter(x => x.strategy == props.strategies[0].strategy_id)
-        let i = strategyPairs[0].pair.indexOf('/')
-        let symbol1 = strategyPairs[0].pair.substring(0, i);
-        let symbol2 = strategyPairs[0].pair.substring(i+1, strategyPairs[0].length);
-        setPairs({
-            ...pairs,
-            pairs: strategyPairs,
-            symbol1: symbol1,
-            symbol2: symbol2
-        })
-      
         if (props.connectedExchanges.length > 0) {
+          let i = strategyPairs[0].pair.indexOf('/')
+          let symbol2 = strategyPairs[0].pair.substring(i+1, strategyPairs[0].length);
           setConnectedStrategyState({
             ...connectedStrategyState,
             strategy: props.strategies[0].strategy_id,
             user_exchange_account: props.connectedExchanges[0].user_exchange_account_id,
-            pair: pairs[0],
+            pair: strategyPairs[0].pair,
             current_currency: symbol2
           })
         }
-
-
     }, [props])
 
     const strategyList = props.strategies.map((strategy, i) => 
@@ -128,7 +117,7 @@ const ConnectStrategyForm = (props: any) => {
         props.connectStrategy({ connectedStrategyState }) 
     }
     return <>
-    {props.connectedExchanges.length > 0 ?
+    {!props.formSubmitted && props.isOpen ?
     <div className="fixed z-10 inset-0 overflow-y-auto">
       <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
         <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
@@ -212,9 +201,9 @@ const ConnectStrategyForm = (props: any) => {
             <button type="submit" onClick={() => props.handleClose()} className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                       Close
             </button>
-            <button onClick={showState} className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            {/* <button onClick={showState} className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                     Show
-            </button>
+            </button> */}
           </div>
         </div>
       </div>

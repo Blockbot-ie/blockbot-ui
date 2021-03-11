@@ -15,8 +15,6 @@ type Exchanges = {
     exchanges: Exchange[]
 }
 
-
-
 const ConnectExhange = (props: any) => {
     const [exchangeState, setExchangeState] = useState<Exchanges>({
         exchanges: []
@@ -29,11 +27,7 @@ const ConnectExhange = (props: any) => {
     } 
 
     useEffect(() => {
-      props.getStrategyPairs()
-      props.getConnectedExchanges();
-      if (props.exchanges.length < 1){
-        props.getExchanges()
-      }
+
       }, []);
 
     

@@ -12,9 +12,7 @@ const usePrevious = <T extends unknown>(value: T): T | undefined => {
     return ref.current;
   };
 
-const Alerts = (props: any) => {
-    console.log(props)
-    
+const Alerts = (props: any) => {  
     useEffect(() => {
             if (props.error.msg.name) props.alert.error(`Name: ${props.error.msg.name.join()}`);
             if (props.error.msg.email) props.alert.error(`Email: ${props.error.msg.email.join()}`);

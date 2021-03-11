@@ -25,42 +25,30 @@ const Strategies = (props: any) => {
     strategies: []
   });
 
-  const [showForm, setShowForm] = useState(false);
-
   const [addModalOpen, setAddModalOpen] = React.useState(false);
 
   const handleClose = ()=> {
     setAddModalOpen(false)
   } 
 
-  useEffect(() => {
-    if (props.strategies.length < 1){
-      props.getStrategies()
-    }
-    if (props.connectedStrategies.length < 1){
-      props.getConnectedStrategies()
-      }
-    if (props.strategyPairs.length < 1){
-      props.getStrategyPairs()
-    }
-    
-    props.connectedStrategies.forEach((strategy) => {
-      let check = strategyState.strategies.find(x => x.strategy_id == strategy.strategy)
-      if (check == null) {
-        let strategyName = props.strategies.find(x => x.strategy_id == strategy.strategy)
-        const newStrategy: Strategy = {
-          strategy_id: strategy.strategy,
-          name: strategyName.name,
-          pair: strategy.pair,
-          current_currency: strategy.current_currency,
-          current_balance: strategy.current_currency_balance,
-        }
-        setStrategyState((prevState) => ({
-          strategies: [...(prevState.strategies ?? []), newStrategy]
-        }));
-      }
-    })
-    console.log(strategyState)
+  useEffect(() => {    
+    // props.connectedStrategies.forEach((strategy) => {
+    //   let check = strategyState.strategies.find(x => x.strategy_id == strategy.strategy)
+    //   if (check == null) {
+    //     let strategyName = props.strategies.find(x => x.strategy_id == strategy.strategy)
+    //     const newStrategy: Strategy = {
+    //       strategy_id: strategy.strategy,
+    //       name: strategyName.name,
+    //       pair: strategy.pair,
+    //       current_currency: strategy.current_currency,
+    //       current_balance: strategy.current_currency_balance,
+    //     }
+    //     setStrategyState((prevState) => ({
+    //       strategies: [...(prevState.strategies ?? []), newStrategy]
+    //     }));
+    //   }
+    // })
+    // console.log(strategyState)
   }, []);
 
   const connectedStrategies = () => {
@@ -85,7 +73,7 @@ const Strategies = (props: any) => {
       <ConnectStrategyForm isOpen={addModalOpen} handleClose={handleClose} />
       :
       <div>
-        {connectedStrategies()}
+        {/* {connectedStrategies()} */}
         <div className="px-4 py-3 bg-gray-50 text-right sm:px-6">
           <button onClick={() => setAddModalOpen(true)} type="submit" className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
             Add New
