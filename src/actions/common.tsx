@@ -44,6 +44,7 @@ export const connectExchange = (state) => (dispatch: (arg0: { type: String; payl
 
   // Request Body
   const body = JSON.stringify(state.connectedExchangeState);
+  dispatch({ type: 'IS_LOADING' });
   axios
     .post('/api/connect-exchange', body, tokenConfig(getState))
     .then((res) => {
@@ -77,6 +78,8 @@ export const getConnectedExchanges = (state) => (dispatch: (arg0: { type: String
 export const connectStrategy = (state) => (dispatch: (arg0: { type: String; payload?: any; }) =>  void, getState: any) => {
   // Request Body
   const body = JSON.stringify(state.connectedStrategyState);
+
+  dispatch({ type: 'IS_LOADING' });
   axios
     .post('/api/connect-strategies', body, tokenConfig(getState))
     .then((res) => {

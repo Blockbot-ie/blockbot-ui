@@ -2,6 +2,8 @@ import { symbol } from "prop-types";
 import { useEffect, useState } from "react"
 import { connect } from "react-redux"
 import { getStrategies, connectStrategy, connectExchange, getConnectedExchanges } from '../../actions/common';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
 type ConnectStrategy = {
     strategy: String,
@@ -36,41 +38,43 @@ const ConnectStrategyForm = (props: any) => {
   })
 
     useEffect(() => {
-        console.log(props)
-        if (props.strategies.length < 1){
-            props.getStrategies()
-            setConnectedStrategyState({
-              ...connectedStrategyState,
-              strategy: props.strategies[0].strategy_id
-            })
+      const strategyPairs = props.strategyPairs.filter(x => x.strategy == props.strategies[0].strategy_id)
+        let i = strategyPairs[0].pair.indexOf('/')
+        let symbol1 = strategyPairs[0].pair.substring(0, i);
+        let symbol2 = strategyPairs[0].pair.substring(i+1, strategyPairs[0].length);
+        setPairs({
+            ...pairs,
+            pairs: strategyPairs,
+            symbol1: symbol1,
+            symbol2: symbol2
+        })
+    }, [props])
+
+    useEffect(() => {  
+      
+        const strategyPairs = props.strategyPairs.filter(x => x.strategy == props.strategies[0].strategy_id)
+        let i = strategyPairs[0].pair.indexOf('/')
+        let symbol1 = strategyPairs[0].pair.substring(0, i);
+        let symbol2 = strategyPairs[0].pair.substring(i+1, strategyPairs[0].length);
+        setPairs({
+            ...pairs,
+            pairs: strategyPairs,
+            symbol1: symbol1,
+            symbol2: symbol2
+        })
+      
+        if (props.connectedExchanges.length > 0) {
+          setConnectedStrategyState({
+            ...connectedStrategyState,
+            strategy: props.strategies[0].strategy_id,
+            user_exchange_account: props.connectedExchanges[0].user_exchange_account_id,
+            pair: pairs[0],
+            current_currency: symbol2
+          })
         }
-        if (props.connectedExchanges.length < 1) {
-          props.getConnectedExchanges()
-          if (props.connectedExchanges > 1) {
-            setConnectedStrategyState({
-              ...connectedStrategyState,
-              user_exchange_account: props.connectExchanges[0].user_exchange_account_id
-            })
-          }
-        }
-        if (props.strategyPairs.length > 0) {
-            const strategyPairs = props.strategyPairs.filter(x => x.strategy == props.strategies[0].strategy_id)
-            let i = strategyPairs[0].pair.indexOf('/')
-            let symbol1 = strategyPairs[0].pair.substring(0, i);
-            let symbol2 = strategyPairs[0].pair.substring(i+1, strategyPairs[0].length);
-            setPairs({
-                ...pairs,
-                pairs: strategyPairs,
-                symbol1: symbol1,
-                symbol2: symbol2
-            })
-            setConnectedStrategyState({
-                ...connectedStrategyState,
-                pair: pairs[0],
-                current_currency: symbol2
-            })
-        }
-    }, [])
+
+
+    }, [props])
 
     const strategyList = props.strategies.map((strategy, i) => 
         <option key={i} value={strategy.strategy_id.toString()}>{strategy.name}</option>
@@ -200,7 +204,8 @@ const ConnectStrategyForm = (props: any) => {
                   value={connectedStrategyState.current_currency_balance.toString()}
                   type="number" name="current_currency_balance" id="current_currency_balance" autoComplete="current_currency_balance" className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
               </div>
-              <button type="submit" className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+              <button disabled={props.isLoading} type="submit" className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+              { props.isLoading && <FontAwesomeIcon icon={ faSpinner } /> }
                 Save
               </button>
             </form>
@@ -217,7 +222,7 @@ const ConnectStrategyForm = (props: any) => {
     :
     <div>
       <h1>Please connect with an exchange first</h1>
-    </div>
+    </div>  
     
   }
     
@@ -229,7 +234,8 @@ const mapStateToProps = (state) => ({
     strategies: state.common.strategies,
     connectedExchanges: state.common.connectedExchanges,
     connectedStrategies: state.common.connectedStrategies,
-    strategyPairs: state.common.strategyPairs
+    strategyPairs: state.common.strategyPairs,
+    isLoading: state.common.isLoading
   });
 
 export default connect(mapStateToProps, { getStrategies, connectStrategy, connectExchange, getConnectedExchanges })(ConnectStrategyForm);

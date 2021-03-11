@@ -1,3 +1,4 @@
+export const IS_LOADING = 'IS_LOADING';
 export const GET_STRATEGIES = 'GET_STRATEGIES';
 export const CLEAR_STRATEGIES = 'CLEAR_STRATEGIES';
 export const GET_EXCHANGES = 'GET_EXCHANGES';

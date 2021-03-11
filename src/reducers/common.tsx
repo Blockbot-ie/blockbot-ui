@@ -1,31 +1,53 @@
-import { CommentActions } from 'semantic-ui-react';
-import { GET_STRATEGIES, CLEAR_STRATEGIES, GET_EXCHANGES, CLEAR_EXCHANGES, CONNECT_EXCHANGE_SUCCESS, CONNECT_EXCHANGE_FAIL, GET_CONNECTED_EXCHANGES, GET_CONNECTED_STRATEGIES, CONNECT_STRATEGY_SUCCESS, CONNECT_STRATEGY_FAIL, GET_STRATEGY_PAIRS } from '../actions/types';
+import {
+      IS_LOADING,
+      GET_STRATEGIES, 
+      CLEAR_STRATEGIES,
+      GET_EXCHANGES,
+      CLEAR_EXCHANGES,
+      CONNECT_EXCHANGE_SUCCESS,
+      CONNECT_EXCHANGE_FAIL, 
+      GET_CONNECTED_EXCHANGES,
+      GET_CONNECTED_STRATEGIES, 
+      CONNECT_STRATEGY_SUCCESS, 
+      CONNECT_STRATEGY_FAIL, 
+      GET_STRATEGY_PAIRS
+    } from '../actions/types';
 
 const initialState = {
   strategies: [],
   exchanges: [],
   connectedExchanges: [],
   connectedStrategies: [],
-  strategyPairs: []
+  strategyPairs: [],
+  isLoading: false,
+  formSubmitted: false
 };
 
 export default function (state = initialState, action) {
   switch (action.type) {
+    case IS_LOADING:
+      return {
+        ...state,
+        isLoading: true
+      }
     case GET_STRATEGIES:
       return {
         ...state,
         strategies: action.payload,
+        isLoading: false
       };
     case CLEAR_STRATEGIES:
       return {
         ...state,
         strategies: [],
+        isLoading: false
       };
     
     case GET_EXCHANGES:
       return {
         ...state,
         exchanges: action.payload,
+        isLoading: false
       };
     case CLEAR_EXCHANGES:
       return {
@@ -33,6 +55,14 @@ export default function (state = initialState, action) {
         exchanges: [],
       };
     case GET_CONNECTED_EXCHANGES:
+      if (action.payload == undefined) {
+        action.payload = [];
+      }
+      return {
+        ...state,
+        connectedExchanges: action.payload,
+        isLoading: false
+      };
     case CONNECT_EXCHANGE_SUCCESS:
       if (action.payload == undefined) {
         action.payload = [];
@@ -40,27 +70,41 @@ export default function (state = initialState, action) {
       return {
         ...state,
         connectedExchanges: action.payload,
+        isLoading: false,
+        formSubmitted: true
       };
     case CONNECT_EXCHANGE_FAIL:
       return {
         ...state,
         connectedExchanges: [],
+        isLoading: false,
+        formSubmitted: false
       };
-    case CONNECT_STRATEGY_SUCCESS:
     case GET_CONNECTED_STRATEGIES:
       return {
         ...state,
-        connectedStrategies: action.payload
+        connectedStrategies: action.payload,
+        isLoading: false
+      }
+    case CONNECT_STRATEGY_SUCCESS:
+      return {
+        ...state,
+        connectedStrategies: action.payload,
+        isLoading: false,
+        formSubmitted: true
       }
     case CONNECT_STRATEGY_FAIL:
       return {
         ...state,
-        connectedStrategies: []
+        connectedStrategies: [],
+        isLoading: false,
+        formSubmitted: false
       }
     case GET_STRATEGY_PAIRS:
       return {
         ...state,
-        strategyPairs: action.payload
+        strategyPairs: action.payload,
+        isLoading: false
       }
     default:
       return state;

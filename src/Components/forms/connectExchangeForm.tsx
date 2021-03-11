@@ -1,6 +1,8 @@
-import { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { connect } from "react-redux"
 import { getExchanges, connectExchange } from '../../actions/common';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
 type ConnectExchange = {
     exchange: String,
@@ -20,7 +22,15 @@ const ConnectExchangeForm = (props: any) => {
         api_password: ''
       })
 
-      console.log(props)
+      useEffect(() => {
+        console.log(props)
+        if (props.exchanges.length > 0) {
+          setConnectedExchangeState({
+            ...connectedExchangeState,
+            exchange: props.exchanges[0].exchange_id
+          })
+        }
+      }, []);
 
     const exchangeList = props.exchanges.map((exchange, i) => 
         <option key={i} value={exchange.exchange_id.toString()}>{exchange.display_name}</option>
@@ -30,8 +40,12 @@ const ConnectExchangeForm = (props: any) => {
         e.preventDefault()
         props.connectExchange({ connectedExchangeState })
     }
+
+    const showState = () => {
+      console.log(props)
+  }
     return <>
-    
+    {!props.formSubmitted &&
     <div className="fixed z-10 inset-0 overflow-y-auto">
       <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
         <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
@@ -84,7 +98,8 @@ const ConnectExchangeForm = (props: any) => {
                 }
                 type="password" name="api_password" id="api_password" autoComplete="api_password" className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
               </div>
-              <button type="submit" className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+              <button disabled={props.isLoading} type="submit" className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+              { props.isLoading && <FontAwesomeIcon icon={ faSpinner } /> }
                 Save
               </button>
             </form>
@@ -95,12 +110,14 @@ const ConnectExchangeForm = (props: any) => {
         </div>
       </div>
     </div>
+}
 </>
-
 }
 
 const mapStateToProps = (state) => ({
-    exchanges: state.common.exchanges
+    exchanges: state.common.exchanges,
+    isLoading: state.common.isLoading,
+    formSubmitted: state.common.formSubmitted
   });
 
 export default connect(mapStateToProps, { getExchanges, connectExchange })(ConnectExchangeForm);
