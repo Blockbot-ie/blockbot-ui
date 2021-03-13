@@ -27,13 +27,20 @@ const ConnectExhange = (props: any) => {
     } 
 
     useEffect(() => {
-
       }, []);
 
     
     return <>
-    {(props.connectedExchanges.length < 1 || addModalOpen) && props.isAuthenticated ?
-    <ConnectExchangeForm isOpen={addModalOpen} handleClose={handleClose}/>
+    {(props.connectedExchanges.length < 1) ?
+
+    <div>
+      You have not connected with an exchange.
+      <div className="px-4 py-3 bg-gray-50 text-right sm:px-6">
+        <button onClick={() => setAddModalOpen(true)} type="submit" className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+          Add New
+        </button>
+      </div>
+    </div>
   :
   <div>
     Connected
@@ -43,7 +50,8 @@ const ConnectExhange = (props: any) => {
       </button>
     </div>
   </div>
-  } 
+  }
+  <ConnectExchangeForm isOpen={addModalOpen} handleClose={handleClose}/>
     </>
 }
 

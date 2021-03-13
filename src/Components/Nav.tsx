@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import {
     BrowserRouter as Router,
     Switch,
     Route,
-    Link
+    Link,
+    Redirect
   } from "react-router-dom";
 import store from '../store';
 import { logout } from '../actions/auth';
@@ -28,6 +29,7 @@ const toggleDropdown = () => {
 
   return (
     <>
+    {props.isAuthenticated ?
     <nav className="bg-gray-800">
       <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
         <div className="relative flex items-center justify-between h-16">
@@ -106,6 +108,9 @@ const toggleDropdown = () => {
         </div>
       </div>
     </nav>
+    :
+    <Redirect to="/login" />
+  }
     </>
   );
 }

@@ -68,7 +68,7 @@ const ConnectExchangeForm = (props: any) => {
                     const trimmed = e.target.value.trim()
                     setConnectedExchangeState({ ...connectedExchangeState, name: trimmed })}
                 }
-                type="text" name="name" id="name" placeholder="Choose a name for your account" autoComplete="name" className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+                type="text" name="name" id="name" placeholder="Choose a name for your account" autoComplete="name" className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required />
               </div>
               <div>
                 <label htmlFor="api_key" className="block text-sm font-medium text-gray-700">API Key</label>
@@ -77,7 +77,7 @@ const ConnectExchangeForm = (props: any) => {
                     const trimmed = e.target.value.trim()
                     setConnectedExchangeState({ ...connectedExchangeState, api_key: trimmed })}
                 }
-                type="text" name="api_key" id="api_key" placeholder="Enter API Key" autoComplete="api_key" className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+                type="text" name="api_key" id="api_key" placeholder="Enter API Key" autoComplete="api_key" className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required />
               </div> 
               <div>
                 <label htmlFor="api_secret" className="block text-sm font-medium text-gray-700">API Secret</label>
@@ -86,7 +86,7 @@ const ConnectExchangeForm = (props: any) => {
                     const trimmed = e.target.value.trim()
                     setConnectedExchangeState({ ...connectedExchangeState, api_secret: trimmed })}
                 }
-                type="text" name="api_secret" id="api_secret" placeholder="Enter API Secret" autoComplete="api_secret" className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+                type="text" name="api_secret" id="api_secret" placeholder="Enter API Secret" autoComplete="api_secret" className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required />
               </div>
               <div>
                 <label htmlFor="api_password" className="block text-sm font-medium text-gray-700">API Password</label>
@@ -95,7 +95,7 @@ const ConnectExchangeForm = (props: any) => {
                     const trimmed = e.target.value.trim()
                     setConnectedExchangeState({ ...connectedExchangeState, api_password: trimmed })}
                 }
-                type="password" name="api_password" id="api_password" placeholder="Enter API Password" autoComplete="api_password" className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+                type="password" name="api_password" id="api_password" placeholder="Enter API Password" autoComplete="api_password" className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required />
               </div>
               <button disabled={props.isLoading} type="submit" className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
               { props.isLoading && <FontAwesomeIcon icon={ faSpinner } /> }
