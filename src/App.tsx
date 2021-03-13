@@ -22,7 +22,6 @@ const App = (props: any) => {
 
 
   useEffect(() => {
-    console.log(props)
     store.dispatch<any>(loadUser());
   })
 
