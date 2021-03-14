@@ -67,10 +67,9 @@ export default function (state = initialState, action) {
       if (action.payload == undefined) {
         action.payload = [];
       }
-      console.log(action.payload)
       return {
         ...state,
-        connectedExchanges: action.payload,
+        connectedExchanges: [...state.connectedExchanges, action.payload],
         isLoading: false,
         formSubmitted: true
       };
@@ -90,7 +89,7 @@ export default function (state = initialState, action) {
     case CONNECT_STRATEGY_SUCCESS:
       return {
         ...state,
-        connectedStrategies: action.payload,
+        connectedStrategies: [...state.connectedStrategies, action.payload],
         isLoading: false,
         formSubmitted: true
       }

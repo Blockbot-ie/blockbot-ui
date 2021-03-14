@@ -50,7 +50,7 @@ const ConnectStrategyForm = (props: any) => {
       ticker_2: ''
     })
 
-    useEffect(() => {  
+    useEffect(() => {
         if (props.connectedExchanges.length > 0) {
           const filteredPairs = props.strategyPairs.filter(x => x.strategy_id == props.strategies[0].strategy_id)
           setConnectedStrategyState({
@@ -63,6 +63,7 @@ const ConnectStrategyForm = (props: any) => {
             ticker_2: filteredPairs[0].ticker_2
           })
         }
+        console.log(props)
     }, [props])
 
 

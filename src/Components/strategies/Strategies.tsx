@@ -48,7 +48,7 @@ const Strategies = (props: any) => {
     //     }));
     //   }
     // })
-    // console.log(strategyState)
+    console.log(props)
   }, []);
 
   const connectedStrategies = () => {
