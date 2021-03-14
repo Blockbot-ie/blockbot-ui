@@ -31,6 +31,7 @@ const ConnectExhange = (props: any) => {
 
     
     return <>
+    <h1>Exchanges</h1>
     {(props.connectedExchanges.length < 1) ?
 
     <div>

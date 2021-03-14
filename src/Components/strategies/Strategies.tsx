@@ -69,11 +69,19 @@ const Strategies = (props: any) => {
   }
      
     return <>
-    {(props.connectedStrategies.length < 1 || addModalOpen) && props.isAuthenticated ?
-      <ConnectStrategyForm isOpen={addModalOpen} handleClose={handleClose} />
+    <h1>Strategies</h1>
+    {(props.connectedStrategies.length < 1) ?
+      <div>
+        You have not connected with an exchange.
+        <div className="px-4 py-3 bg-gray-50 text-right sm:px-6">
+          <button onClick={() => setAddModalOpen(true)} type="submit" className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            Add New
+          </button>
+        </div>
+      </div>
       :
       <div>
-        {/* {connectedStrategies()} */}
+        Connected
         <div className="px-4 py-3 bg-gray-50 text-right sm:px-6">
           <button onClick={() => setAddModalOpen(true)} type="submit" className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
             Add New
@@ -81,6 +89,11 @@ const Strategies = (props: any) => {
         </div>
       </div>
     }
+    {props.connectedExchanges.length < 1 ?
+      <h3>Please connect with an exchange first</h3>    
+      :
+      <ConnectStrategyForm isOpen={addModalOpen} handleClose={handleClose} />
+    } 
     </>
   }
 
@@ -89,7 +102,7 @@ const Strategies = (props: any) => {
     strategies: state.common.strategies,
     connectedStrategies: state.common.connectedStrategies,
     strategyPairs: state.common.strategyPairs,
-    connectExchanges: state.common.connectedExchanges
+    connectedExchanges: state.common.connectedExchanges
   });
   
   export default connect(mapStateToProps, { getStrategies, getConnectedStrategies, getStrategyPairs })(Strategies);

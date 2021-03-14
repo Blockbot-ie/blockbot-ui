@@ -67,6 +67,7 @@ export default function (state = initialState, action) {
       if (action.payload == undefined) {
         action.payload = [];
       }
+      console.log(action.payload)
       return {
         ...state,
         connectedExchanges: action.payload,

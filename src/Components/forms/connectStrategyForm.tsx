@@ -1,9 +1,11 @@
-import { symbol } from "prop-types";
+import { unstable_batchedUpdates } from 'react-dom';
 import { useEffect, useState } from "react"
 import { connect } from "react-redux"
 import { getStrategies, connectStrategy, connectExchange, getConnectedExchanges } from '../../actions/common';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { isPropertySignature } from "typescript";
+import { createMessage } from '../../actions/messages';
 
 type ConnectStrategy = {
     strategy: String,
@@ -12,7 +14,9 @@ type ConnectStrategy = {
     initial_first_symbol_balance: Number,
     initial_second_symbol_balance: Number,
     current_currency: String,
-    current_currency_balance: Number
+    current_currency_balance: Number,
+    ticker_1: string,
+    ticker_2: string
   }
 
 type ExchangeAccount = {
@@ -28,42 +32,47 @@ const ConnectStrategyForm = (props: any) => {
       initial_first_symbol_balance: null,
       initial_second_symbol_balance: null,
       current_currency: '',
-      current_currency_balance: 0
+      current_currency_balance: 0.0,
+      ticker_1: '',
+      ticker_2: ''
     })
 
     const [pairs, setPairs] = useState({
-      pairs: [],
-      symbol1: '',
-      symbol2: ''
-  })
+      symbols: []
+    })
 
-  const strategyPairs = props.strategyPairs.filter(x => x.strategy == props.strategies[0].strategy_id)
-    useEffect(() => {
-        let i = strategyPairs[0].pair.indexOf('/')
-        let symbol1 = strategyPairs[0].pair.substring(0, i);
-        let symbol2 = strategyPairs[0].pair.substring(i+1, strategyPairs[0].length);
-        setPairs({
-            ...pairs,
-            pairs: strategyPairs,
-            symbol1: symbol1,
-            symbol2: symbol2
-        })
-    }, [])
+    const [strategyPairs, setStrategyPairs] = useState({
+      pairs: []
+    })
+
+    const [tickers, setTickers] = useState({
+      ticker_1: '',
+      ticker_2: ''
+    })
 
     useEffect(() => {  
-      
         if (props.connectedExchanges.length > 0) {
-          let i = strategyPairs[0].pair.indexOf('/')
-          let symbol2 = strategyPairs[0].pair.substring(i+1, strategyPairs[0].length);
+          const filteredPairs = props.strategyPairs.filter(x => x.strategy_id == props.strategies[0].strategy_id)
           setConnectedStrategyState({
             ...connectedStrategyState,
             strategy: props.strategies[0].strategy_id,
             user_exchange_account: props.connectedExchanges[0].user_exchange_account_id,
-            pair: strategyPairs[0].pair,
-            current_currency: symbol2
+            pair: props.strategyPairs[0].symbol,
+            current_currency: filteredPairs[0].ticker_2,
+            ticker_1: filteredPairs[0].ticker_1,
+            ticker_2: filteredPairs[0].ticker_2
           })
         }
     }, [props])
+
+
+    useEffect(() => {
+      const filteredPairs = props.strategyPairs.filter(x => x.strategy_id == props.strategies[0].strategy_id)
+
+      setStrategyPairs({
+        pairs: filteredPairs
+      })
+    }, [props.strategyPairs])
 
     const strategyList = props.strategies.map((strategy, i) => 
         <option key={i} value={strategy.strategy_id.toString()}>{strategy.name}</option>
@@ -73,39 +82,22 @@ const ConnectStrategyForm = (props: any) => {
         <option key={i} value={exchange.user_exchange_account_id}>{exchange.name}</option>
     )
 
-    const exchangePairs = pairs.pairs.map((pair, i) => 
-        <option key={i} value={pair.pair}>{pair.pair}</option>
+    const stratPairs = strategyPairs.pairs.map((pair, i) => 
+        <option key={i} value={pair.symbol}>{pair.symbol}</option>
     )
 
     const onStrategyChange = (e: any) => {
         if (props.strategyPairs.length > 0) {
-            const strategyPairs = props.strategyPairs.filter(x => x.strategy == e.target.value)
-            let i = strategyPairs[0].pair.indexOf('/')
-            let symbol1 = strategyPairs[0].pair.substring(0, i);
-            let symbol2 = strategyPairs[0].pair.substring(i+1, strategyPairs[0].pair.length);
-            setPairs({
-                ...pairs,
-                pairs: strategyPairs,
-                symbol1: symbol1,
-                symbol2: symbol2
+            const filteredPairs = props.strategyPairs.filter(x => x.strategy_id == e.target.value)
+            setStrategyPairs({
+              pairs: filteredPairs
+            })
+            setConnectedStrategyState({
+              ...connectedStrategyState,
+              ticker_1: filteredPairs[0].ticker_1,
+              ticker_2: filteredPairs[0].ticker_2
             })
         }
-    }
-
-    const onPairChange = (e: any) => {
-        let i = e.target.value.indexOf('/')
-        let symbol1 = e.target.value.substring(0, i);
-        let symbol2 = e.target.value.substring(i+1, e.target.value.length);
-        setPairs({
-            ...pairs,
-            symbol1: symbol1,
-            symbol2: symbol2 
-        })
-
-        setConnectedStrategyState({
-            ...connectedStrategyState,
-            current_currency: symbol2
-        })
     }
 
     const showState = () => {
@@ -114,10 +106,26 @@ const ConnectStrategyForm = (props: any) => {
 
     const handleSubmit = (e: any) => {
         e.preventDefault()
-        props.connectStrategy({ connectedStrategyState }) 
+        const pairDetails = props.strategyPairs.filter(x => x.strategy_id == connectedStrategyState.strategy && x.symbol == connectedStrategyState.pair)[0]
+        if (connectedStrategyState.current_currency == pairDetails.ticker_1) {
+          if (connectedStrategyState.current_currency_balance < pairDetails.ticker_1_min_value) {
+            props.createMessage({ belowMinAmount: 'Please increase the inital amount' });
+          }
+          else {
+            props.connectStrategy({ connectedStrategyState }) 
+          }
+        }
+        if (connectedStrategyState.current_currency == pairDetails.ticker_2) {
+          if (connectedStrategyState.current_currency_balance < pairDetails.ticker_2_min_value) {
+            props.createMessage({ belowMinAmount: 'Please increase the inital amount' });
+          }
+          else {
+            props.connectStrategy({ connectedStrategyState }) 
+          }
+        }
     }
     return <>
-    {!props.formSubmitted && props.isOpen ?
+    {!props.formSubmitted && props.isOpen &&
     <div className="fixed z-10 inset-0 overflow-y-auto">
       <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
         <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
@@ -152,26 +160,30 @@ const ConnectStrategyForm = (props: any) => {
                 <label htmlFor="pair" className="block text-sm font-medium text-gray-700">Pair</label>
                 <select
                   onChange={(e: any): void => {
-                    onPairChange(e)
+                    
+                    let symbol = e.target.value
+                    let i = symbol.indexOf('/');
+                    let ticker_1 = symbol.substring(0, i);
+                    let ticker_2 = symbol.substring(i+1, symbol.length);
                     const trimmed = e.target.value.trim()
-                    setConnectedStrategyState({ ...connectedStrategyState, pair: trimmed })}
+                    setConnectedStrategyState({ ...connectedStrategyState, pair: trimmed, ticker_1: ticker_1, ticker_2: ticker_2, current_currency: ticker_2 })}
                   }
                 id="pair" name="pair" autoComplete="pair" className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                  {exchangePairs}
+                  {stratPairs}
                 </select>
               </div>
             
               <p id="symbols">
-              <label><input type="radio" name="current_currency" value={pairs.symbol1} 
+              <label><input type="radio" name="current_currency" value={connectedStrategyState.ticker_1} checked={connectedStrategyState.current_currency == connectedStrategyState.ticker_1}
                 onChange={(e: any): void =>
-                setConnectedStrategyState({ ...connectedStrategyState, current_currency: e.target.value, current_currency_balance: 0})} 
+                setConnectedStrategyState({ ...connectedStrategyState, current_currency: e.target.value, current_currency_balance: 0, ticker_1: e.target.value})} 
                 />
-                <span>{pairs.symbol1}</span></label>
-              <label><input type="radio" name="current_currency" value={pairs.symbol2} 
+                <span>{connectedStrategyState.ticker_1}</span></label>
+              <label><input type="radio" name="current_currency" value={connectedStrategyState.ticker_2} checked={connectedStrategyState.current_currency == connectedStrategyState.ticker_2}
                 onChange={(e: any): void =>
-                setConnectedStrategyState({ ...connectedStrategyState, current_currency: e.target.value, current_currency_balance: 0})} 
+                setConnectedStrategyState({ ...connectedStrategyState, current_currency: e.target.value, current_currency_balance: 0, ticker_2: e.target.value})} 
                 defaultChecked/>
-              <span>{pairs.symbol2}</span></label>
+              <span>{connectedStrategyState.ticker_2}</span></label>
               </p>
             
               <div>
@@ -191,7 +203,7 @@ const ConnectStrategyForm = (props: any) => {
                     }
                   }
                   value={connectedStrategyState.current_currency_balance.toString()}
-                  type="number" name="current_currency_balance" id="current_currency_balance" autoComplete="current_currency_balance" className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required />
+                  type="number" step="0.00001" name="current_currency_balance" id="current_currency_balance" autoComplete="current_currency_balance" className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required />
               </div>
               <button disabled={props.isLoading} type="submit" className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
               { props.isLoading && <FontAwesomeIcon icon={ faSpinner } /> }
@@ -208,11 +220,6 @@ const ConnectStrategyForm = (props: any) => {
         </div>
       </div>
     </div>
-    :
-    <div>
-      <h1>Please connect with an exchange first</h1>
-    </div>  
-    
   }
     
 </>
@@ -227,4 +234,4 @@ const mapStateToProps = (state) => ({
     isLoading: state.common.isLoading
   });
 
-export default connect(mapStateToProps, { getStrategies, connectStrategy, connectExchange, getConnectedExchanges })(ConnectStrategyForm);
+export default connect(mapStateToProps, { createMessage, getStrategies, connectStrategy, connectExchange, getConnectedExchanges })(ConnectStrategyForm);
