@@ -32,7 +32,7 @@ const App = (props: any) => {
           <Fragment>
             {/* <Nav /> */}
             <Alerts />
-            <div className="container">
+            
               <Switch>
                 <Route exact path="/" component={Dashboard}/>
                 <Route path="/signup">
@@ -43,7 +43,7 @@ const App = (props: any) => {
                 </Route>
                 <Route path="/settings" component={Main} />
               </Switch>
-            </div>
+            
           </Fragment>
         </Router>
       </AlertProvider>
