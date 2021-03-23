@@ -30,7 +30,7 @@ const App = (props: any) => {
       <AlertProvider template={AlertTemplate} {...alertOptions}>
         <Router>
           <Fragment>
-            <Nav />      
+            {/* <Nav /> */}
             <Alerts />
             <div className="container">
               <Switch>

@@ -1,7 +1,6 @@
 import React, { Component, Fragment, useEffect, useRef } from 'react';
 import { withAlert } from 'react-alert';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 
 const usePrevious = <T extends unknown>(value: T): T | undefined => {
     const ref = useRef<T>();

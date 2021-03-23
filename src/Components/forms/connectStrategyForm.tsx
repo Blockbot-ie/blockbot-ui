@@ -63,7 +63,6 @@ const ConnectStrategyForm = (props: any) => {
             ticker_2: filteredPairs[0].ticker_2
           })
         }
-        console.log(props)
     }, [props])
 
 
