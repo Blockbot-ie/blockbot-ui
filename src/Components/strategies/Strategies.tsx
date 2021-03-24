@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { ListItem } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { getStrategies, getConnectedStrategies, getStrategyPairs } from '../../actions/common';
-import ConnectStrategyForm from '../forms/connectStrategyForm';
+import ConnectStrategyForm from '../forms/connectStrategyModalForm';
 
 type Strategy = {
     strategy_id: String,

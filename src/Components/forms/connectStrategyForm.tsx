@@ -125,103 +125,96 @@ const ConnectStrategyForm = (props: any) => {
         }
     }
     return <>
-    {!props.formSubmitted && props.isOpen &&
-    <div className="fixed z-10 inset-0 overflow-y-auto">
-      <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-        <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-          <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-            <form onSubmit={handleSubmit} method="POST">
-              <div>
-                <label htmlFor="strategy" className="block text-sm font-medium text-gray-700">Strategy</label>
-                <select
-                  onChange={(e: any): void => {
-                    onStrategyChange(e)
-                    const trimmed = e.target.value.trim()
-                    setConnectedStrategyState({ ...connectedStrategyState, strategy: trimmed })}
-                  }
-                id="strategy" name="strategy" autoComplete="strategy" className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                  {strategyList}
-                </select>
-              </div>
-              <div>
-                <label htmlFor="user_exchange_account" className="block text-sm font-medium text-gray-700">Exchange Account</label>
-                <select
-                  onChange={(e: any): void => {
-                    const trimmed = e.target.value.trim()
-                    setConnectedStrategyState({ ...connectedStrategyState, user_exchange_account: trimmed })}
-                  }
-                id="user_exchange_account" name="user_exchange_account" autoComplete="user_exchange_account" className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                  {connectedExchangeAccounts}
-                </select>
-              </div>
-            
-            
-              <div>
-                <label htmlFor="pair" className="block text-sm font-medium text-gray-700">Pair</label>
-                <select
-                  onChange={(e: any): void => {
-                    
-                    let symbol = e.target.value
-                    let i = symbol.indexOf('/');
-                    let ticker_1 = symbol.substring(0, i);
-                    let ticker_2 = symbol.substring(i+1, symbol.length);
-                    const trimmed = e.target.value.trim()
-                    setConnectedStrategyState({ ...connectedStrategyState, pair: trimmed, ticker_1: ticker_1, ticker_2: ticker_2, current_currency: ticker_2 })}
-                  }
-                id="pair" name="pair" autoComplete="pair" className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                  {stratPairs}
-                </select>
-              </div>
-            
-              <p id="symbols">
-              <label><input type="radio" name="current_currency" value={connectedStrategyState.ticker_1} checked={connectedStrategyState.current_currency == connectedStrategyState.ticker_1}
-                onChange={(e: any): void =>
-                setConnectedStrategyState({ ...connectedStrategyState, current_currency: e.target.value, current_currency_balance: 0, ticker_1: e.target.value})} 
-                />
-                <span>{connectedStrategyState.ticker_1}</span></label>
-              <label><input type="radio" name="current_currency" value={connectedStrategyState.ticker_2} checked={connectedStrategyState.current_currency == connectedStrategyState.ticker_2}
-                onChange={(e: any): void =>
-                setConnectedStrategyState({ ...connectedStrategyState, current_currency: e.target.value, current_currency_balance: 0, ticker_2: e.target.value})} 
-                defaultChecked/>
-              <span>{connectedStrategyState.ticker_2}</span></label>
-              </p>
-            
-              <div>
-                <label htmlFor="current_currency_balance" className="block text-sm font-medium text-gray-700">Initial {connectedStrategyState.current_currency} balance</label>
-                  <input
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
-                        const pair = connectedStrategyState.pair;
-                        let i = pair.indexOf('/');
-                        let symbol1 = pair.substring(0, i);
-                        let symbol2 = pair.substring(i+1, pair.length);
-                        if (connectedStrategyState.current_currency == symbol1) {
-                            setConnectedStrategyState({ ...connectedStrategyState, initial_first_symbol_balance: parseInt(e.target.value), current_currency_balance: parseInt(e.target.value) })
-                        }
-                        if (connectedStrategyState.current_currency == symbol2) {
-                            setConnectedStrategyState({ ...connectedStrategyState, initial_second_symbol_balance: parseInt(e.target.value), current_currency_balance: parseInt(e.target.value) })
-                        }
+    <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+        <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+        <form onSubmit={handleSubmit} method="POST">
+            <div>
+            <label htmlFor="strategy" className="block text-sm font-medium text-gray-700">Strategy</label>
+            <select
+                onChange={(e: any): void => {
+                onStrategyChange(e)
+                const trimmed = e.target.value.trim()
+                setConnectedStrategyState({ ...connectedStrategyState, strategy: trimmed })}
+                }
+            id="strategy" name="strategy" autoComplete="strategy" className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                {strategyList}
+            </select>
+            </div>
+            <div>
+            <label htmlFor="user_exchange_account" className="block text-sm font-medium text-gray-700">Exchange Account</label>
+            <select
+                onChange={(e: any): void => {
+                const trimmed = e.target.value.trim()
+                setConnectedStrategyState({ ...connectedStrategyState, user_exchange_account: trimmed })}
+                }
+            id="user_exchange_account" name="user_exchange_account" autoComplete="user_exchange_account" className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                {connectedExchangeAccounts}
+            </select>
+            </div>
+        
+        
+            <div>
+            <label htmlFor="pair" className="block text-sm font-medium text-gray-700">Pair</label>
+            <select
+                onChange={(e: any): void => {
+                
+                let symbol = e.target.value
+                let i = symbol.indexOf('/');
+                let ticker_1 = symbol.substring(0, i);
+                let ticker_2 = symbol.substring(i+1, symbol.length);
+                const trimmed = e.target.value.trim()
+                setConnectedStrategyState({ ...connectedStrategyState, pair: trimmed, ticker_1: ticker_1, ticker_2: ticker_2, current_currency: ticker_2 })}
+                }
+            id="pair" name="pair" autoComplete="pair" className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                {stratPairs}
+            </select>
+            </div>
+        
+            <p id="symbols">
+            <label><input type="radio" name="current_currency" value={connectedStrategyState.ticker_1} checked={connectedStrategyState.current_currency == connectedStrategyState.ticker_1}
+            onChange={(e: any): void =>
+            setConnectedStrategyState({ ...connectedStrategyState, current_currency: e.target.value, current_currency_balance: 0, ticker_1: e.target.value})} 
+            />
+            <span>{connectedStrategyState.ticker_1}</span></label>
+            <label><input type="radio" name="current_currency" value={connectedStrategyState.ticker_2} checked={connectedStrategyState.current_currency == connectedStrategyState.ticker_2}
+            onChange={(e: any): void =>
+            setConnectedStrategyState({ ...connectedStrategyState, current_currency: e.target.value, current_currency_balance: 0, ticker_2: e.target.value})} 
+            defaultChecked/>
+            <span>{connectedStrategyState.ticker_2}</span></label>
+            </p>
+        
+            <div>
+            <label htmlFor="current_currency_balance" className="block text-sm font-medium text-gray-700">Initial {connectedStrategyState.current_currency} balance</label>
+                <input
+                onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
+                    const pair = connectedStrategyState.pair;
+                    let i = pair.indexOf('/');
+                    let symbol1 = pair.substring(0, i);
+                    let symbol2 = pair.substring(i+1, pair.length);
+                    if (connectedStrategyState.current_currency == symbol1) {
+                        setConnectedStrategyState({ ...connectedStrategyState, initial_first_symbol_balance: parseInt(e.target.value), current_currency_balance: parseInt(e.target.value) })
                     }
-                  }
-                  value={connectedStrategyState.current_currency_balance.toString()}
-                  type="number" step="0.00001" name="current_currency_balance" id="current_currency_balance" autoComplete="current_currency_balance" className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required />
-              </div>
-              <button disabled={props.isLoading} type="submit" className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-              { props.isLoading && <FontAwesomeIcon icon={ faSpinner } /> }
-                Save
-              </button>
-            </form>
-            <button type="submit" onClick={() => props.handleClose()} className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                      Close
+                    if (connectedStrategyState.current_currency == symbol2) {
+                        setConnectedStrategyState({ ...connectedStrategyState, initial_second_symbol_balance: parseInt(e.target.value), current_currency_balance: parseInt(e.target.value) })
+                    }
+                }
+                }
+                value={connectedStrategyState.current_currency_balance.toString()}
+                type="number" step="0.00001" name="current_currency_balance" id="current_currency_balance" autoComplete="current_currency_balance" className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required />
+            </div>
+            <button disabled={props.isLoading} type="submit" className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            { props.isLoading && <FontAwesomeIcon icon={ faSpinner } /> }
+            Save
             </button>
-            {/* <button onClick={showState} className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                    Show
-            </button> */}
-          </div>
+        </form>
+        <button type="submit" onClick={() => props.handleClose()} className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    Close
+        </button>
+        <button onClick={props.back} className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                Back
+        </button>
         </div>
-      </div>
     </div>
-  }
-    
 </>
 
 }
