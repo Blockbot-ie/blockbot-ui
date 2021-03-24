@@ -12,6 +12,8 @@ import { loadUser } from './actions/auth';
 import Alerts from './Components/layout/Alerts';
 import Main from './Components/settings/main';
 import Dashboard from './Components/dashboard';
+import PrivateRoute from './Components/common/PrivateRoute';
+import userStoryMain from './Components/userStory/userStoryMain';
 
 const App = (props: any) => {
 
@@ -34,13 +36,14 @@ const App = (props: any) => {
             <Alerts />
             
               <Switch>
-                <Route exact path="/" component={Dashboard}/>
+                <PrivateRoute exact path="/" component={Dashboard}/>
                 <Route path="/signup">
                   <SignupForm />
                 </Route>
                 <Route exact path="/login">
                   <LoginForm />
                 </Route>
+                <PrivateRoute path="/user-story" component={userStoryMain} />
                 <Route path="/settings" component={Main} />
               </Switch>
             
