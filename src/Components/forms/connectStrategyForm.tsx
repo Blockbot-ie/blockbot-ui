@@ -114,6 +114,7 @@ const ConnectStrategyForm = (props: any) => {
     const handleSubmit = (e: any) => {
         e.preventDefault()
         const pairDetails = props.strategyPairs.filter(x => x.strategy_id == connectedStrategyState.strategy && x.symbol == connectedStrategyState.pair)[0]
+        console.log(connectedStrategyState.current_currency)
         if (connectedStrategyState.current_currency == pairDetails.ticker_1) {
           if (connectedStrategyState.current_currency_balance < pairDetails.ticker_1_min_value) {
             props.createMessage({ belowMinAmount: 'Please increase the inital amount' });
@@ -124,7 +125,7 @@ const ConnectStrategyForm = (props: any) => {
         }
         if (connectedStrategyState.current_currency == pairDetails.ticker_2) {
           if (connectedStrategyState.current_currency_balance < pairDetails.ticker_2_min_value) {
-            props.createMessage({ belowMinAmount: 'Please increase the inital amount' });
+            props.createMessage({ belowMinAmount: 'Please increase the inital amout' });
           }
           else {
             props.connectStrategy({ connectedStrategyState }) 
@@ -199,15 +200,15 @@ const ConnectStrategyForm = (props: any) => {
                     let symbol1 = pair.substring(0, i);
                     let symbol2 = pair.substring(i+1, pair.length);
                     if (connectedStrategyState.current_currency == symbol1) {
-                        setConnectedStrategyState({ ...connectedStrategyState, initial_first_symbol_balance: parseInt(e.target.value), current_currency_balance: parseInt(e.target.value) })
+                        setConnectedStrategyState({ ...connectedStrategyState, initial_first_symbol_balance: parseFloat(e.target.value), current_currency_balance: parseFloat(e.target.value) })
                     }
                     if (connectedStrategyState.current_currency == symbol2) {
-                        setConnectedStrategyState({ ...connectedStrategyState, initial_second_symbol_balance: parseInt(e.target.value), current_currency_balance: parseInt(e.target.value) })
+                        setConnectedStrategyState({ ...connectedStrategyState, initial_second_symbol_balance: parseFloat(e.target.value), current_currency_balance: parseFloat(e.target.value) })
                     }
                 }
                 }
                 value={connectedStrategyState.current_currency_balance.toString()}
-                type="number" step="0.00001" name="current_currency_balance" id="current_currency_balance" autoComplete="current_currency_balance" className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required />
+                type="number" step={0.0001} name="current_currency_balance" id="current_currency_balance" autoComplete="current_currency_balance" className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required />
             </div>
             <button disabled={props.isLoading} type="submit" className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
             { props.isLoading && <FontAwesomeIcon icon={ faSpinner } /> }

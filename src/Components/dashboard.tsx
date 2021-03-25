@@ -103,6 +103,10 @@ const Dashboard = (props: any) => {
         }
     }, []);
 
+    useEffect(() => {
+        props.getDashboardData()
+    }, [props.connectedStrategies])
+
     const [dashboardData, setDashboardData] = useState<DashboardData>({
         balance: 0,
         activeStrategies: 0
