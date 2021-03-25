@@ -10,7 +10,7 @@ import { Link, Route } from "react-router-dom";
 const Main = (props: any) => {
 
     useEffect(() => {
-        
+        console.log(props)
         if (props.exchanges.length < 1){
             props.getExchanges()
         }
@@ -26,6 +26,7 @@ const Main = (props: any) => {
         if (props.connectedStrategies.length < 1) {
             props.getConnectedStrategies()
         }
+        
     }, []);
     
     return <>

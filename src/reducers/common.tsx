@@ -1,5 +1,6 @@
 import {
       IS_LOADING,
+      GET_DASHBOARDDATA,
       GET_STRATEGIES, 
       CLEAR_STRATEGIES,
       GET_EXCHANGES,
@@ -14,6 +15,7 @@ import {
     } from '../actions/types';
 
 const initialState = {
+  dashboardData: [],
   strategies: [],
   exchanges: [],
   connectedExchanges: [],
@@ -29,6 +31,11 @@ export default function (state = initialState, action) {
       return {
         ...state,
         isLoading: true
+      }
+    case GET_DASHBOARDDATA:
+      return {
+        ...state,
+        dashboardData: [action.payload]
       }
     case GET_STRATEGIES:
       return {

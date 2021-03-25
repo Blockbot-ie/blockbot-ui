@@ -75,11 +75,11 @@ const ConnectStrategyForm = (props: any) => {
     }, [props.strategyPairs])
 
     useEffect(() => {
-      console.log(props)
-      if (props.connectedStrategies.length > 0) {
+      
+      if (props.connectedStrategies.length > 0 && !props.isModal) {
         props.next()
       }
-    }, [props.connectedExchanges])
+    }, [props.connectedStrategies])
 
     const strategyList = props.strategies.map((strategy, i) => 
         <option key={i} value={strategy.strategy_id.toString()}>{strategy.name}</option>
@@ -211,15 +211,14 @@ const ConnectStrategyForm = (props: any) => {
             </div>
             <button disabled={props.isLoading} type="submit" className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
             { props.isLoading && <FontAwesomeIcon icon={ faSpinner } /> }
-            Save
+            Submit
             </button>
         </form>
+        {props.isModal &&
         <button type="submit" onClick={() => props.handleClose()} className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                    Close
+          Close
         </button>
-        <button onClick={props.back} className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                Back
-        </button>
+        }
         </div>
     </div>
 </>

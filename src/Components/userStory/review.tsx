@@ -1,4 +1,6 @@
+import React from "react";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 
 
 
@@ -58,6 +60,9 @@ const Review = (props: any) => {
                 </dd>
             </div>
             </dl>
+            <Link to="/" className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    Finish
+            </Link>
         </div>
         </div>
 

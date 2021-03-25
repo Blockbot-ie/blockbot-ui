@@ -50,7 +50,7 @@ const UserStoryMain = () => {
             </a>
             <div className="hidden md:block absolute top-0 right-0 h-full w-5" aria-hidden="true">
                 <svg className="h-full w-full text-gray-300" viewBox="0 0 22 80" fill="none" preserveAspectRatio="none">
-                <path d="M0 -2L20 40L0 82" vector-effect="non-scaling-stroke" stroke="currentcolor" stroke-linejoin="round" />
+                <path d="M0 -2L20 40L0 82" vector-effect="non-scaling-stroke" stroke="currentcolor" strokeLinejoin="round" />
                 </svg>
             </div>
             </li>
@@ -68,15 +68,16 @@ const UserStoryMain = () => {
                     </span>
                 </div>
                 }
-                {step == 2 ?
+                {step == 2 &&
                 <div>
                     <span className="flex-shrink-0 w-10 h-10 flex items-center justify-center border-2 border-indigo-600 rounded-full">
                     <span className="text-indigo-600">02</span>
                     </span>
                     <span className="ml-4 text-sm font-medium text-indigo-600">Connect Strategy Pair</span>
                 </div>
-                :
-                <span className="px-6 py-4 flex items-center text-sm font-medium">
+}
+                {step == 3 &&
+                    <span className="px-6 py-4 flex items-center text-sm font-medium">
                         <span className="flex-shrink-0 w-10 h-10 flex items-center justify-center bg-indigo-600 rounded-full group-hover:bg-indigo-800">
                             {/* <!-- Heroicon name: solid/check --> */}
                             <svg className="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
@@ -85,11 +86,12 @@ const UserStoryMain = () => {
                         </span>
                         <span className="ml-4 text-sm font-medium text-gray-900">Connect Strategy Pair</span>
                         </span>
-                }         
+                }
+                    
             </a>
             <div className="hidden md:block absolute top-0 right-0 h-full w-5" aria-hidden="true">
                 <svg className="h-full w-full text-gray-300" viewBox="0 0 22 80" fill="none" preserveAspectRatio="none">
-                <path d="M0 -2L20 40L0 82" vector-effect="non-scaling-stroke" stroke="currentcolor" stroke-linejoin="round" />
+                <path d="M0 -2L20 40L0 82" vector-effect="non-scaling-stroke" stroke="currentcolor" strokeLinejoin="round" />
                 </svg>
             </div>
             </li>
