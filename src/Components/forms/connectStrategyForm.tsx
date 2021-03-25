@@ -74,6 +74,13 @@ const ConnectStrategyForm = (props: any) => {
       })
     }, [props.strategyPairs])
 
+    useEffect(() => {
+      console.log(props)
+      if (props.connectedStrategies.length > 0) {
+        props.next()
+      }
+    }, [props.connectedExchanges])
+
     const strategyList = props.strategies.map((strategy, i) => 
         <option key={i} value={strategy.strategy_id.toString()}>{strategy.name}</option>
     )
