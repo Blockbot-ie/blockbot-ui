@@ -14,6 +14,8 @@ import Main from './Components/settings/main';
 import Dashboard from './Components/dashboard';
 import PrivateRoute from './Components/common/PrivateRoute';
 import userStoryMain from './Components/userStory/userStoryMain';
+import ConnectExchange from './Components/strategies/ConnectExchange';
+import Strategies from './Components/strategies/Strategies';
 
 const App = (props: any) => {
 
@@ -44,6 +46,8 @@ const App = (props: any) => {
                   <LoginForm />
                 </Route>
                 <PrivateRoute path="/user-story" component={userStoryMain} />
+                <PrivateRoute path="/exchanges" component={ConnectExchange} />
+                <PrivateRoute path="/strategies" component={Strategies} />
                 <Route path="/settings" component={Main} />
               </Switch>
             

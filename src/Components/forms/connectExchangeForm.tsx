@@ -33,7 +33,7 @@ const ConnectExchangeForm = (props: any) => {
 
       useEffect(() => {
         console.log(props)
-        if (props.connectedExchanges.length > 0) {
+        if (props.connectedExchanges.length > 0 && !props.isModal) {
           props.next()
         }
       }, [props.connectedExchanges])
@@ -106,6 +106,11 @@ const ConnectExchangeForm = (props: any) => {
             Submit
             </button>
         </form>
+        {props.isModal &&
+        <button type="submit" onClick={() => props.handleClose()} className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+          Close
+        </button>
+        }
         {/* <button onClick={props.next} className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                 Next
         </button> */}

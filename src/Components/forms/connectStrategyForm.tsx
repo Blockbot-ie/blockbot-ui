@@ -19,10 +19,6 @@ type ConnectStrategy = {
     ticker_2: string
   }
 
-type ExchangeAccount = {
-    exchange_id: String,
-}
-
 const ConnectStrategyForm = (props: any) => {
   
     const [connectedStrategyState, setConnectedStrategyState] = useState<ConnectStrategy>({
@@ -37,17 +33,8 @@ const ConnectStrategyForm = (props: any) => {
       ticker_2: ''
     })
 
-    const [pairs, setPairs] = useState({
-      symbols: []
-    })
-
     const [strategyPairs, setStrategyPairs] = useState({
       pairs: []
-    })
-
-    const [tickers, setTickers] = useState({
-      ticker_1: '',
-      ticker_2: ''
     })
 
     useEffect(() => {

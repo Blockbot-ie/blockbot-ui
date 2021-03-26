@@ -11,7 +11,8 @@ import {
       GET_CONNECTED_STRATEGIES, 
       CONNECT_STRATEGY_SUCCESS, 
       CONNECT_STRATEGY_FAIL, 
-      GET_STRATEGY_PAIRS
+      GET_STRATEGY_PAIRS,
+      GET_ORDERS
     } from '../actions/types';
 
 const initialState = {
@@ -21,6 +22,7 @@ const initialState = {
   connectedExchanges: [],
   connectedStrategies: [],
   strategyPairs: [],
+  orders: [],
   isLoading: false,
   formSubmitted: false
 };
@@ -112,6 +114,11 @@ export default function (state = initialState, action) {
         ...state,
         strategyPairs: action.payload,
         isLoading: false
+      }
+    case GET_ORDERS:
+      return {
+        ...state,
+        orders: action.payload
       }
     default:
       return state;
