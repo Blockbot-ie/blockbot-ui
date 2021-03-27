@@ -15,7 +15,7 @@ const Orders = (props: any) => {
 
     const openOrders = () => {
         if (props.orders.filter(order => order.status == 'open').length < 1) {
-            return <h3>No open orders</h3>
+            return <p className="text-sm font-medium text-gray-500 truncate">No open orders</p>
         }
         else {
             return props.orders.filter(order => order.status == 'open').map(openOrder => (
@@ -47,7 +47,7 @@ const Orders = (props: any) => {
 
     const filledOrders = () => {
         if (props.orders.filter(order => order.status == 'closed').length < 1) {
-            return <h3>No filled orders</h3>
+            return <p className="text-sm font-medium text-gray-500 truncate">No filled orders</p>
         }
         else {
             return props.orders.filter(order => order.status == 'closed').map(filledOrder => (
