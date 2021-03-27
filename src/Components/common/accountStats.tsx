@@ -42,7 +42,12 @@ const AccountStats = (props: any) => {
                 Balance
             </dt>
             <dd className="mt-1 text-3xl font-semibold text-gray-900">
-                $ {dashboardData.balance.toFixed(2)}
+                {dashboardData.balance != null ?
+                   <p>${dashboardData.balance.toFixed(2)}</p>
+                :
+                <p>$0</p>
+                }
+                
             </dd>
             </div>
 
