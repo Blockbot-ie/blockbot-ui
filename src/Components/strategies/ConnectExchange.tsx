@@ -7,15 +7,6 @@ import { Redirect } from 'react-router-dom';
 import ConnectExchangeModalForm from '../forms/connectExchangeModalForm';
 import Nav from '../Nav';
 
-type Exchange = {
-    exchange_id: String,
-    display_name: String
-}
-
-type Exchanges = {
-    exchanges: Exchange[]
-}
-
 const ConnectExhange = (props: any) => {
 
     const [currentExchange, setCurrentExchangeState] = useState("38ccbdd0-3b8b-4579-b570-ffd6e682dd1a");
@@ -39,8 +30,6 @@ const ConnectExhange = (props: any) => {
       <option key={i} value={exchange.user_exchange_account_id}>{exchange.name}</option>
     )
 
-    // const exchangeAccountDetails = () => {
-    // }
     const exchangeAccountDetails = () => {
       return props.connectedExchanges.map((exchange) =>
         exchange.user_exchange_account_id == currentExchange &&
@@ -89,6 +78,7 @@ const ConnectExhange = (props: any) => {
       <div className="h-screen flex overflow-hidden bg-gray-100">
         <Nav/>
         <div className="flex flex-col w-0 flex-1 overflow-hidden"> 
+        <main className="flex-1 relative overflow-y-auto focus:outline-none">
         <div className="bg-white overflow-hidden shadow sm:rounded-lg">
           <div className="px-4 py-5 sm:p-6">
           {(props.connectedExchanges.length < 1) ?
@@ -102,6 +92,11 @@ const ConnectExhange = (props: any) => {
           </div>
           :
           <div>
+            <div className="px-4 py-3 bg-gray-50 text-right sm:px-6">
+              <button onClick={() => setAddModalOpen(true)} type="submit" className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                Add New
+              </button>
+            </div>
             <div className="px-4 py-3 bg-gray-50 text-center sm:px-6">
               <div>
                 <select className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500" id="options-menu" aria-expanded="true" aria-haspopup="true"
@@ -109,7 +104,6 @@ const ConnectExhange = (props: any) => {
                     const trimmed = e.target.value.trim()
                     setCurrentExchangeState(trimmed)}
                   }>
-                  Options
                   {/* <!-- Heroicon name: solid/chevron-down --> */}
                   <svg className="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                     <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
@@ -118,17 +112,12 @@ const ConnectExhange = (props: any) => {
                 </select>
               </div>
             </div>
-
-            <div className="px-4 py-3 bg-gray-50 text-right sm:px-6">
-              <button onClick={() => setAddModalOpen(true)} type="submit" className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                Add New
-              </button>
-            </div>
             {exchangeAccountDetails()}      
           </div> 
           }
           </div>
         </div>
+        </main>
         </div>
       </div>
       <ConnectExchangeModalForm isOpen={addModalOpen} handleClose={handleClose} />
