@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import ConnectStrategyModalForm from "./forms/connectStrategyModalForm";
-import { getDashboardData, getExchanges, getConnectedExchanges, getConnectedStrategies, getStrategies, getStrategyPairs, getOrders } from '../actions/common';
-import { Link, Route } from "react-router-dom";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Cell, Pie, PieChart } from 'recharts';
+import { getExchanges, getConnectedExchanges, getConnectedStrategies, getStrategies, getStrategyPairs } from '../actions/common';
+import { Link } from "react-router-dom";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Cell, Pie, PieChart } from 'recharts';
 import { logout } from '../actions/auth';
 import store from "../store";
 import { Row } from "react-bootstrap";
+import Orders from "./common/orders";
+import AccountStats from "./common/accountStats";
 
 const data = [
   {
@@ -75,11 +77,6 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
   );
 };
 
-type DashboardData = {
-    balance: number,
-    activeStrategies: number
-}
-
 const Dashboard = (props: any) => {
 
     useEffect(() => {
@@ -98,32 +95,7 @@ const Dashboard = (props: any) => {
         if (props.connectedStrategies.length < 1) {
             props.getConnectedStrategies()
         }
-        if (props.dashboardData.length < 1) {
-            props.getDashboardData()
-        }
-        if (props.orders.length < 1) {
-            props.getOrders()
-        }
     }, []);
-
-    useEffect(() => {
-        props.getDashboardData()
-    }, [props.connectedStrategies])
-
-    const [dashboardData, setDashboardData] = useState<DashboardData>({
-        balance: 0,
-        activeStrategies: 0
-    })
-
-    useEffect(() => {
-        if (props.dashboardData.length > 0) {
-            setDashboardData({
-                ...dashboardData,
-                balance: props.dashboardData[0].balance.current_currency_balance__sum,
-                activeStrategies: props.dashboardData[0].active_strategies
-            })   
-        }
-    }, [props.dashboardData])
 
     const [addModalOpen, setAddModalOpen] = React.useState(false);
 
@@ -138,32 +110,6 @@ const Dashboard = (props: any) => {
       }
 
     const [isOpen, setIsOpen] = useState(true)
-
-    const ordersList = props.orders.map((order, i) => 
-    <tr>
-        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-            {order.side}
-        </td>
-        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-            {order.market}
-        </td>
-        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-            {order.size}
-        </td>
-        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-            {order.filled}
-        </td>
-        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-            {order.filled_price}
-        </td>
-        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-            {order.fee}
-        </td>
-        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-            {order.created_on}
-        </td>
-    </tr>
-    )
 
     return <>
     <div className="h-screen flex overflow-hidden bg-gray-100">
@@ -347,34 +293,7 @@ const Dashboard = (props: any) => {
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
                 {/* <!-- Replace with your content --> */}
                     <div>
-                    <dl className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-3">
-                        <div className="px-4 py-5 bg-white shadow rounded-lg overflow-hidden sm:p-6">
-                        <dt className="text-sm font-medium text-gray-500 truncate">
-                            Balance
-                        </dt>
-                        <dd className="mt-1 text-3xl font-semibold text-gray-900">
-                            $ {dashboardData.balance.toFixed(2)}
-                        </dd>
-                        </div>
-
-                        <div className="px-4 py-5 bg-white shadow rounded-lg overflow-hidden sm:p-6">
-                        <dt className="text-sm font-medium text-gray-500 truncate">
-                            Inc/Dec vs HODL
-                        </dt>
-                        <dd className="mt-1 text-3xl font-semibold text-gray-900">
-                            +24%
-                        </dd>
-                        </div>
-
-                        <div className="px-4 py-5 bg-white shadow rounded-lg overflow-hidden sm:p-6">
-                        <dt className="text-sm font-medium text-gray-500 truncate">
-                            Active Strategies
-                        </dt>
-                        <dd className="mt-1 text-3xl font-semibold text-gray-900">
-                            {dashboardData.activeStrategies}
-                        </dd>
-                        </div>
-                    </dl>
+                        <AccountStats />
                     </div>
                     {/* <!-- This example requires Tailwind CSS v2.0+ --> */}
                     <div className="bg-white px-4 py-5 border-b border-gray-200 sm:px-6">
@@ -510,77 +429,9 @@ const Dashboard = (props: any) => {
                     </div>
                     
                     <br/>
-                    <div className="bg-white px-4 py-5 border-b border-gray-200 sm:px-6">
-                    <div className="-ml-4 -mt-2 flex items-center justify-between flex-wrap sm:flex-nowrap">
-                        <div className="ml-4 mt-2">
-                        <div>
-                        <div className="sm:hidden">
-                            <label htmlFor="tabs" className="sr-only">Select a tab</label>
-                            <select id="tabs" name="tabs" className="block w-full focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md">
-                            <option>Open</option>
-                            <option selected>Filled</option>
-                            </select>
-                        </div>
-                        <div className="hidden sm:block">
-                            <nav className="flex space-x-4" aria-label="Tabs">
-                            {/* <!-- Current: "bg-indigo-100 text-indigo-700", Default: "text-gray-500 hover:text-gray-700" --> */}
-                            <a href="#" className="text-gray-500 hover:text-gray-700 px-3 py-2 font-medium text-sm rounded-md">
-                                Open
-                            </a>
-
-                            <a href="#" className="bg-indigo-100 text-indigo-700 px-3 py-2 font-medium text-sm rounded-md" aria-current="page">
-                                Filled
-                            </a>
-                            </nav>
-                        </div>
-                        </div>
-
-                        </div>
-                    </div>
-                    <div className="flex flex-col">
-                    <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                        <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-                        <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-                            <table className="min-w-full divide-y divide-gray-200">
-                            <thead className="bg-gray-50">
-                                <tr>
-                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Side
-                                </th>
-                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Market
-                                </th>
-                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Size
-                                </th>
-                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Filled
-                                </th>
-                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Filled Price
-                                </th>
-                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Fee
-                                </th>
-                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Date
-                                </th>
-                                </tr>
-                            </thead>
-                            <tbody className="bg-white divide-y divide-gray-200">
-                                {ordersList}
-                            </tbody>
-                            </table>
-                        </div>
-                        </div>
-                    </div>
-                    </div>
-                    </div>
-
-
+                <Orders />
                 {/* <!-- /End replace --> */}
-                </div>
-            
+                </div>     
             </main>
         </div>
         </div>
@@ -652,13 +503,11 @@ const Dashboard = (props: any) => {
 const mapStateToProps = (state) => ({
     user: state.auth.user,
     isAuthenticated: state.auth.isAuthenticated,
-    dashboardData: state.common.dashboardData,
     exchanges: state.common.exchanges,
     strategies: state.common.strategies,
     connectedExchanges: state.common.connectedExchanges,
     connectedStrategies: state.common.connectedStrategies,
-    strategyPairs: state.common.strategyPairs,
-    orders: state.common.orders
+    strategyPairs: state.common.strategyPairs
   });
 
-export default connect(mapStateToProps, { getDashboardData, getExchanges, getStrategies, getStrategyPairs, getConnectedExchanges, getConnectedStrategies, getOrders })(Dashboard);
+export default connect(mapStateToProps, { getExchanges, getStrategies, getStrategyPairs, getConnectedExchanges, getConnectedStrategies })(Dashboard);
