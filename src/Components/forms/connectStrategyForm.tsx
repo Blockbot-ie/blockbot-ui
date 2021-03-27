@@ -62,7 +62,7 @@ const ConnectStrategyForm = (props: any) => {
     }, [props.strategyPairs])
 
     useEffect(() => {
-      
+      console.log(props)
       if (props.connectedStrategies.length > 0 && !props.isModal) {
         props.next()
       }

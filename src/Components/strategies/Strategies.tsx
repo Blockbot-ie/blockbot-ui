@@ -5,7 +5,8 @@ import { Link } from 'react-router-dom';
 import { ListItem } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { getStrategies, getConnectedStrategies, getStrategyPairs } from '../../actions/common';
-import ConnectStrategyForm from '../forms/connectStrategyModalForm';
+import ConnectStrategyModalForm from '../forms/connectStrategyModalForm';
+import Nav from '../Nav';
 
 type Strategy = {
     strategy_id: String,
@@ -31,26 +32,6 @@ const Strategies = (props: any) => {
     setAddModalOpen(false)
   } 
 
-  useEffect(() => {    
-    // props.connectedStrategies.forEach((strategy) => {
-    //   let check = strategyState.strategies.find(x => x.strategy_id == strategy.strategy)
-    //   if (check == null) {
-    //     let strategyName = props.strategies.find(x => x.strategy_id == strategy.strategy)
-    //     const newStrategy: Strategy = {
-    //       strategy_id: strategy.strategy,
-    //       name: strategyName.name,
-    //       pair: strategy.pair,
-    //       current_currency: strategy.current_currency,
-    //       current_balance: strategy.current_currency_balance,
-    //     }
-    //     setStrategyState((prevState) => ({
-    //       strategies: [...(prevState.strategies ?? []), newStrategy]
-    //     }));
-    //   }
-    // })
-    console.log(props)
-  }, []);
-
   const connectedStrategies = () => {
     const { strategies } = strategyState
     console.log(strategies)
@@ -69,6 +50,9 @@ const Strategies = (props: any) => {
   }
      
     return <>
+    <div className="h-screen flex overflow-hidden bg-gray-100">
+    <Nav />
+    <div className="flex flex-col w-0 flex-1 overflow-hidden"> 
     <h1>Strategies</h1>
     {(props.connectedStrategies.length < 1) ?
       <div>
@@ -92,8 +76,11 @@ const Strategies = (props: any) => {
     {props.connectedExchanges.length < 1 ?
       <h3>Please connect with an exchange first</h3>    
       :
-      <ConnectStrategyForm isOpen={addModalOpen} handleClose={handleClose} />
-    } 
+      <ConnectStrategyModalForm isOpen={addModalOpen} handleClose={handleClose} />
+    
+    }
+    </div>
+    </div>
     </>
   }
 

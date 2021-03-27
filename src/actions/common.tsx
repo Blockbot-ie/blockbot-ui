@@ -79,8 +79,9 @@ export const connectExchange = (state) => (dispatch: (arg0: { type: String; payl
 export const getConnectedExchanges = (state) => (dispatch: (arg0: { type: String; payload?: any }) => void, getState: any) => {
 
   axios
-    .get('/api/connect-exchange', tokenConfig(getState))
+    .get('/api/get-connected-exchanges', tokenConfig(getState))
     .then((res) => {
+      console.log(res.data)
       dispatch({
         type: GET_CONNECTED_EXCHANGES,
         payload: res.data,
