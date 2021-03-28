@@ -31,15 +31,17 @@ const AccountStats = (props: any) => {
     useEffect(() => {
         if (props.dashboardData.length > 0) {
             let totalIncOrDec = 0
+            let totalBalance = 0
             props.dashboardData[0].inc_or_dec_vs_hodl.map(pair => {
                 totalIncOrDec += pair.inc_or_dec
+                totalBalance += pair.balance
             })
 
             totalIncOrDec = totalIncOrDec / props.dashboardData[0].inc_or_dec_vs_hodl.length
 
             setDashboardData({
                 ...dashboardData,
-                balance: props.dashboardData[0].balance.current_currency_balance__sum,
+                balance: totalBalance,
                 incOrDecVsHodl: totalIncOrDec,
                 activeStrategies: props.dashboardData[0].active_strategies
             })   
