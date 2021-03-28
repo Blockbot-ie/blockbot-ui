@@ -15,13 +15,18 @@ const ConnectExhange = (props: any) => {
 
     const handleClose = ()=> {
       setAddModalOpen(false)
-    } 
+    }
 
     useEffect(() => {
-      console.log(props.connectedExchanges)
-      console.log(currentExchange)
+      props.getConnectedExchanges();
+    }, [])
+
+    useEffect(() => {
       if (props.connectedExchanges.length < 1) {
         props.getConnectedExchanges()
+      }
+      if (props.connectedExchanges.length > 0) {
+        setCurrentExchangeState(props.connectedExchanges[0].user_exchange_account_id)
       }
       }, [props.connectedExchanges]);
 

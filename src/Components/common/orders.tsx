@@ -36,7 +36,7 @@ const Orders = (props: any) => {
                         ${openOrder.filled_price}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                        {openOrder.fee}
+                        ${openOrder.fee}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                         {openOrder.created_on}
@@ -68,7 +68,7 @@ const Orders = (props: any) => {
                         ${filledOrder.filled_price}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                        {filledOrder.fee}
+                        ${filledOrder.fee}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                         {filledOrder.created_on}

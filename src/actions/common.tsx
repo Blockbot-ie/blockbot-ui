@@ -115,7 +115,7 @@ export const connectStrategy = (state) => (dispatch: (arg0: { type: String; payl
 export const getConnectedStrategies = (state) => (dispatch: (arg0: { type: String; payload?: any }) => void, getState: any) => {
 
   axios
-    .get('/api/connect-strategies', tokenConfig(getState))
+    .get('/api/get-connected-strategies', tokenConfig(getState))
     .then((res) => {
       dispatch({
         type: GET_CONNECTED_STRATEGIES,

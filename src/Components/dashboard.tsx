@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import ConnectStrategyModalForm from "./forms/connectStrategyModalForm";
-import { getExchanges, getConnectedExchanges, getConnectedStrategies, getStrategies, getStrategyPairs } from '../actions/common';
+import { getDashboardData, getExchanges, getConnectedExchanges, getConnectedStrategies, getStrategies, getStrategyPairs } from '../actions/common';
 import { Link } from "react-router-dom";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Cell, Pie, PieChart } from 'recharts';
-import { logout } from '../actions/auth';
-import store from "../store";
 import { Row } from "react-bootstrap";
 import Orders from "./common/orders";
 import AccountStats from "./common/accountStats";
@@ -97,6 +95,10 @@ const Dashboard = (props: any) => {
             props.getConnectedStrategies()
         }
     }, []);
+
+    useEffect(() => {
+        props.getDashboardData()
+    }, [props.connectedExchanges, props.connectedStrategies])
 
     const [addModalOpen, setAddModalOpen] = React.useState(false);
 
@@ -257,7 +259,7 @@ const Dashboard = (props: any) => {
             </main>
         </div>
         </div>
-        {!props.user.is_connectected && isOpen && props.connectedStrategies.length < 1 &&
+        {!props.user.is_connected && isOpen && props.connectedStrategies.length < 1 &&
             <div className="fixed z-10 inset-0 overflow-y-auto" aria-labelledby="dialog-1-title" role="dialog" aria-modal="true">
               <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
                 {/* <!--
@@ -332,4 +334,4 @@ const mapStateToProps = (state) => ({
     strategyPairs: state.common.strategyPairs
   });
 
-export default connect(mapStateToProps, { getExchanges, getStrategies, getStrategyPairs, getConnectedExchanges, getConnectedStrategies })(Dashboard);
+export default connect(mapStateToProps, { getDashboardData, getExchanges, getStrategies, getStrategyPairs, getConnectedExchanges, getConnectedStrategies })(Dashboard);

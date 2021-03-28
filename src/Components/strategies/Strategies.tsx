@@ -22,7 +22,7 @@ type Strategies = {
 
 const Strategies = (props: any) => {
 
-  const [currentStrategy, setCurrentStrategyState] = useState("60a8615c-a178-4f34-89e9-43014144315c");
+  const [currentStrategy, setCurrentStrategyState] = useState(0);
 
   const [addModalOpen, setAddModalOpen] = React.useState(false);
 
@@ -31,10 +31,15 @@ const Strategies = (props: any) => {
   }
 
   useEffect(() => {
-    console.log(props.connectedStrategies)
-    console.log(currentStrategy)
-    if (props.connectedStrategies.length < 1) {
+    props.getConnectedStrategies();
+  }, [])
+
+  useEffect(() => {
+    if (props.connectedStrategies.length < 1)  {
       props.getConnectedStrategies()
+    }
+    if (props.connectedStrategies.length > 0) {
+      setCurrentStrategyState(props.connectedStrategies[0].id)
     }
     }, [props.connectedStrategies]);
 
