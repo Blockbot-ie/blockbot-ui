@@ -7,6 +7,7 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Cell, Pi
 import { Row } from "react-bootstrap";
 import Orders from "./common/orders";
 import AccountStats from "./common/accountStats";
+import TopStrategies from "./common/topStrategies";
 import Nav from "./Nav";
 
 const data = [
@@ -116,9 +117,9 @@ const Dashboard = (props: any) => {
             <main className="flex-1 relative overflow-y-auto focus:outline-none">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
                 {/* <!-- Replace with your content --> */}
-                    <div>
-                        <AccountStats />
-                    </div>
+                    
+                    <AccountStats />
+                    
                     {/* <!-- This example requires Tailwind CSS v2.0+ --> */}
                     <div className="bg-white px-4 py-5 border-b border-gray-200 sm:px-6">
                     <div className="-ml-4 -mt-2 flex items-center justify-between flex-wrap sm:flex-nowrap">
@@ -193,65 +194,8 @@ const Dashboard = (props: any) => {
                         </Row>
                     </div>
                     <br/>
-                    <div className="flex flex-col">
-                    <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                        <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-                        <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-                            <table className="min-w-full divide-y divide-gray-200">
-                            <thead className="bg-gray-50">
-                                <tr>
-                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Position
-                                </th>
-                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Strategy
-                                </th>
-                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Pair
-                                </th>
-                                </tr>
-                            </thead>
-                            <tbody className="bg-white divide-y divide-gray-200">
-                                <tr>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                    1
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                    20 Week SMA +
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                    BTC/USDC
-                                </td>
-                                </tr>
-                                <tr>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                    2
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                    20 Week SMA
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                    BTC/USDC
-                                </td>
-                                </tr>
-                                <tr>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                    3
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                    20 Week SMA +
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                    ETH/USDC
-                                </td>
-                                </tr>
-                            </tbody>
-                            </table>
-                        </div>
-                        </div>
-                    </div>
-                    </div>
                     
+                    <TopStrategies />
                     <br/>
                 <Orders />
                 {/* <!-- /End replace --> */}
