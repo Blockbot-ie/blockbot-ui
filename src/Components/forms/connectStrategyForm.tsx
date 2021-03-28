@@ -187,10 +187,10 @@ const ConnectStrategyForm = (props: any) => {
                     let symbol1 = pair.substring(0, i);
                     let symbol2 = pair.substring(i+1, pair.length);
                     if (connectedStrategyState.current_currency == symbol1) {
-                        setConnectedStrategyState({ ...connectedStrategyState, initial_first_symbol_balance: parseFloat(e.target.value), current_currency_balance: parseFloat(e.target.value) })
+                        setConnectedStrategyState({ ...connectedStrategyState, initial_first_symbol_balance: parseFloat(e.target.value), initial_second_symbol_balance: 0, current_currency_balance: parseFloat(e.target.value) })
                     }
                     if (connectedStrategyState.current_currency == symbol2) {
-                        setConnectedStrategyState({ ...connectedStrategyState, initial_second_symbol_balance: parseFloat(e.target.value), current_currency_balance: parseFloat(e.target.value) })
+                        setConnectedStrategyState({ ...connectedStrategyState, initial_second_symbol_balance: parseFloat(e.target.value), initial_first_symbol_balance: 0, current_currency_balance: parseFloat(e.target.value) })
                     }
                 }
                 }

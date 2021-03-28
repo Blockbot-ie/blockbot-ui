@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import { connect } from "react-redux"
+import { forEachLeadingCommentRange } from "typescript";
 import { getDashboardData } from '../../actions/common';
 
 
 type DashboardData = {
     balance: number,
+    incOrDecVsHodl: number,
     activeStrategies: number
 }
 
@@ -22,14 +24,23 @@ const AccountStats = (props: any) => {
 
     const [dashboardData, setDashboardData] = useState<DashboardData>({
         balance: 0,
+        incOrDecVsHodl: 0,
         activeStrategies: 0
     })
 
     useEffect(() => {
         if (props.dashboardData.length > 0) {
+            let totalIncOrDec = 0
+            props.dashboardData[0].inc_or_dec_vs_hodl.map(pair => {
+                totalIncOrDec += pair.inc_or_dec
+            })
+
+            totalIncOrDec = totalIncOrDec / props.dashboardData[0].inc_or_dec_vs_hodl.length
+
             setDashboardData({
                 ...dashboardData,
                 balance: props.dashboardData[0].balance.current_currency_balance__sum,
+                incOrDecVsHodl: totalIncOrDec,
                 activeStrategies: props.dashboardData[0].active_strategies
             })   
         }
@@ -56,7 +67,11 @@ const AccountStats = (props: any) => {
                 Inc/Dec vs HODL
             </dt>
             <dd className="mt-1 text-3xl font-semibold text-gray-900">
-                +24%
+            {dashboardData.incOrDecVsHodl != null ?
+                   <p>{dashboardData.incOrDecVsHodl.toFixed(2)}%</p>
+                :
+                <p>0%</p>
+                }
             </dd>
             </div>
 
