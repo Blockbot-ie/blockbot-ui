@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import ConnectStrategyModalForm from "./forms/connectStrategyModalForm";
+import BugReportForm from "./forms/bugReportForm";
 import { getDashboardData, getExchanges, getConnectedExchanges, getConnectedStrategies, getStrategies, getStrategyPairs } from '../actions/common';
 import { Link } from "react-router-dom";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Cell, Pie, PieChart } from 'recharts';
@@ -102,9 +103,12 @@ const Dashboard = (props: any) => {
     }, [props.connectedExchanges, props.connectedStrategies])
 
     const [addModalOpen, setAddModalOpen] = React.useState(false);
+    
+    const [bugReportModalOpen, setBugReportModalOpen] = React.useState(false);
 
     const handleClose = ()=> {
         setAddModalOpen(false)
+        setBugReportModalOpen(false)
     }
 
     const [isOpen, setIsOpen] = useState(true)
@@ -198,7 +202,13 @@ const Dashboard = (props: any) => {
                     <TopStrategies />
                     <br/>
                 <Orders />
-                {/* <!-- /End replace --> */}
+                <button onClick={() => setBugReportModalOpen(true)} type="button" className="sticky bottom-0 right-0 inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"> 
+                    <svg className="-ml-1 mr-3 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                        <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+                        <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+                    </svg>
+                    Report Issue
+                </button>
                 </div>     
             </main>
         </div>
@@ -264,6 +274,9 @@ const Dashboard = (props: any) => {
         }
         {addModalOpen &&
             <ConnectStrategyModalForm isOpen={addModalOpen} handleClose={handleClose} />
+        }
+        {bugReportModalOpen &&
+            <BugReportForm isOpen={bugReportModalOpen} handleClose={handleClose} />
         }
     </>
 }

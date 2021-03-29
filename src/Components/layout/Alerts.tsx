@@ -25,6 +25,7 @@ const Alerts = (props: any) => {
             if (props.message.connectExchange) props.alert.success(props.message.connectExchange);
             if (props.message.passwordNotMatch) props.alert.error(props.message.passwordNotMatch);
             if (props.message.belowMinAmount) props.alert.error(props.message.belowMinAmount);
+            if (props.message.reportSubmitted) props.alert.success(props.message.reportSubmitted);
               
     },[props] )
   

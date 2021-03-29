@@ -9,7 +9,6 @@ import {
   } from "react-router-dom";
 import store from '../store';
 import { logout } from '../actions/auth';
-import userStoryMain from './userStory/userStoryMain';
 
 const Nav = (props: any) => {
 const [navbarOpen, setNavbarOpen] = useState(false);

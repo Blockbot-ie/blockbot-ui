@@ -1,7 +1,7 @@
 import axios from "./axios";
 import { createMessage, returnErrors } from './messages';
 import { tokenConfig } from './auth';
-import { GET_DASHBOARDDATA, GET_STRATEGIES, GET_EXCHANGES, CONNECT_EXCHANGE_FAIL, CONNECT_EXCHANGE_SUCCESS, GET_CONNECTED_EXCHANGES, GET_CONNECTED_STRATEGIES, CONNECT_STRATEGY_SUCCESS, CONNECT_STRATEGY_FAIL, GET_STRATEGY_PAIRS, GET_ORDERS } from './types';
+import { GET_DASHBOARDDATA, GET_STRATEGIES, GET_EXCHANGES, CONNECT_EXCHANGE_FAIL, CONNECT_EXCHANGE_SUCCESS, GET_CONNECTED_EXCHANGES, GET_CONNECTED_STRATEGIES, CONNECT_STRATEGY_SUCCESS, CONNECT_STRATEGY_FAIL, GET_STRATEGY_PAIRS, GET_ORDERS, REPORT_SUBMITTED } from './types';
 
 
 // GET Strategies
@@ -149,4 +149,26 @@ export const getOrders = () => (dispatch, getState) => {
       });
     })
     .catch((err) => dispatch(returnErrors(err.response.data, err.response.status)));
+};
+
+export const submitBugReport = (state) => (dispatch: (arg0: { type: String; payload?: any; }) =>  void, getState: any) => {
+  // Request Body
+  const body = JSON.stringify(state.bugReportForm);
+
+  dispatch({ type: 'IS_LOADING' });
+  axios
+    .post('/api/submit-bug-report', body, tokenConfig(getState))
+    .then((res) => {
+      dispatch(createMessage({ reportSubmitted: 'Report Submitted' }));
+      dispatch({
+        type: REPORT_SUBMITTED,
+        payload: res.data,
+      });
+    })
+    .catch((err) => {
+      dispatch(returnErrors(err.response.data, err.response.status));
+      dispatch({
+        type: CONNECT_STRATEGY_FAIL,
+      });
+    });
 };
