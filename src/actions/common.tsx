@@ -2,6 +2,7 @@ import axios from "./axios";
 import { createMessage, returnErrors } from './messages';
 import { tokenConfig } from './auth';
 import { GET_DASHBOARDDATA, GET_STRATEGIES, GET_EXCHANGES, CONNECT_EXCHANGE_FAIL, CONNECT_EXCHANGE_SUCCESS, GET_CONNECTED_EXCHANGES, GET_CONNECTED_STRATEGIES, CONNECT_STRATEGY_SUCCESS, CONNECT_STRATEGY_FAIL, GET_STRATEGY_PAIRS, GET_ORDERS, REPORT_SUBMITTED } from './types';
+import { Redirect } from "react-router";
 
 
 // GET Strategies
