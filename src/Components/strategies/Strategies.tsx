@@ -6,32 +6,44 @@ import { ListItem } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { getStrategies, getConnectedStrategies, getStrategyPairs } from '../../actions/common';
 import ConnectStrategyModalForm from '../forms/connectStrategyModalForm';
+import TopUpStrategyForm from '../forms/topUpStrategyForm';
 import Nav from '../Nav';
-
-type Strategy = {
-    strategy_id: String,
-    name: String,
-    pair: String,
-    current_currency: String,
-    current_balance: Number
-}
-
-type Strategies = {
-  strategies: Strategy[]
-}
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const Strategies = (props: any) => {
 
-  const [currentStrategy, setCurrentStrategyState] = useState(0);
+  const [currentStrategy, setCurrentStrategyState] = useState({
+    strategy_pair_id: '',
+    pair: '',
+    current_currency: null
+  });
 
   const [addModalOpen, setAddModalOpen] = React.useState(false);
 
+  const [topUpModalOpen, setTopUpModalOpen] = React.useState(false);
+
+  const [topUpAmount, setTopUpAmount] = useState({
+    strategy_pair_id: '',
+    currency: '',
+    amount: null,
+    ticker_1: '',
+    ticker_2: ''
+})
+
   const handleClose = ()=> {
     setAddModalOpen(false)
+    setTopUpModalOpen(false)
   }
 
   useEffect(() => {
     props.getConnectedStrategies();
+    setCurrentStrategyState({
+      ...currentStrategy,
+      strategy_pair_id: props.connectedStrategies[0].id,
+      pair: props.connectedStrategies[0].pair,
+      current_currency: props.connectedStrategies[0].current_currency
+    })
   }, [])
 
   useEffect(() => {
@@ -39,10 +51,53 @@ const Strategies = (props: any) => {
       props.getConnectedStrategies()
     }
     if (props.connectedStrategies.length > 0) {
-      setCurrentStrategyState(props.connectedStrategies[0].id)
+      setCurrentStrategyState({
+        ...currentStrategy,
+        strategy_pair_id: props.connectedStrategies[0].id,
+        pair: props.connectedStrategies[0].pair,
+        current_currency: props.connectedStrategies[0].current_currency
+      })
+      const pair = props.connectedStrategies[0].pair
+      let i = pair.indexOf('/')
+      let ticker_1 = pair.substring(0, i)
+      let ticker_2 = pair.substring(i+1, pair.length)
+      setTopUpAmount({
+        ...topUpAmount,
+        strategy_pair_id: props.connectedStrategies[0].id,
+        currency: props.connectedStrategies[0].current_currency,
+        ticker_1: ticker_1,
+        ticker_2: ticker_2
+    })
     }
     }, [props.connectedStrategies]);
 
+    const handleChnange = (e: any) => {
+      const strategy = props.connectedStrategies.filter(strategy => strategy.id == e)[0]
+      setCurrentStrategyState({
+        ...currentStrategy,
+        strategy_pair_id: strategy.id,
+        pair: strategy.pair,
+        current_currency: strategy.current_currency
+      })
+      const pair = strategy.pair
+      let i = pair.indexOf('/')
+      let ticker_1 = pair.substring(0, i)
+      let ticker_2 = pair.substring(i+1, pair.length)
+      setTopUpAmount({
+        ...topUpAmount,
+        strategy_pair_id: strategy.id,
+        currency: strategy.current_currency,
+        ticker_1: ticker_1,
+        ticker_2: ticker_2
+    })
+    }
+
+    const handleOnChange = (e: any) => {
+      setTopUpAmount({
+          ...topUpAmount,
+          currency: e.target.value
+      })
+    }
   
   const connectedStrategies = props.connectedStrategies.map((strategy, i) => 
     <option key={i} value={strategy.id}>{strategy.pair} - {strategy.strategy.name}</option>
@@ -50,7 +105,7 @@ const Strategies = (props: any) => {
 
   const strategyDetails = () => {
     return props.connectedStrategies.map((strategy) =>
-      strategy.id == currentStrategy &&
+      strategy.id == currentStrategy.strategy_pair_id &&
       <div className="bg-white shadow overflow-hidden sm:rounded-lg">
       <div className="px-4 py-5 sm:px-6">
         <h3 className="text-lg leading-6 font-medium text-gray-900">
@@ -58,7 +113,10 @@ const Strategies = (props: any) => {
         </h3>
         <p className="mt-1 max-w-2xl text-sm text-gray-500">
           Personal details and application.
-        </p>
+          <button onClick={() => setTopUpModalOpen(true)} type="submit" className="float-right inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+          Top up
+        </button>
+        </p>    
       </div>
       <div className="border-t border-gray-200 px-4 py-5 sm:p-0">
         <dl className="sm:divide-y sm:divide-gray-200">
@@ -134,8 +192,8 @@ const Strategies = (props: any) => {
             <select className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500" id="options-menu" aria-expanded="true" aria-haspopup="true"
               onChange={(e: any): void => {
                 const trimmed = e.target.value.trim()
-                console.log(trimmed)
-                setCurrentStrategyState(trimmed)}
+                handleChnange(trimmed)
+              }
               }>
               {/* <!-- Heroicon name: solid/chevron-down --> */}
               <svg className="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
@@ -151,9 +209,52 @@ const Strategies = (props: any) => {
     {props.connectedExchanges.length < 1 ?
       <h3>Please connect with an exchange first</h3>    
       :
-      <ConnectStrategyModalForm isOpen={addModalOpen} handleClose={handleClose} />
-    
+      
+      <div>
+        <ConnectStrategyModalForm isOpen={addModalOpen} handleClose={handleClose} />
+      </div>
+      
     }
+      {topUpModalOpen &&
+      <div className="fixed z-10 inset-0 overflow-y-auto">
+      <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+      <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+        <form method="POST">
+            
+            <div>
+              <label htmlFor="price" className="block text-sm font-medium text-gray-700">Amount</label>
+              <div className="mt-1 relative rounded-md shadow-sm">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  {/* <span className="text-gray-500 sm:text-sm">
+                    $
+                  </span> */}
+                </div>
+                <input
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {setTopUpAmount({...topUpAmount, amount: parseFloat(e.target.value)})}}
+                type="number" name="current_currency_balance" id="current_currency_balance" className="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" placeholder="0.00" />
+                <div className="absolute inset-y-0 right-0 flex items-center">
+                  <label htmlFor="current_currency" className="sr-only">Currency</label>
+                  <select onChange={handleOnChange} id="current_currency" name="current_currency" className="focus:ring-indigo-500 focus:border-indigo-500 h-full py-0 pl-2 pr-7 border-transparent bg-transparent text-gray-500 sm:text-sm rounded-md">
+                    <option >{topUpAmount.ticker_1}</option>
+                    <option>{topUpAmount.ticker_2}</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <button disabled={props.isLoading} type="submit" className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            { props.isLoading && <FontAwesomeIcon icon={ faSpinner } /> }
+            Submit
+            </button>
+        </form>
+        <button type="submit" onClick={() => handleClose()} className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+          Close
+        </button>
+      </div>
+      </div>
+      </div>
+      </div>
+      }
     </main>
     </div>
     </div>
