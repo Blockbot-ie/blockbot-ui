@@ -10,6 +10,7 @@ import TopUpStrategyForm from '../forms/topUpStrategyForm';
 import Nav from '../Nav';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import logo from '../../close-icon.svg'
 
 const Strategies = (props: any) => {
 
@@ -220,6 +221,9 @@ const Strategies = (props: any) => {
       <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
       <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+      <button onClick={() => handleClose()} className="float-right">
+      <img src={logo} alt="My Happy SVG"/>
+      </button>
         <form method="POST">
             
             <div>
@@ -247,9 +251,6 @@ const Strategies = (props: any) => {
             Submit
             </button>
         </form>
-        <button type="submit" onClick={() => handleClose()} className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-          Close
-        </button>
       </div>
       </div>
       </div>

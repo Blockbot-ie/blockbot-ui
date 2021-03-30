@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { isPropertySignature } from "typescript";
 import { createMessage } from '../../actions/messages';
+import logo from '../../close-icon.svg'
 
 type ConnectStrategy = {
     strategy: String,
@@ -128,6 +129,11 @@ const ConnectStrategyForm = (props: any) => {
     return <>
     <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+          {props.isModal && 
+          <button onClick={() => props.handleClose()} className="float-right">
+          <img src={logo} alt="My Happy SVG"/>
+          </button>
+          }
         <form onSubmit={handleSubmit} method="POST">
             <div>
             <label htmlFor="strategy" className="block text-sm font-medium text-gray-700">Strategy</label>
@@ -206,12 +212,6 @@ const ConnectStrategyForm = (props: any) => {
             Submit
             </button>
         </form>
-        {props.isModal &&
-        <button type="submit" onClick={() => props.handleClose()} className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-          Close
-        </button>
-        
-        }
         </div>
     </div>
 </>

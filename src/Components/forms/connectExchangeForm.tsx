@@ -3,6 +3,7 @@ import { connect } from "react-redux"
 import { getExchanges, connectExchange } from '../../actions/common';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import logo from '../../close-icon.svg'
 
 type ConnectExchange = {
     exchange: String,
@@ -53,6 +54,11 @@ const ConnectExchangeForm = (props: any) => {
     return <>
     <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+        {props.isModal && 
+          <button onClick={() => props.handleClose()} className="float-right">
+          <img src={logo} alt="My Happy SVG"/>
+          </button>
+          }
         <form onSubmit={handleSubmit} method="POST">
             <div>
             <label htmlFor="exchange" className="block text-sm font-medium text-gray-700">Exchange</label>
@@ -106,11 +112,6 @@ const ConnectExchangeForm = (props: any) => {
             Submit
             </button>
         </form>
-        {props.isModal &&
-        <button type="submit" onClick={() => props.handleClose()} className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-          Close
-        </button>
-        }
         {/* <button onClick={props.next} className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                 Next
         </button> */}
