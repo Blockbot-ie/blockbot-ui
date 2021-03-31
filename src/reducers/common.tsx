@@ -13,7 +13,9 @@ import {
       CONNECT_STRATEGY_FAIL, 
       GET_STRATEGY_PAIRS,
       GET_ORDERS,
-      REPORT_SUBMITTED
+      REPORT_SUBMITTED,
+      TOPPED_UP_STRATEGY_SUCCCESS,
+      TOPPED_UP_STRATEGY_FAIL
     } from '../actions/types';
 
 const initialState = {
@@ -121,6 +123,8 @@ export default function (state = initialState, action) {
         ...state,
         orders: action.payload
       }
+    case TOPPED_UP_STRATEGY_SUCCCESS:
+    case TOPPED_UP_STRATEGY_FAIL:
     case REPORT_SUBMITTED:
       return {
         ...state,

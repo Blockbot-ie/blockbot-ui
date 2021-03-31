@@ -26,6 +26,7 @@ const Alerts = (props: any) => {
             if (props.message.passwordNotMatch) props.alert.error(props.message.passwordNotMatch);
             if (props.message.belowMinAmount) props.alert.error(props.message.belowMinAmount);
             if (props.message.reportSubmitted) props.alert.success(props.message.reportSubmitted);
+            if (props.message.strategyToppedUp) props.alert.success(props.message.strategyToppedUp);
               
     },[props] )
   

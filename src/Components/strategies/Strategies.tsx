@@ -4,7 +4,7 @@ import { useState, createRef } from "react";
 import { Link } from 'react-router-dom';
 import { ListItem } from 'semantic-ui-react';
 import { connect } from 'react-redux';
-import { getStrategies, getConnectedStrategies, getStrategyPairs } from '../../actions/common';
+import { getStrategies, getConnectedStrategies, getStrategyPairs, topUpStrategy } from '../../actions/common';
 import ConnectStrategyModalForm from '../forms/connectStrategyModalForm';
 import TopUpStrategyForm from '../forms/topUpStrategyForm';
 import Nav from '../Nav';
@@ -30,12 +30,7 @@ const Strategies = (props: any) => {
     amount: null,
     ticker_1: '',
     ticker_2: ''
-})
-
-  const handleClose = ()=> {
-    setAddModalOpen(false)
-    setTopUpModalOpen(false)
-  }
+  })
 
   useEffect(() => {
     props.getConnectedStrategies();
@@ -88,6 +83,7 @@ const Strategies = (props: any) => {
         ...topUpAmount,
         strategy_pair_id: strategy.id,
         currency: strategy.current_currency,
+        amount: 0,
         ticker_1: ticker_1,
         ticker_2: ticker_2
     })
@@ -98,6 +94,21 @@ const Strategies = (props: any) => {
           ...topUpAmount,
           currency: e.target.value
       })
+    }
+
+    const handleClose = ()=> {
+      setAddModalOpen(false)
+      setTopUpModalOpen(false)
+    }
+  
+    const handleSubmit = (e: any) => {
+      e.preventDefault()
+      const dataToSend = {
+        strategy_pair_id: topUpAmount.strategy_pair_id,
+        currency: topUpAmount.currency,
+        amount: topUpAmount.amount
+      }
+      props.topUpStrategy({ dataToSend })
     }
   
   const connectedStrategies = props.connectedStrategies.map((strategy, i) => 
@@ -224,7 +235,7 @@ const Strategies = (props: any) => {
       <button onClick={() => handleClose()} className="float-right">
       <img src={logo} alt="My Happy SVG"/>
       </button>
-        <form method="POST">
+        <form onSubmit={handleSubmit} method="POST">
             
             <div>
               <label htmlFor="price" className="block text-sm mt-3 font-medium text-gray-700">Amount</label>
@@ -272,4 +283,4 @@ const Strategies = (props: any) => {
     connectedExchanges: state.common.connectedExchanges
   });
   
-  export default connect(mapStateToProps, { getStrategies, getConnectedStrategies, getStrategyPairs })(Strategies);
+  export default connect(mapStateToProps, { getStrategies, getConnectedStrategies, getStrategyPairs, topUpStrategy })(Strategies);

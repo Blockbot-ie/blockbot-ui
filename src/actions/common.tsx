@@ -1,7 +1,7 @@
 import axios from "./axios";
 import { createMessage, returnErrors } from './messages';
 import { tokenConfig } from './auth';
-import { GET_DASHBOARDDATA, GET_STRATEGIES, GET_EXCHANGES, CONNECT_EXCHANGE_FAIL, CONNECT_EXCHANGE_SUCCESS, GET_CONNECTED_EXCHANGES, GET_CONNECTED_STRATEGIES, CONNECT_STRATEGY_SUCCESS, CONNECT_STRATEGY_FAIL, GET_STRATEGY_PAIRS, GET_ORDERS, REPORT_SUBMITTED } from './types';
+import { GET_DASHBOARDDATA, GET_STRATEGIES, GET_EXCHANGES, CONNECT_EXCHANGE_FAIL, CONNECT_EXCHANGE_SUCCESS, GET_CONNECTED_EXCHANGES, GET_CONNECTED_STRATEGIES, CONNECT_STRATEGY_SUCCESS, CONNECT_STRATEGY_FAIL, GET_STRATEGY_PAIRS, GET_ORDERS, REPORT_SUBMITTED, TOPPED_UP_STRATEGY_SUCCCESS, TOPPED_UP_STRATEGY_FAIL } from './types';
 import { Redirect } from "react-router";
 
 
@@ -170,6 +170,28 @@ export const submitBugReport = (state) => (dispatch: (arg0: { type: String; payl
       dispatch(returnErrors(err.response.data, err.response.status));
       dispatch({
         type: CONNECT_STRATEGY_FAIL,
+      });
+    });
+};
+
+export const topUpStrategy = (state) => (dispatch: (arg0: { type: String; payload?: any; }) =>  void, getState: any) => {
+  // Request Body
+  const body = JSON.stringify(state.dataToSend);
+
+  dispatch({ type: 'IS_LOADING' });
+  axios
+    .post('/api/top-up-strategy', body, tokenConfig(getState))
+    .then((res) => {
+      dispatch(createMessage({ strategyToppedUp: 'Successfully Topped Up Strategy' }));
+      dispatch({
+        type: TOPPED_UP_STRATEGY_SUCCCESS,
+        payload: res.data,
+      });
+    })
+    .catch((err) => {
+      dispatch(returnErrors(err.response.data, err.response.status));
+      dispatch({
+        type: TOPPED_UP_STRATEGY_FAIL,
       });
     });
 };
