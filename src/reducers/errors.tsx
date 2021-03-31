@@ -6,6 +6,10 @@ const initialState = {
 };
 
 export default function (state = initialState, action: { type: any; payload: { msg: any; status: any; }; }) {
+  state = {
+    msg: {},
+    status: null
+  }
   switch (action.type) {
     case GET_ERRORS:
       return {

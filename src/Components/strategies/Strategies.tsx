@@ -1,8 +1,5 @@
-import axios from 'axios';
 import React, { useEffect } from 'react';
 import { useState, createRef } from "react";
-import { Link } from 'react-router-dom';
-import { ListItem } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { getStrategies, getConnectedStrategies, getStrategyPairs, topUpStrategy } from '../../actions/common';
 import ConnectStrategyModalForm from '../forms/connectStrategyModalForm';
