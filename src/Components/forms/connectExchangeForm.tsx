@@ -59,9 +59,14 @@ const ConnectExchangeForm = (props: any) => {
           <img src={logo} alt="My Happy SVG"/>
           </button>
           }
+          <div className="mt-3 text-center sm:mt-5">
+            <h3 className="text-lg leading-6 font-medium text-gray-900" id="modal-title">
+              Connect with your Coinbase Pro Account
+            </h3>
+          </div>
         <form onSubmit={handleSubmit} method="POST">
             <div>
-            <label htmlFor="exchange" className="block text-sm font-medium text-gray-700">Exchange</label>
+            <label htmlFor="exchange" className="block text-sm mt-3 font-medium text-gray-700">Exchange</label>
             <select
                 onChange={(e: any): void => {
                 const trimmed = e.target.value.trim()
@@ -72,16 +77,16 @@ const ConnectExchangeForm = (props: any) => {
             </select>
             </div>
             <div>
-            <label htmlFor="name" className="block text-sm font-medium text-gray-700">Name</label>
+            <label htmlFor="name" className="block text-sm mt-3 font-medium text-gray-700">Portfolio Name</label>
             <input 
                 onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
                 const trimmed = e.target.value.trim()
                 setConnectedExchangeState({ ...connectedExchangeState, name: trimmed })}
             }
-            type="text" name="name" id="name" placeholder="Choose a name for your account" autoComplete="name" className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required />
+            type="text" name="name" id="name" placeholder="Match the name of your Coinbase Portfolio" autoComplete="name" className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required />
             </div>
             <div>
-            <label htmlFor="api_key" className="block text-sm font-medium text-gray-700">API Key</label>
+            <label htmlFor="api_key" className="block text-sm mt-3 font-medium text-gray-700">API Key</label>
             <input 
                 onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
                 const trimmed = e.target.value.trim()
@@ -90,7 +95,7 @@ const ConnectExchangeForm = (props: any) => {
             type="text" name="api_key" id="api_key" placeholder="Enter API Key" autoComplete="api_key" className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required />
             </div> 
             <div>
-            <label htmlFor="api_secret" className="block text-sm font-medium text-gray-700">API Secret</label>
+            <label htmlFor="api_secret" className="block text-sm mt-3 font-medium text-gray-700">API Secret</label>
             <input
                 onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
                 const trimmed = e.target.value.trim()
@@ -99,7 +104,7 @@ const ConnectExchangeForm = (props: any) => {
             type="text" name="api_secret" id="api_secret" placeholder="Enter API Secret" autoComplete="api_secret" className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required />
             </div>
             <div>
-            <label htmlFor="api_password" className="block text-sm font-medium text-gray-700">API Password</label>
+            <label htmlFor="api_password" className="block text-sm mt-3 font-medium text-gray-700">API Password</label>
             <input
                 onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
                 const trimmed = e.target.value.trim()
@@ -107,10 +112,12 @@ const ConnectExchangeForm = (props: any) => {
             }
             type="password" name="api_password" id="api_password" placeholder="Enter API Password" autoComplete="api_password" className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required />
             </div>
-            <button disabled={props.isLoading} type="submit" className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-            { props.isLoading && <FontAwesomeIcon icon={ faSpinner } /> }
-            Submit
-            </button>
+            <div className="mt-3 sm:mt-6">
+                <button disabled={props.isLoading} type="submit" className="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm">
+                { props.isLoading && <FontAwesomeIcon icon={ faSpinner } /> }
+                  Submit
+                </button>
+            </div>
         </form>
         {/* <button onClick={props.next} className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                 Next

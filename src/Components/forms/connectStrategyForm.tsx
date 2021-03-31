@@ -134,9 +134,14 @@ const ConnectStrategyForm = (props: any) => {
           <img src={logo} alt="My Happy SVG"/>
           </button>
           }
+        <div className="mt-3 text-center sm:mt-5">
+          <h3 className="text-lg leading-6 font-medium text-gray-900" id="modal-title">
+            Connect with a Strategy to Start Trading
+          </h3>
+        </div>
         <form onSubmit={handleSubmit} method="POST">
             <div>
-            <label htmlFor="strategy" className="block text-sm font-medium text-gray-700">Strategy</label>
+            <label htmlFor="strategy" className="block text-sm mt-3 font-medium text-gray-700">Strategy</label>
             <select
                 onChange={(e: any): void => {
                 onStrategyChange(e)
@@ -148,7 +153,7 @@ const ConnectStrategyForm = (props: any) => {
             </select>
             </div>
             <div>
-            <label htmlFor="user_exchange_account" className="block text-sm font-medium text-gray-700">Exchange Account</label>
+            <label htmlFor="user_exchange_account" className="block text-sm mt-3 font-medium text-gray-700">Exchange Account</label>
             <select
                 onChange={(e: any): void => {
                 const trimmed = e.target.value.trim()
@@ -161,7 +166,7 @@ const ConnectStrategyForm = (props: any) => {
         
         
             <div>
-            <label htmlFor="pair" className="block text-sm font-medium text-gray-700">Pair</label>
+            <label htmlFor="pair" className="block text-sm mt-3 font-medium text-gray-700">Pair</label>
             <select
                 onChange={(e: any): void => {
                 
@@ -177,7 +182,7 @@ const ConnectStrategyForm = (props: any) => {
             </select>
             </div>
             <div>
-              <label htmlFor="price" className="block text-sm font-medium text-gray-700">Amount</label>
+              <label htmlFor="price" className="block text-sm mt-3 font-medium text-gray-700">Amount</label>
               <div className="mt-1 relative rounded-md shadow-sm">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   {/* <span className="text-gray-500 sm:text-sm">
@@ -197,7 +202,7 @@ const ConnectStrategyForm = (props: any) => {
                         setConnectedStrategyState({ ...connectedStrategyState, initial_second_symbol_balance: parseFloat(e.target.value), initial_first_symbol_balance: 0, current_currency_balance: parseFloat(e.target.value) })
                     }
                 }}
-                type="number" name="current_currency_balance" id="current_currency_balance" className="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" placeholder="0.00" />
+                type="text" name="current_currency_balance" id="current_currency_balance" className="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" placeholder="0.00" />
                 <div className="absolute inset-y-0 right-0 flex items-center">
                   <label htmlFor="current_currency" className="sr-only">Currency</label>
                   <select onChange={handleOnChange} id="current_currency" name="current_currency" className="focus:ring-indigo-500 focus:border-indigo-500 h-full py-0 pl-2 pr-7 border-transparent bg-transparent text-gray-500 sm:text-sm rounded-md">
@@ -207,10 +212,12 @@ const ConnectStrategyForm = (props: any) => {
                 </div>
               </div>
             </div>
-            <button disabled={props.isLoading} type="submit" className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-            { props.isLoading && <FontAwesomeIcon icon={ faSpinner } /> }
-            Submit
-            </button>
+            <div className="mt-3 sm:mt-6">
+                <button disabled={props.isLoading} type="submit" className="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm">
+                { props.isLoading && <FontAwesomeIcon icon={ faSpinner } /> }
+                  Submit
+                </button>
+            </div>
         </form>
         </div>
     </div>

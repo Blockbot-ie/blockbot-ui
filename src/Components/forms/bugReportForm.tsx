@@ -1,7 +1,9 @@
-import { useState } from "react"
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { useState } from "react"
 import { connect } from "react-redux"
 import { submitBugReport } from '../../actions/common';
-
+import logo from '../../close-icon.svg'
 
 const BugReportForm = (props: any) => {
 
@@ -54,7 +56,11 @@ const BugReportForm = (props: any) => {
                 From: "opacity-100 translate-y-0 sm:scale-100"
                 To: "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             --> */}
+            
             <div className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
+            <button onClick={() => props.handleClose()} className="float-right">
+                <img src={logo} alt="My Happy SVG"/>
+                </button>
             <div>
                 <div className="mt-3 text-center sm:mt-5">
                 <h3 className="text-lg leading-6 font-medium text-gray-900" id="modal-title">
@@ -63,7 +69,7 @@ const BugReportForm = (props: any) => {
                 <div className="mt-2">
                 <form onSubmit={handleSubmit} method="POST">
                     <div>
-                        <label htmlFor="type" className="block text-sm font-medium text-gray-700">Type</label>
+                        <label htmlFor="type" className="block text-sm mt-3 font-medium text-gray-700">Type</label>
                         <select
                         onChange={(e: any): void => {
                             const trimmed = e.target.value.trim()
@@ -75,7 +81,7 @@ const BugReportForm = (props: any) => {
                         </select>
                     </div>
                     <div>
-                        <label htmlFor="area" className="block text-sm font-medium text-gray-700">Area</label>
+                        <label htmlFor="area" className="block text-sm mt-3 font-medium text-gray-700">Area</label>
                         <div className="mt-1">
                             <input
                             onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -93,18 +99,13 @@ const BugReportForm = (props: any) => {
                         cols={50}
                         rows={10}/>
                     </div>
-                    <div className="mt-5 sm:mt-6">
-                        <button type="submit" className="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm">
+                    <div className="mt-3 sm:mt-6">
+                        <button disabled={props.isLoading} type="submit" className="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm">
+                        { props.isLoading && <FontAwesomeIcon icon={ faSpinner } /> }
                         Submit
                         </button>
                     </div>
                     </form>
-                    <button type="submit" onClick={() => props.handleClose()} className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                        Close
-                    </button>
-                    <button type="submit" onClick={() => showState()} className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                        Show
-                    </button>
                 </div>
                 </div>
             </div>
