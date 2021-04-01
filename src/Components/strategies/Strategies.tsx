@@ -113,6 +113,10 @@ const Strategies = (props: any) => {
     <option key={i} value={strategy.id}>{strategy.pair} - {strategy.strategy.name}</option>
   )
 
+  const showState = () => {
+    console.log(topUpAmount)
+  }
+
   const strategyDetails = () => {
     return props.connectedStrategies.map((strategy) =>
       strategy.id == currentStrategy.strategy_pair_id &&
@@ -230,7 +234,7 @@ const Strategies = (props: any) => {
       <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
       <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-      <button onClick={() => handleClose()} className="float-right">
+      <button disabled={props.isLoading} onClick={() => handleClose()} className="float-right">
       <img src={logo} alt="My Happy SVG"/>
       </button>
         <form onSubmit={handleSubmit} method="POST">
@@ -249,8 +253,8 @@ const Strategies = (props: any) => {
                 <div className="absolute inset-y-0 right-0 flex items-center">
                   <label htmlFor="current_currency" className="sr-only">Currency</label>
                   <select onChange={handleOnChange} id="current_currency" name="current_currency" className="focus:ring-indigo-500 focus:border-indigo-500 h-full py-0 pl-2 pr-7 border-transparent bg-transparent text-gray-500 sm:text-sm rounded-md">
-                    <option >{topUpAmount.ticker_1}</option>
-                    <option>{topUpAmount.ticker_2}</option>
+                    <option selected={topUpAmount.currency == topUpAmount.ticker_1}>{topUpAmount.ticker_1}</option>
+                    <option selected={topUpAmount.currency == topUpAmount.ticker_2}>{topUpAmount.ticker_2}</option>
                   </select>
                 </div>
               </div>

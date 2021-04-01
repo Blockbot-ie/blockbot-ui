@@ -56,7 +56,7 @@ const ConnectExchangeForm = (props: any) => {
     <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
         {props.isModal && 
-          <button onClick={() => props.handleClose()} className="float-right">
+          <button disabled={props.isLoading} onClick={() => props.handleClose()} className="float-right">
           <img src={logo} alt="My Happy SVG"/>
           </button>
           }
@@ -119,9 +119,6 @@ const ConnectExchangeForm = (props: any) => {
                 </button>
             </div>
         </form>
-        {/* <button onClick={props.next} className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                Next
-        </button> */}
         </div>
     </div>
 </>

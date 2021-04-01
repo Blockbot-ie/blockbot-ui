@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { register } from '../../actions/auth';
 import { createMessage } from '../../actions/messages';
 import { Link, Redirect } from 'react-router-dom';
+import Loader from 'react-loader-spinner';
 
 type UserState = {
     username: String,
@@ -143,7 +144,7 @@ const SignupForm = (props: any) => {
 
             <div>
               <button type="submit" className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                Sign up
+              { props.isLoading ? <Loader type="Circles" color="#00BFFF" height={24} width={24}/> : <span>Sign Up</span>}
               </button>
             </div>
           </form>

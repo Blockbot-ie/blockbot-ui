@@ -59,7 +59,7 @@ const BugReportForm = (props: any) => {
             --> */}
             
             <div className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
-            <button onClick={() => props.handleClose()} className="float-right">
+            <button disabled={props.isLoading} onClick={() => props.handleClose()} className="float-right">
                 <img src={logo} alt="My Happy SVG"/>
                 </button>
             <div>

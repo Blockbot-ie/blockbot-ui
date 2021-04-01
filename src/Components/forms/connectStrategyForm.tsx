@@ -131,7 +131,7 @@ const ConnectStrategyForm = (props: any) => {
     <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
           {props.isModal && 
-          <button onClick={() => props.handleClose()} className="float-right">
+          <button disabled={props.isLoading} onClick={() => props.handleClose()} className="float-right">
           <img src={logo} alt="My Happy SVG"/>
           </button>
           }

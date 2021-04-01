@@ -84,8 +84,6 @@ const ConnectExhange = (props: any) => {
         <Nav/>
         <div className="flex flex-col w-0 flex-1 overflow-hidden"> 
         <main className="flex-1 relative overflow-y-auto focus:outline-none">
-        <div className="bg-white overflow-hidden shadow sm:rounded-lg">
-          <div className="px-4 py-5 sm:p-6">
           {(props.connectedExchanges.length < 1) ?
           <div>
             You have not connected with an exchange.
@@ -120,8 +118,6 @@ const ConnectExhange = (props: any) => {
             {exchangeAccountDetails()}      
           </div> 
           }
-          </div>
-        </div>
         </main>
         </div>
       </div>
