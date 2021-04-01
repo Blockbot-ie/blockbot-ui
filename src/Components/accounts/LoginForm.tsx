@@ -3,8 +3,8 @@ import { useState } from "react";
 import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 import { login } from '../../actions/auth';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import '../../fontawesome';
+import Loader from 'react-loader-spinner';
 
 type UserState = {
     username: String,
@@ -19,7 +19,6 @@ const LoginForm = (props: any) => {
     })
     
     const onSubmit = (e: any) => {
-        
         e.preventDefault(); 
         props.login(userState.username, userState.password);
       };
@@ -77,7 +76,8 @@ const LoginForm = (props: any) => {
                         </div>
                     </div>
                     <div>
-                        <button type="submit" className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        <button disabled={props.isLoading} type="submit" className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        { props.isLoading && <Loader type="Circles" color="#00BFFF" height={24} width={24}/> }
                         Sign in
                         </button>
                     </div>

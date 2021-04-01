@@ -1,5 +1,5 @@
 import { unstable_batchedUpdates } from 'react-dom';
-import { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import { connect } from "react-redux"
 import { getStrategies, connectStrategy, connectExchange, getConnectedExchanges } from '../../actions/common';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -7,6 +7,7 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { isPropertySignature } from "typescript";
 import { createMessage } from '../../actions/messages';
 import logo from '../../close-icon.svg'
+import Loader from 'react-loader-spinner';
 
 type ConnectStrategy = {
     strategy: String,
@@ -214,8 +215,7 @@ const ConnectStrategyForm = (props: any) => {
             </div>
             <div className="mt-3 sm:mt-6">
                 <button disabled={props.isLoading} type="submit" className="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm">
-                { props.isLoading && <FontAwesomeIcon icon={ faSpinner } /> }
-                  Submit
+                { props.isLoading ? <Loader type="Circles" color="#00BFFF" height={24} width={24}/> : <span>Submit</span>}
                 </button>
             </div>
         </form>

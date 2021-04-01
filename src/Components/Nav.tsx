@@ -13,10 +13,6 @@ import { logout } from '../actions/auth';
 const Nav = (props: any) => {
 const [navbarOpen, setNavbarOpen] = useState(false);
 
-  useEffect(() => {
-    console.log(props)
-  })
-
   const logoutClick = () => {
     if (props.isAuthenticated) {
       store.dispatch<any>(logout());
