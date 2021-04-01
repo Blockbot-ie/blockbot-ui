@@ -1,8 +1,5 @@
 import { useEffect, useState } from "react";
 import { connect } from "react-redux"
-import { forEachLeadingCommentRange } from "typescript";
-import { getDashboardData } from '../../actions/common';
-
 
 type DashboardData = {
     balance: number,
@@ -11,16 +8,6 @@ type DashboardData = {
 }
 
 const AccountStats = (props: any) => {
-
-    useEffect(() => {
-        if (props.dashboardData.length < 1) {
-            props.getDashboardData()
-        }
-    }, [])
-
-    useEffect(() => {
-        props.getDashboardData()
-    }, [props.connectedStrategies])
 
     const [dashboardData, setDashboardData] = useState<DashboardData>({
         balance: 0,
@@ -93,4 +80,4 @@ const mapStateToProps = (state) => ({
     dashboardData: state.common.dashboardData
 })
 
-export default connect(mapStateToProps, { getDashboardData })(AccountStats);
+export default connect(mapStateToProps)(AccountStats);

@@ -99,8 +99,10 @@ const Dashboard = (props: any) => {
     }, []);
 
     useEffect(() => {
+      if (props.connectedStrategies.length > 0) {
         props.getDashboardData()
-    }, [props.connectedExchanges, props.connectedStrategies])
+      }
+    }, [props.connectedStrategies])
 
     const [addModalOpen, setAddModalOpen] = React.useState(false);
     
