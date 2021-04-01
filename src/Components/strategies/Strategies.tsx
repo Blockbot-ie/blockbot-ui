@@ -9,6 +9,7 @@ import '../../fontawesome';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import logo from '../../close-icon.svg'
 import Loader from 'react-loader-spinner';
+import { POINT_CONVERSION_COMPRESSED } from 'node:constants';
 
 const Strategies = (props: any) => {
 
@@ -65,6 +66,12 @@ const Strategies = (props: any) => {
     }
     }, [props.connectedStrategies]);
 
+    useEffect(() => {
+      console.log(props)
+      
+      setTopUpModalOpen(false)
+    }, [props.formSubmitted])
+
     const handleChnange = (e: any) => {
       const strategy = props.connectedStrategies.filter(strategy => strategy.id == e)[0]
       setCurrentStrategyState({
@@ -107,6 +114,7 @@ const Strategies = (props: any) => {
         amount: topUpAmount.amount
       }
       props.topUpStrategy({ dataToSend })
+      handleClose()
     }
   
   const connectedStrategies = props.connectedStrategies.map((strategy, i) => 
@@ -232,8 +240,10 @@ const Strategies = (props: any) => {
       {topUpModalOpen &&
       <div className="fixed z-10 inset-0 overflow-y-auto">
       <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-      <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+      <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+      <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+      <div className="inline-block bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
+      
       <button disabled={props.isLoading} onClick={() => handleClose()} className="float-right">
       <img src={logo} alt="My Happy SVG"/>
       </button>
@@ -268,7 +278,7 @@ const Strategies = (props: any) => {
       </div>
       </div>
       </div>
-      </div>
+      
       }
     </main>
     </div>
@@ -278,6 +288,7 @@ const Strategies = (props: any) => {
 
   const mapStateToProps = (state) => ({
     isLoading: state.common.isLoading,
+    formSubmitted: state.common.formSubmitted,
     isAuthenticated: state.auth.isAuthenticated,
     strategies: state.common.strategies,
     connectedStrategies: state.common.connectedStrategies,

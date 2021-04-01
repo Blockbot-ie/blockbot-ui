@@ -187,6 +187,7 @@ export const topUpStrategy = (state) => (dispatch: (arg0: { type: String; payloa
         type: TOPPED_UP_STRATEGY_SUCCCESS,
         payload: res.data,
       });
+      <Redirect to="/" />
     })
     .catch((err) => {
       dispatch(returnErrors(err.response.data, err.response.status));

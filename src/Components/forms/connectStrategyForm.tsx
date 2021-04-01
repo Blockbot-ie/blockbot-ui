@@ -128,8 +128,8 @@ const ConnectStrategyForm = (props: any) => {
         }
     }
     return <>
-    <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+    
+        <div className="inline-block bg-white sm:mx-auto sm:w-full sm:max-w-md rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:w-full sm:p-6">
           {props.isModal && 
           <button disabled={props.isLoading} onClick={() => props.handleClose()} className="float-right">
           <img src={logo} alt="My Happy SVG"/>
@@ -220,7 +220,7 @@ const ConnectStrategyForm = (props: any) => {
             </div>
         </form>
         </div>
-    </div>
+    
 </>
 
 }

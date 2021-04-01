@@ -15,7 +15,8 @@ import {
       GET_ORDERS,
       REPORT_SUBMITTED,
       TOPPED_UP_STRATEGY_SUCCCESS,
-      TOPPED_UP_STRATEGY_FAIL
+      TOPPED_UP_STRATEGY_FAIL,
+      LOGOUT_SUCCESS
     } from '../actions/types';
 
 const initialState = {
@@ -124,11 +125,28 @@ export default function (state = initialState, action) {
         orders: action.payload
       }
     case TOPPED_UP_STRATEGY_SUCCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        formSubmitted: true
+      }
     case TOPPED_UP_STRATEGY_FAIL:
     case REPORT_SUBMITTED:
       return {
         ...state,
         isLoading: false
+      }
+    case LOGOUT_SUCCESS:
+      return {
+        dashboardData: [],
+        strategies: [],
+        exchanges: [],
+        connectedExchanges: [],
+        connectedStrategies: [],
+        strategyPairs: [],
+        orders: [],
+        isLoading: false,
+        formSubmitted: false
       }
     default:
       return state;
