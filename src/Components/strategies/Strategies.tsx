@@ -114,7 +114,7 @@ const Strategies = (props: any) => {
         amount: topUpAmount.amount
       }
       props.topUpStrategy({ dataToSend })
-      handleClose()
+      
     }
   
   const connectedStrategies = props.connectedStrategies.map((strategy, i) => 
