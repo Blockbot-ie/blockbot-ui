@@ -19,21 +19,20 @@ const UserStoryMain = () => {
     }
 
     return <>
-    <div className="bg-white overflow-hidden shadow rounded-lg">
-        <div className="px-4 py-5 sm:px-6">
-        
-        <nav aria-label="Progress">
+    <div className="bg-white overflow-hidden shadow rounded-lg divide-y divide-gray-200">
+    <div className="px- py-2 sm:px-6">
+    <nav aria-label="Progress">
         <ol className="border border-gray-300 rounded-md divide-y divide-gray-300 md:flex md:divide-y-0">
             <li className="relative md:flex-1 md:flex">
             
             <a href="#" className="group flex items-center w-full">
                 {step == 1 ?
-                    <div>
+                    <span className="px-6 py-4 flex items-center text-sm font-medium">
                     <span className="flex-shrink-0 w-10 h-10 flex items-center justify-center border-2 border-indigo-600 rounded-full">
                     <span className="text-indigo-600">01</span>
                     </span>
                     <span className="ml-4 text-sm font-medium text-indigo-600">Connect Exchange</span>
-                    </div>
+                    </span>
                     :
                     
                         <span className="px-6 py-4 flex items-center text-sm font-medium">
@@ -59,22 +58,22 @@ const UserStoryMain = () => {
             
             <a href="#" className="px-6 py-4 flex items-center text-sm font-medium" aria-current="step">
                 {step == 1 &&
-                <div>
+                <span className="px-6 py-4 flex items-center text-sm font-medium">
                     <span className="px-6 py-4 flex items-center text-sm font-medium">
                     <span className="flex-shrink-0 w-10 h-10 flex items-center justify-center border-2 border-gray-300 rounded-full group-hover:border-gray-400">
                         <span className="text-gray-500 group-hover:text-gray-900">02</span>
                     </span>
                     <span className="ml-4 text-sm font-medium text-gray-500 group-hover:text-gray-900">Connect Strategy Pair</span>
                     </span>
-                </div>
+                </span>
                 }
                 {step == 2 &&
-                <div>
+                <span className="px-6 py-4 flex items-center text-sm font-medium">
                     <span className="flex-shrink-0 w-10 h-10 flex items-center justify-center border-2 border-indigo-600 rounded-full">
                     <span className="text-indigo-600">02</span>
                     </span>
                     <span className="ml-4 text-sm font-medium text-indigo-600">Connect Strategy Pair</span>
-                </div>
+                </span>
 }
                 {step == 3 &&
                     <span className="px-6 py-4 flex items-center text-sm font-medium">
@@ -99,14 +98,12 @@ const UserStoryMain = () => {
             <li className="relative md:flex-1 md:flex">
             <a href="#" className="group flex items-center">
                 {step == 3 ?
-                <div>
-                    <div>
+                <span className="px-6 py-4 flex items-center text-sm font-medium">
                     <span className="flex-shrink-0 w-10 h-10 flex items-center justify-center border-2 border-indigo-600 rounded-full">
                     <span className="text-indigo-600">03</span>
                     </span>
                     <span className="ml-4 text-sm font-medium text-indigo-600">Review</span>
-                </div>
-                </div>
+                </span>
                 :
                 <span className="px-6 py-4 flex items-center text-sm font-medium">
                 <span className="flex-shrink-0 w-10 h-10 flex items-center justify-center border-2 border-gray-300 rounded-full group-hover:border-gray-400">
@@ -120,8 +117,9 @@ const UserStoryMain = () => {
             </li>
         </ol>
         </nav>
-        </div>
-        {step == 1 &&
+    </div>
+    <div className="px-4 py-5 sm:p-6">
+    {step == 1 &&
         <div className="bg-gray-50 px-4 py-5 sm:p-6">
             <ConnectExchangeForm next={next}/>
         </div>
@@ -137,7 +135,7 @@ const UserStoryMain = () => {
         </div>
         }
     </div>
-
+    </div>
     </>
 }
 

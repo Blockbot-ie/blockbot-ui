@@ -1,10 +1,6 @@
-import { unstable_batchedUpdates } from 'react-dom';
 import React, { useEffect, useState } from "react"
 import { connect } from "react-redux"
 import { getStrategies, connectStrategy, connectExchange, getConnectedExchanges } from '../../actions/common';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-import { isPropertySignature } from "typescript";
 import { createMessage } from '../../actions/messages';
 import logo from '../../close-icon.svg'
 import Loader from 'react-loader-spinner';
@@ -109,7 +105,6 @@ const ConnectStrategyForm = (props: any) => {
     const handleSubmit = (e: any) => {
         e.preventDefault()
         const pairDetails = props.strategyPairs.filter(x => x.strategy_id == connectedStrategyState.strategy && x.symbol == connectedStrategyState.pair)[0]
-        console.log(connectedStrategyState.current_currency)
         if (connectedStrategyState.current_currency == pairDetails.ticker_1) {
           if (connectedStrategyState.current_currency_balance < pairDetails.ticker_1_min_value) {
             props.createMessage({ belowMinAmount: 'Please increase the inital amount' });

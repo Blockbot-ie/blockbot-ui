@@ -3,18 +3,17 @@ import { useState, createRef } from "react";
 import { connect } from 'react-redux';
 import { getStrategies, getConnectedStrategies, getStrategyPairs, topUpStrategy } from '../../actions/common';
 import ConnectStrategyModalForm from '../forms/connectStrategyModalForm';
-import TopUpStrategyForm from '../forms/topUpStrategyForm';
 import Nav from '../Nav';
 import '../../fontawesome';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import logo from '../../close-icon.svg'
 import Loader from 'react-loader-spinner';
-import { POINT_CONVERSION_COMPRESSED } from 'node:constants';
+import { createMessage } from '../../actions/messages';
 
 const Strategies = (props: any) => {
 
   const [currentStrategy, setCurrentStrategyState] = useState({
     strategy_pair_id: '',
+    strategy_id: '',
     pair: '',
     current_currency: null
   });
@@ -33,12 +32,16 @@ const Strategies = (props: any) => {
 
   useEffect(() => {
     props.getConnectedStrategies();
-    setCurrentStrategyState({
-      ...currentStrategy,
-      strategy_pair_id: props.connectedStrategies[0].id,
-      pair: props.connectedStrategies[0].pair,
-      current_currency: props.connectedStrategies[0].current_currency
-    })
+    if (props.connectedStrategies.length > 0) {
+      console.log(props.connectedStrategies)
+      setCurrentStrategyState({
+        ...currentStrategy,
+        strategy_pair_id: props.connectedStrategies[0].id,
+        strategy_id: props.connectedStrategies[0].strategy.strategy_id,
+        pair: props.connectedStrategies[0].pair,
+        current_currency: props.connectedStrategies[0].current_currency
+      })
+    }
   }, [])
 
   useEffect(() => {
@@ -49,6 +52,7 @@ const Strategies = (props: any) => {
       setCurrentStrategyState({
         ...currentStrategy,
         strategy_pair_id: props.connectedStrategies[0].id,
+        strategy_id: props.connectedStrategies[0].strategy.strategy_id,
         pair: props.connectedStrategies[0].pair,
         current_currency: props.connectedStrategies[0].current_currency
       })
@@ -66,9 +70,7 @@ const Strategies = (props: any) => {
     }
     }, [props.connectedStrategies]);
 
-    useEffect(() => {
-      console.log(props)
-      
+    useEffect(() => { 
       setTopUpModalOpen(false)
     }, [props.formSubmitted])
 
@@ -108,12 +110,47 @@ const Strategies = (props: any) => {
   
     const handleSubmit = (e: any) => {
       e.preventDefault()
-      const dataToSend = {
-        strategy_pair_id: topUpAmount.strategy_pair_id,
-        currency: topUpAmount.currency,
-        amount: topUpAmount.amount
+      const pairDetails = props.strategyPairs.filter(x => x.strategy_id == currentStrategy.strategy_id && x.symbol == currentStrategy.pair)[0]
+      console.log(topUpAmount)
+      console.log(pairDetails)
+      if (currentStrategy.current_currency != topUpAmount.currency) {
+        if (topUpAmount.ticker_1 == topUpAmount.currency) {
+          if (topUpAmount.amount < pairDetails.ticker_1_min_value) {
+            props.createMessage({ belowMinAmount: 'Please increase the inital amount' });
+          }
+          else {
+            const dataToSend = {
+              strategy_pair_id: topUpAmount.strategy_pair_id,
+              currency: topUpAmount.currency,
+              amount: topUpAmount.amount
+            }
+            props.topUpStrategy({ dataToSend })
+          }
+        }
+        if (topUpAmount.ticker_2 == topUpAmount.currency) {
+          if (topUpAmount.amount < pairDetails.ticker_2_min_value) {
+            props.createMessage({ belowMinAmount: 'Please increase the inital amount' });
+          }
+          else {
+            const dataToSend = {
+              strategy_pair_id: topUpAmount.strategy_pair_id,
+              currency: topUpAmount.currency,
+              amount: topUpAmount.amount
+            }
+            props.topUpStrategy({ dataToSend })
+          }
+        }
       }
-      props.topUpStrategy({ dataToSend })
+      else {
+        const dataToSend = {
+          strategy_pair_id: topUpAmount.strategy_pair_id,
+          currency: topUpAmount.currency,
+          amount: topUpAmount.amount
+        }
+        props.topUpStrategy({ dataToSend })
+      }
+
+      
       
     }
   
@@ -296,4 +333,4 @@ const Strategies = (props: any) => {
     connectedExchanges: state.common.connectedExchanges
   });
   
-  export default connect(mapStateToProps, { getStrategies, getConnectedStrategies, getStrategyPairs, topUpStrategy })(Strategies);
+  export default connect(mapStateToProps, { createMessage, getStrategies, getConnectedStrategies, getStrategyPairs, topUpStrategy })(Strategies);

@@ -16,7 +16,6 @@ const TopStrategies = (props: any) => {
     })
 
     useEffect(() => {
-        console.log(props.dashboardData)
         if (props.dashboardData.length > 0) {
             let totalIncOrDec = 0
             let totalBalance = 0
