@@ -284,6 +284,7 @@ const Strategies = (props: any) => {
       <button disabled={props.isLoading} onClick={() => handleClose()} className="float-right">
       <img src={logo} alt="My Happy SVG"/>
       </button>
+      <p className="text-sm font-medium text-gray-500 truncate">We recommend topping up by your current currency</p>
         <form onSubmit={handleSubmit} method="POST">
             
             <div>
