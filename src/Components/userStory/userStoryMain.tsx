@@ -24,7 +24,7 @@ const UserStoryMain = () => {
     }
 
     return <>
-    <div className="bg-white overflow-hidden shadow rounded-lg divide-y divide-gray-200">
+    <div className="bg-white overflow-hidden rounded-lg divide-y divide-gray-200">
     <div className="px- py-2 sm:px-6">
     <nav aria-label="Progress">
         <ol className="border border-gray-300 rounded-md divide-y divide-gray-300 md:flex md:divide-y-0">
@@ -77,7 +77,7 @@ const UserStoryMain = () => {
                     <span className="ml-4 text-sm font-medium text-indigo-600">Connect Exchange</span>
                     </span>
                 }
-                {step == 3 || step == 4 &&
+                {(step == 3 || step == 4) &&
                     <span className="px-6 py-4 flex items-center text-sm font-medium">
                     <span className="flex-shrink-0 w-10 h-10 flex items-center justify-center bg-indigo-600 rounded-full group-hover:bg-indigo-800">
                         {/* <!-- Heroicon name: solid/check --> */}
@@ -163,7 +163,7 @@ const UserStoryMain = () => {
     </div>
     <div className="">
         {step == 1 &&
-            <div className="bg-gray-50">
+            <div className="">
                 <ExchangeSignUp next={next}/>
             </div>
         }
