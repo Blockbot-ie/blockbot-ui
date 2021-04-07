@@ -21,7 +21,7 @@ const App = (props: any) => {
 
   // Alert Options
   const alertOptions = {
-    timeout: 3000
+    timeout: 7000
   };
 
 
