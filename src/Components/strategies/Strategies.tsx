@@ -45,9 +45,6 @@ const Strategies = (props: any) => {
   }, [])
 
   useEffect(() => {
-    if (props.connectedStrategies.length < 1)  {
-      props.getConnectedStrategies()
-    }
     if (props.connectedStrategies.length > 0) {
       setCurrentStrategyState({
         ...currentStrategy,

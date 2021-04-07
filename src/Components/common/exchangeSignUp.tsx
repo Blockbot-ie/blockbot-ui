@@ -7,6 +7,7 @@ const ExchangeSignUp = (props: any) => {
 
     const handleOnClick = () => {
         props.next()
+        // window.open("https://www.coinbase.com/oauth/authorize/oauth_signin?client_id=2d06b9a69c15e183856ff52c250281f6d93f9abef819921eac0d8647bb2b61f9&meta%5Baccount%5D=all&redirect_uri=https%3A%2F%2Fpro.coinbase.com%2Foauth_redirect&response_type=code&scope=user+balance&state=1c374acb-3637-4573-9480-fdfda6bca809")
     }
     return <>
         <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">

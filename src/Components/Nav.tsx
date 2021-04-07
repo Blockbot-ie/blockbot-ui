@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import { useLocation } from 'react-router-dom'
 import {
     BrowserRouter as Router,
     Switch,
@@ -11,7 +12,7 @@ import store from '../store';
 import { logout } from '../actions/auth';
 
 const Nav = (props: any) => {
-const [navbarOpen, setNavbarOpen] = useState(false);
+  const location = useLocation();
 
   const logoutClick = () => {
     if (props.isAuthenticated) {
@@ -116,7 +117,7 @@ const [navbarOpen, setNavbarOpen] = useState(false);
               <div className="mt-5 flex-grow flex flex-col">
               <nav className="flex-1 px-2 bg-white space-y-1">
                   {/* <!-- Current: "bg-gray-100 text-gray-900", Default: "text-gray-600 hover:bg-gray-50 hover:text-gray-900" --> */}
-                  <Link to="/" className="bg-gray-100 text-gray-900 group flex items-center px-2 py-2 text-sm font-medium rounded-md">
+                  <Link to="/" className={location.pathname == "/" ? "bg-gray-100 text-gray-900 group flex items-center px-2 py-2 text-sm font-medium rounded-md" : "text-gray-600 hover:bg-gray-50 hover:text-gray-900 group flex items-center px-2 py-2 text-sm font-medium rounded-md"}>
                   {/* <!-- Current: "text-gray-500", Default: "text-gray-400 group-hover:text-gray-500" -->
                   <!-- Heroicon name: outline/home --> */}
                   <svg className="text-gray-500 mr-3 h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
@@ -125,14 +126,14 @@ const [navbarOpen, setNavbarOpen] = useState(false);
                   Dashboard
                   </Link>
 
-                  <Link to="/exchanges" className="text-gray-600 hover:bg-gray-50 hover:text-gray-900 group flex items-center px-2 py-2 text-sm font-medium rounded-md">
+                  <Link to="/exchanges" className={location.pathname == "/exchanges" ? "bg-gray-100 text-gray-900 group flex items-center px-2 py-2 text-sm font-medium rounded-md" : "text-gray-600 hover:bg-gray-50 hover:text-gray-900 group flex items-center px-2 py-2 text-sm font-medium rounded-md"}>
                   {/* <!-- Heroicon name: outline/users --> */}
                   <svg className="text-gray-400 group-hover:text-gray-500 mr-3 h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
                   </svg>
                   Exchanges
                   </Link>
-                  <Link to="/strategies" className="text-gray-600 hover:bg-gray-50 hover:text-gray-900 group flex items-center px-2 py-2 text-sm font-medium rounded-md">
+                  <Link to="/strategies" className={location.pathname == "/strategies" ? "bg-gray-100 text-gray-900 group flex items-center px-2 py-2 text-sm font-medium rounded-md" : "text-gray-600 hover:bg-gray-50 hover:text-gray-900 group flex items-center px-2 py-2 text-sm font-medium rounded-md"}>
                   {/* <!-- Heroicon name: outline/users --> */}
                   <svg className="text-gray-400 group-hover:text-gray-500 mr-3 h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
@@ -166,6 +167,6 @@ const [navbarOpen, setNavbarOpen] = useState(false);
 }
 
 const mapStateToProps = (state) => ({
-  isAuthenticated: state.auth.isAuthenticated,
+  isAuthenticated: state.auth.isAuthenticated
 });
 export default connect(mapStateToProps)(Nav);
