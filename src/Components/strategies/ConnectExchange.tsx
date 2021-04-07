@@ -32,7 +32,7 @@ const ConnectExhange = (props: any) => {
 
     
     const connectedExchanges = props.connectedExchanges.map((exchange, i) => 
-      <option key={i} value={exchange.user_exchange_account_id}>{exchange.name}</option>
+      <option key={i} value={exchange.exchange.user_exchange_account_id}>{exchange.exchange.name}</option>
     )
 
     const exchangeAccountDetails = () => {
@@ -54,7 +54,7 @@ const ConnectExhange = (props: any) => {
                 Exchange
               </dt>
               <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                {exchange.exchange.name}
+                {exchange.exchange.exchange.name}
               </dd>
             </div>
             <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
@@ -62,7 +62,7 @@ const ConnectExhange = (props: any) => {
                 Account Name
               </dt>
               <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-              {exchange.name}
+              {exchange.exchange.name}
               </dd>
             </div>
             <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
@@ -70,7 +70,7 @@ const ConnectExhange = (props: any) => {
                 Number of Connected Strategies
               </dt>
               <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                2
+                {exchange.strategy_count}
               </dd>
             </div>
           </dl>
