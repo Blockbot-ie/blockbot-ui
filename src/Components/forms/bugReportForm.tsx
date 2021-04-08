@@ -1,5 +1,3 @@
-import { faSpinner } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react"
 import Loader from "react-loader-spinner";
 import { connect } from "react-redux"
@@ -116,7 +114,7 @@ const BugReportForm = (props: any) => {
 }
 
 const mapStateToProps = (state) => ({
-
-})
+    isLoading: state.common.isLoading
+  });
 
 export default connect(mapStateToProps, { submitBugReport }) (BugReportForm)

@@ -3,6 +3,7 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Cell, Pi
 import { Row } from "react-bootstrap";
 import ConnectStrategyModalForm from "../forms/connectStrategyModalForm";
 import { useEffect, useState } from "react";
+import { cpuUsage } from "node:process";
 
 const data = [
     {
@@ -83,19 +84,19 @@ const StrategyStats = (props: any) => {
         incOrDecVsHodl: 0
     })
 
-    useEffect(() => {
-        console.log(props.dashboardData)
-    })
-
     const [currentTab, setCurrentTab] = useState("")
 
     const [addModalOpen, setAddModalOpen] = useState(false);
 
     useEffect(() => {
-        setCurrentTab(props.connectedStrategies[0].strategy.name)
+        if (props.connectedStrategies.length > 0) {
+            console.log(props.connectedExchanges)
+            setCurrentTab(props.connectedStrategies[0].strategy.name)
+        }
     }, [props.connectedStrategies])
 
     const handleClick = (strategy) => {
+        console.log(strategy)
         setCurrentTab(strategy)
     }
 
@@ -108,7 +109,7 @@ const StrategyStats = (props: any) => {
     const connectedStrategyDetails = props.dashboardData.map((strategy) => 
         strategy.inc_or_dec_vs_hodl[0].strategy_name == currentTab &&
         <div>
-            <p> Inc/Dec vs HODL: {strategy.inc_or_dec_vs_hodl[0].inc_or_dec}</p>
+            <p> Inc/Dec vs HODL: {strategy.inc_or_dec_vs_hodl[0].inc_or_dec.toFixed(2)}%</p>
             <p>Balance: ${strategy.balance.toFixed(2)}</p>
         </div>
     )

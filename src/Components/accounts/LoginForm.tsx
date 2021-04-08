@@ -37,7 +37,7 @@ const LoginForm = (props: any) => {
                 <form onSubmit={onSubmit} className="space-y-6" action="#" method="POST">
                     <div>
                         <label htmlFor="username" className="block text-sm font-medium text-gray-700">
-                        Username
+                        Username or email
                         </label>
                         <div className="mt-1">
                             <input

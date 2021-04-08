@@ -41,7 +41,7 @@ const ConnectStrategyForm = (props: any) => {
           setConnectedStrategyState({
             ...connectedStrategyState,
             strategy: props.strategies[0].strategy_id,
-            user_exchange_account: props.connectedExchanges[0].user_exchange_account_id,
+            user_exchange_account: props.connectedExchanges[0].exchange.user_exchange_account_id,
             pair: props.strategyPairs[0].symbol,
             current_currency: filteredPairs[0].ticker_2,
             ticker_1: filteredPairs[0].ticker_1,
@@ -60,7 +60,6 @@ const ConnectStrategyForm = (props: any) => {
     }, [props.strategyPairs])
 
     useEffect(() => {
-      console.log(props)
       if (props.connectedStrategies.length > 0 && !props.isModal) {
         props.next()
       }
@@ -71,7 +70,7 @@ const ConnectStrategyForm = (props: any) => {
     )
 
     const connectedExchangeAccounts = props.connectedExchanges.map((exchange, i) => 
-        <option key={i} value={exchange.user_exchange_account_id}>{exchange.name}</option>
+        <option key={i} value={exchange.exchange.user_exchange_account_id}>{exchange.exchange.name}</option>
     )
 
     const stratPairs = strategyPairs.pairs.map((pair, i) => 
