@@ -90,13 +90,13 @@ const StrategyStats = (props: any) => {
 
     useEffect(() => {
         if (props.connectedStrategies.length > 0) {
-            console.log(props.connectedExchanges)
+            
             setCurrentTab(props.connectedStrategies[0].strategy.name)
         }
     }, [props.connectedStrategies])
 
     const handleClick = (strategy) => {
-        console.log(strategy)
+        
         setCurrentTab(strategy)
     }
 

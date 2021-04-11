@@ -33,12 +33,11 @@ const Strategies = (props: any) => {
   useEffect(() => {
     props.getConnectedStrategies();
     if (props.connectedStrategies.length > 0) {
-      console.log(props.connectedStrategies)
       setCurrentStrategyState({
         ...currentStrategy,
         strategy_pair_id: props.connectedStrategies[0].id,
         strategy_id: props.connectedStrategies[0].strategy.strategy_id,
-        pair: props.connectedStrategies[0].pair,
+        pair: props.connectedStrategies[0].pair, 
         current_currency: props.connectedStrategies[0].current_currency
       })
     }
@@ -154,10 +153,6 @@ const Strategies = (props: any) => {
   const connectedStrategies = props.connectedStrategies.map((strategy, i) => 
     <option key={i} value={strategy.id}>{strategy.pair} - {strategy.strategy.name}</option>
   )
-
-  const showState = () => {
-    console.log(topUpAmount)
-  }
 
   const strategyDetails = () => {
     return props.connectedStrategies.map((strategy) =>

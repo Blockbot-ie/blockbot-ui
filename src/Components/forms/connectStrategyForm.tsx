@@ -37,6 +37,7 @@ const ConnectStrategyForm = (props: any) => {
 
     useEffect(() => {
         if (props.connectedExchanges.length > 0) {
+          console.log(props.strategyPairs)
           const filteredPairs = props.strategyPairs.filter(x => x.strategy_id == props.strategies[0].strategy_id)
           setConnectedStrategyState({
             ...connectedStrategyState,

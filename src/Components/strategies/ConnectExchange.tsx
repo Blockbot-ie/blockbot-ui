@@ -9,7 +9,7 @@ import Nav from '../Nav';
 
 const ConnectExhange = (props: any) => {
 
-    const [currentExchange, setCurrentExchangeState] = useState("38ccbdd0-3b8b-4579-b570-ffd6e682dd1a");
+    const [currentExchange, setCurrentExchangeState] = useState(null);
 
     const [addModalOpen, setAddModalOpen] = React.useState(false);
 
@@ -18,12 +18,8 @@ const ConnectExhange = (props: any) => {
     }
 
     useEffect(() => {
-      props.getConnectedExchanges();
-    }, [])
-
-    useEffect(() => {
       if (props.connectedExchanges.length > 0) {
-        setCurrentExchangeState(props.connectedExchanges[0].user_exchange_account_id)
+        setCurrentExchangeState(props.connectedExchanges[0].exchange.user_exchange_account_id)
       }
       }, [props.connectedExchanges]);
 
@@ -33,8 +29,9 @@ const ConnectExhange = (props: any) => {
     )
 
     const exchangeAccountDetails = () => {
+
       return props.connectedExchanges.map((exchange) =>
-        exchange.user_exchange_account_id == currentExchange &&
+        exchange.exchange.user_exchange_account_id == currentExchange &&
         <div className="bg-white shadow overflow-hidden sm:rounded-lg">
         <div className="px-4 py-5 sm:px-6">
           <h3 className="text-lg leading-6 font-medium text-gray-900">

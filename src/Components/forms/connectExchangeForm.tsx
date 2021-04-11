@@ -8,7 +8,6 @@ import Loader from "react-loader-spinner";
 
 type ConnectExchange = {
     exchange: String,
-    name: String,
     api_key: String,
     api_secret: String,
     api_password: String
@@ -18,7 +17,6 @@ const ConnectExchangeForm = (props: any) => {
 
     const [connectedExchangeState, setConnectedExchangeState] = useState<ConnectExchange>({
         exchange: '',
-        name: '',
         api_key: '',
         api_secret: '',
         api_password: ''
@@ -34,7 +32,6 @@ const ConnectExchangeForm = (props: any) => {
       }, []);
 
       useEffect(() => {
-        console.log(props)
         if (props.connectedExchanges.length > 0 && !props.isModal) {
           props.next()
         }
@@ -49,9 +46,6 @@ const ConnectExchangeForm = (props: any) => {
         props.connectExchange({ connectedExchangeState })
     }
 
-    const showState = () => {
-      console.log(props)
-  }
     return <>
     <div className="inline-block bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
         {props.isModal && 
@@ -75,15 +69,6 @@ const ConnectExchangeForm = (props: any) => {
             id="exchange" name="exchange" autoComplete="exchange" className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                 {exchangeList}
             </select>
-            </div>
-            <div>
-            <label htmlFor="name" className="block text-sm mt-3 font-medium text-gray-700">Portfolio Name</label>
-            <input 
-                onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
-                const trimmed = e.target.value.trim()
-                setConnectedExchangeState({ ...connectedExchangeState, name: trimmed })}
-            }
-            type="text" name="name" id="name" placeholder="Match the name of your Coinbase Portfolio" autoComplete="name" className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required />
             </div>
             <div>
             <label htmlFor="api_key" className="block text-sm mt-3 font-medium text-gray-700">API Key</label>
