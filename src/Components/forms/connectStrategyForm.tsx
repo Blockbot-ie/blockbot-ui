@@ -4,15 +4,16 @@ import { getStrategies, connectStrategy, connectExchange, getConnectedExchanges 
 import { createMessage } from '../../actions/messages';
 import logo from '../../close-icon.svg'
 import Loader from 'react-loader-spinner';
+import { setMaxListeners } from "node:process";
 
 type ConnectStrategy = {
     strategy: String,
     user_exchange_account: String,
     pair: String,
-    initial_first_symbol_balance: Number,
-    initial_second_symbol_balance: Number,
+    initial_first_symbol_balance: number,
+    initial_second_symbol_balance: number,
     current_currency: String,
-    current_currency_balance: Number,
+    current_currency_balance: number,
     ticker_1: string,
     ticker_2: string
   }
@@ -37,7 +38,6 @@ const ConnectStrategyForm = (props: any) => {
 
     useEffect(() => {
         if (props.connectedExchanges.length > 0) {
-          console.log(props.strategyPairs)
           const filteredPairs = props.strategyPairs.filter(x => x.strategy_id == props.strategies[0].strategy_id)
           setConnectedStrategyState({
             ...connectedStrategyState,
@@ -92,14 +92,34 @@ const ConnectStrategyForm = (props: any) => {
         }
     }
 
-    const showState = () => {
-        console.log(connectedStrategyState)
+    const handleOnChange = (e: any) => {
+      setConnectedStrategyState({ ...connectedStrategyState, current_currency: e.target.value, current_currency_balance: 0, initial_first_symbol_balance: 0, initial_second_symbol_balance: 0})
     }
 
-    const handleOnChange = (e: any) => {
-      
-      setConnectedStrategyState({ ...connectedStrategyState, current_currency: e.target.value, current_currency_balance: 0, initial_first_symbol_balance: 0, initial_second_symbol_balance: 0})
-      
+    const handleCurrencyAmountChange = (e: any) => {
+      const value = e.target.value
+      const pair = connectedStrategyState.pair;
+      let i = pair.indexOf('/');
+      let symbol1 = pair.substring(0, i);
+      let symbol2 = pair.substring(i+1, pair.length);
+      if (connectedStrategyState.current_currency == symbol1) {
+          setConnectedStrategyState({ ...connectedStrategyState, initial_first_symbol_balance: parseFloat(value), initial_second_symbol_balance: 0, current_currency_balance: parseFloat(value) })
+      }
+      if (connectedStrategyState.current_currency == symbol2) {
+          setConnectedStrategyState({ ...connectedStrategyState, initial_second_symbol_balance: parseFloat(value), initial_first_symbol_balance: 0, current_currency_balance: parseFloat(value) })
+      }
+    }
+
+    const setMax = () => {
+      props.connectedExchanges.map(exchange => {
+        if (exchange.exchange.user_exchange_account_id == connectedStrategyState.user_exchange_account) {
+          console.log(exchange)
+          setConnectedStrategyState({
+            ...connectedStrategyState,
+             current_currency_balance: exchange.available_balances[connectedStrategyState.current_currency.toString()]
+          })
+        }
+      })
     }
 
     const handleSubmit = (e: any) => {
@@ -180,24 +200,12 @@ const ConnectStrategyForm = (props: any) => {
             <div>
               <label htmlFor="price" className="block text-sm mt-3 font-medium text-gray-700">Amount</label>
               <div className="mt-1 relative rounded-md shadow-sm">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  {/* <span className="text-gray-500 sm:text-sm">
-                    $
-                  </span> */}
-                </div>
+                
+                  <button type="button" onClick={() => setMax()} className="focus:ring-indigo-500 focus:border-indigo-500 h-full py-0 pl-2 pr-7 border-transparent bg-transparent text-gray-500 sm:text-sm rounded-md">Max</button>
+                
                 <input
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
-                    const pair = connectedStrategyState.pair;
-                    let i = pair.indexOf('/');
-                    let symbol1 = pair.substring(0, i);
-                    let symbol2 = pair.substring(i+1, pair.length);
-                    if (connectedStrategyState.current_currency == symbol1) {
-                        setConnectedStrategyState({ ...connectedStrategyState, initial_first_symbol_balance: parseFloat(e.target.value), initial_second_symbol_balance: 0, current_currency_balance: parseFloat(e.target.value) })
-                    }
-                    if (connectedStrategyState.current_currency == symbol2) {
-                        setConnectedStrategyState({ ...connectedStrategyState, initial_second_symbol_balance: parseFloat(e.target.value), initial_first_symbol_balance: 0, current_currency_balance: parseFloat(e.target.value) })
-                    }
-                }}
+                  value={isNaN(connectedStrategyState.current_currency_balance) ? 0.00 : connectedStrategyState.current_currency_balance}
+                  onChange={handleCurrencyAmountChange}
                 type="text" name="current_currency_balance" id="current_currency_balance" className="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" placeholder="0.00" />
                 <div className="absolute inset-y-0 right-0 flex items-center">
                   <label htmlFor="current_currency" className="sr-only">Currency</label>
