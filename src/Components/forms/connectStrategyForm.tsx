@@ -49,7 +49,6 @@ const ConnectStrategyForm = (props: any) => {
             ticker_2: filteredPairs[0].ticker_2
           })
         }
-        console.log(props.strategyPairs)
     }, [props])
 
 
@@ -117,7 +116,6 @@ const ConnectStrategyForm = (props: any) => {
     const setMax = () => {
       props.connectedExchanges.map(exchange => {
         if (exchange.exchange.user_exchange_account_id == connectedStrategyState.user_exchange_account) {
-          console.log(exchange)
           setConnectedStrategyState({
             ...connectedStrategyState,
              current_currency_balance: exchange.available_balances[connectedStrategyState.current_currency.toString()]
@@ -199,13 +197,16 @@ const ConnectStrategyForm = (props: any) => {
             <div>
               <label htmlFor="price" className="block text-sm mt-3 font-medium text-gray-700">Amount</label>
               <div className="mt-1 relative rounded-md shadow-sm">
-                
-                  <button type="button" onClick={() => setMax()} className="focus:ring-indigo-500 focus:border-indigo-500 h-full py-0 pl-2 pr-7 border-transparent bg-transparent text-gray-500 sm:text-sm rounded-md">Max</button>
-                
+                  {/* <button type="button" onClick={() => setMax()} className="focus:ring-indigo-500 focus:border-indigo-500 h-full py-0 pl-2 pr-7 border-transparent bg-transparent text-gray-500 sm:text-sm rounded-md">Max</button> */}
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center">
+                    <a className="text-gray-500 sm:text-sm" onClick={setMax}>Max</a>
+                  </div>
+                  
                 <input
                   value={isNaN(connectedStrategyState.current_currency_balance) ? 0.00 : connectedStrategyState.current_currency_balance}
                   onChange={handleCurrencyAmountChange}
-                type="text" name="current_currency_balance" id="current_currency_balance" className="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" placeholder="0.00" />
+                  step={0.000001}
+                  type="number" name="current_currency_balance" id="current_currency_balance" className="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-16 sm:pl-14 sm:text-sm border-gray-300 rounded-md" placeholder="0.00" />
                 <div className="absolute inset-y-0 right-0 flex items-center">
                   <label htmlFor="current_currency" className="sr-only">Currency</label>
                   <select onChange={handleOnChange} id="current_currency" name="current_currency" className="focus:ring-indigo-500 focus:border-indigo-500 h-full py-0 pl-2 pr-7 border-transparent bg-transparent text-gray-500 sm:text-sm rounded-md">
