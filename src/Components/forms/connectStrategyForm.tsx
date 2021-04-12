@@ -49,6 +49,7 @@ const ConnectStrategyForm = (props: any) => {
             ticker_2: filteredPairs[0].ticker_2
           })
         }
+        console.log(props.strategyPairs)
     }, [props])
 
 
@@ -86,8 +87,11 @@ const ConnectStrategyForm = (props: any) => {
             })
             setConnectedStrategyState({
               ...connectedStrategyState,
+              strategy: e.target.value,
               ticker_1: filteredPairs[0].ticker_1,
-              ticker_2: filteredPairs[0].ticker_2
+              ticker_2: filteredPairs[0].ticker_2,
+              current_currency: filteredPairs[0].ticker_2,
+              current_currency_balance: 0.00
             })
         }
     }
@@ -159,11 +163,7 @@ const ConnectStrategyForm = (props: any) => {
             <div>
             <label htmlFor="strategy" className="block text-sm mt-3 font-medium text-gray-700">Strategy</label>
             <select
-                onChange={(e: any): void => {
-                onStrategyChange(e)
-                const trimmed = e.target.value.trim()
-                setConnectedStrategyState({ ...connectedStrategyState, strategy: trimmed })}
-                }
+                onChange={onStrategyChange}
             id="strategy" name="strategy" autoComplete="strategy" className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                 {strategyList}
             </select>
@@ -173,7 +173,7 @@ const ConnectStrategyForm = (props: any) => {
             <select
                 onChange={(e: any): void => {
                 const trimmed = e.target.value.trim()
-                setConnectedStrategyState({ ...connectedStrategyState, user_exchange_account: trimmed })}
+                setConnectedStrategyState({ ...connectedStrategyState, user_exchange_account: trimmed, current_currency_balance: 0.00 })}
                 }
             id="user_exchange_account" name="user_exchange_account" autoComplete="user_exchange_account" className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                 {connectedExchangeAccounts}
@@ -185,13 +185,12 @@ const ConnectStrategyForm = (props: any) => {
             <label htmlFor="pair" className="block text-sm mt-3 font-medium text-gray-700">Pair</label>
             <select
                 onChange={(e: any): void => {
-                
                 let symbol = e.target.value
                 let i = symbol.indexOf('/');
                 let ticker_1 = symbol.substring(0, i);
                 let ticker_2 = symbol.substring(i+1, symbol.length);
                 const trimmed = e.target.value.trim()
-                setConnectedStrategyState({ ...connectedStrategyState, pair: trimmed, ticker_1: ticker_1, ticker_2: ticker_2, current_currency: ticker_2 })}
+                setConnectedStrategyState({ ...connectedStrategyState, pair: trimmed, ticker_1: ticker_1, ticker_2: ticker_2, current_currency: ticker_2, current_currency_balance: 0.00 })}
                 }
             id="pair" name="pair" autoComplete="pair" className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                 {stratPairs}
