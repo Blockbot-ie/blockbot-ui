@@ -3,7 +3,7 @@ import { useState, createRef } from "react";
 import PropTypes from 'prop-types';
 import { Form } from 'semantic-ui-react'
 import { connect } from 'react-redux';
-import { register } from '../../actions/auth';
+import { signup } from '../../actions/auth';
 import { createMessage } from '../../actions/messages';
 import { Link, Redirect } from 'react-router-dom';
 import Loader from 'react-loader-spinner';
@@ -33,7 +33,7 @@ const SignupForm = (props: any) => {
         if (userState.password !== userState.password2) {
           props.createMessage({ passwordNotMatch: 'Passwords do not match' });
         } else {
-          props.register({ userState });
+          props.signup({ userState });
         }
       };
 
@@ -178,4 +178,4 @@ const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
 });
 
-export default connect(mapStateToProps, { register, createMessage })(SignupForm);
+export default connect(mapStateToProps, { signup, createMessage })(SignupForm);

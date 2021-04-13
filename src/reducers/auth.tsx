@@ -1,57 +1,96 @@
 import {
-    USER_LOADED,
-    USER_LOADING,
-    AUTH_ERROR,
-    LOGIN_SUCCESS,
-    LOGIN_FAIL,
-    LOGOUT_SUCCESS,
-    REGISTER_SUCCESS,
-    REGISTER_FAIL
+  LOGIN_SUCCESS,
+  LOGIN_FAIL,
+  USER_LOADED_SUCCESS,
+  USER_LOADED_FAIL,
+  AUTHENTICATED_SUCCESS,
+  AUTHENTICATED_FAIL,
+  PASSWORD_RESET_SUCCESS,
+  PASSWORD_RESET_FAIL,
+  PASSWORD_RESET_CONFIRM_SUCCESS,
+  PASSWORD_RESET_CONFIRM_FAIL,
+  SIGNUP_SUCCESS,
+  SIGNUP_FAIL,
+  ACTIVATION_SUCCESS,
+  ACTIVATION_FAIL,
+  GOOGLE_AUTH_SUCCESS,
+  GOOGLE_AUTH_FAIL,
+  FACEBOOK_AUTH_SUCCESS,
+  FACEBOOK_AUTH_FAIL,
+  LOGOUT
   } from '../actions/types';
   
   const initialState = {
-    token: localStorage.getItem('token'),
+    access: localStorage.getItem('access'),
+    refresh: localStorage.getItem('refresh'),
     isAuthenticated: null,
-    isLoading: false,
     user: null,
   };
   
-  export default function (state = initialState, action: { type: any; payload: { token: string; }; }) {
-    switch (action.type) {
-      case USER_LOADING:
-        return {
-          ...state,
-          isLoading: true,
-        };
-      case USER_LOADED:
-        return {
-          ...state,
-          isAuthenticated: true,
-          isLoading: false,
-          user: action.payload,
-        };
+  export default function (state = initialState, action: { type: any; payload: { access: string, refresh: string }; }) {
+    
+    const { type, payload } = action;
+    switch(type) {
+      case AUTHENTICATED_SUCCESS:
+          return {
+              ...state,
+              isAuthenticated: true
+          }
       case LOGIN_SUCCESS:
-      case REGISTER_SUCCESS:
-        localStorage.setItem('token', action.payload.token);
-        return {
-          ...state,
-          ...action.payload,
-          isAuthenticated: true,
-          isLoading: false,
-        };
-      case AUTH_ERROR:
+      case GOOGLE_AUTH_SUCCESS:
+      case FACEBOOK_AUTH_SUCCESS:
+          localStorage.setItem('access', payload.access);
+          localStorage.setItem('refresh', payload.refresh);
+          return {
+              ...state,
+              isAuthenticated: true,
+              access: payload.access,
+              refresh: payload.refresh
+          }
+      case SIGNUP_SUCCESS:
+          return {
+              ...state,
+              isAuthenticated: false
+          }
+      case USER_LOADED_SUCCESS:
+          return {
+              ...state,
+              user: payload
+          }
+      case AUTHENTICATED_FAIL:
+          return {
+              ...state,
+              isAuthenticated: false
+          }
+      case USER_LOADED_FAIL:
+          return {
+              ...state,
+              user: null
+          }
+      case GOOGLE_AUTH_FAIL:
+      case FACEBOOK_AUTH_FAIL:
       case LOGIN_FAIL:
-      case LOGOUT_SUCCESS:
-      case REGISTER_FAIL:
-        localStorage.removeItem('token');
-        return {
-          ...state,
-          token: null,
-          user: null,
-          isAuthenticated: false,
-          isLoading: false,
-        };
+      case SIGNUP_FAIL:
+      case LOGOUT:
+          localStorage.removeItem('access');
+          localStorage.removeItem('refresh');
+          return {
+              ...state,
+              access: null,
+              refresh: null,
+              isAuthenticated: false,
+              user: null
+          }
+      case PASSWORD_RESET_SUCCESS:
+      case PASSWORD_RESET_FAIL:
+      case PASSWORD_RESET_CONFIRM_SUCCESS:
+      case PASSWORD_RESET_CONFIRM_FAIL:
+      case ACTIVATION_SUCCESS:
+      case ACTIVATION_FAIL:
+          return {
+              ...state
+          }
       default:
-        return state;
+          return state
     }
   }

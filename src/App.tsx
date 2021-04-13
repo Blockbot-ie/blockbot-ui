@@ -8,7 +8,7 @@ import { Provider as AlertProvider } from 'react-alert'
 import AlertTemplate from 'react-alert-template-basic';
 import { Provider } from 'react-redux';
 import store from './store';
-import { loadUser } from './actions/auth';
+import { checkAuthenticated ,loadUser } from './actions/auth';
 import Alerts from './Components/layout/Alerts';
 import Main from './Components/settings/main';
 import Dashboard from './Components/dashboard';
@@ -27,6 +27,7 @@ const App = (props: any) => {
 
   useEffect(() => {
     store.dispatch<any>(loadUser());
+    store.dispatch<any>(checkAuthenticated());
   })
 
   return (
@@ -34,9 +35,7 @@ const App = (props: any) => {
       <AlertProvider template={AlertTemplate} {...alertOptions}>
         <Router>
           <Fragment>
-            {/* <Nav /> */}
             <Alerts />
-            
               <Switch>
                 <PrivateRoute exact path="/" component={Dashboard}/>
                 <Route path="/signup">
