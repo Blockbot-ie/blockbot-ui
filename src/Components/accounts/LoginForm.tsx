@@ -5,6 +5,7 @@ import { Link, Redirect } from 'react-router-dom';
 import { login } from '../../actions/auth';
 import '../../fontawesome';
 import Loader from 'react-loader-spinner';
+import axios from 'axios';
 
 type UserState = {
     username: String,
@@ -18,6 +19,16 @@ const LoginForm = (props: any) => {
         password: ''
     })
     
+    const continueWithGoogle = async () => {
+        try {
+            const res = await axios.get(`http://127.0.0.1:8000/api/auth/o/google-oauth2/?redirect_uri=http://localhost:3000/google`)
+
+            window.location.replace(res.data.authorization_url);
+        } catch (err) {
+
+        }
+    };
+
     const onSubmit = (e: any) => {
         e.preventDefault(); 
         props.login(userState.username, userState.password);
@@ -81,6 +92,9 @@ const LoginForm = (props: any) => {
                         </button>
                     </div>
                 </form>
+                <button className='btn btn-danger mt-3' onClick={continueWithGoogle}>
+                Continue With Google
+                </button>
                 <div className="mt-6">
                     <div className="relative">
                         <div className="absolute inset-0 flex items-center">
