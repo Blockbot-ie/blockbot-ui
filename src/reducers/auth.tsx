@@ -1,6 +1,7 @@
 import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
+  USER_LOADED,
   USER_LOADED_SUCCESS,
   USER_LOADED_FAIL,
   AUTHENTICATED_SUCCESS,
@@ -28,7 +29,6 @@ import {
   };
   
   export default function (state = initialState, action: { type: any; payload: { access: string, refresh: string }; }) {
-    
     const { type, payload } = action;
     switch(type) {
       case AUTHENTICATED_SUCCESS:
@@ -52,6 +52,7 @@ import {
               ...state,
               isAuthenticated: false
           }
+      case USER_LOADED:
       case USER_LOADED_SUCCESS:
           return {
               ...state,

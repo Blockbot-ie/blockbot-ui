@@ -16,6 +16,8 @@ import PrivateRoute from './Components/common/PrivateRoute';
 import userStoryMain from './Components/userStory/userStoryMain';
 import ConnectExchange from './Components/strategies/ConnectExchange';
 import Strategies from './Components/strategies/Strategies';
+import ResetPassword from './Components/accounts/ResetPassword';
+import ResetPasswordConfirm from './Components/accounts/ResetPasswordConfirm';
 
 const App = (props: any) => {
 
@@ -38,12 +40,10 @@ const App = (props: any) => {
             <Alerts />
               <Switch>
                 <PrivateRoute exact path="/" component={Dashboard}/>
-                <Route path="/signup">
-                  <SignupForm />
-                </Route>
-                <Route exact path="/login">
-                  <LoginForm />
-                </Route>
+                <Route path="/signup" component={SignupForm} />
+                <Route exact path="/login" component={LoginForm} />
+                <Route path="/reset-password" component={ResetPassword} />
+                <Route path='/password/reset/confirm/:uid/:token' component={ResetPasswordConfirm} />
                 <PrivateRoute path="/user-story" component={userStoryMain} />
                 <PrivateRoute path="/exchanges" component={ConnectExchange} />
                 <PrivateRoute path="/strategies" component={Strategies} />

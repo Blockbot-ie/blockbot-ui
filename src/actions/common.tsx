@@ -82,7 +82,6 @@ export const getConnectedExchanges = (state) => (dispatch: (arg0: { type: String
   axios
     .get('/api/get-connected-exchanges', tokenConfig(getState))
     .then((res) => {
-      console.log(res.data)
       dispatch({
         type: GET_CONNECTED_EXCHANGES,
         payload: res.data,

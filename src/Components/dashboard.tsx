@@ -33,11 +33,12 @@ const Dashboard = (props: any) => {
       if (props.connectedStrategies.length > 0) {
         props.getDashboardData()
       }
+      
     }, [props.connectedStrategies])
     
     const [bugReportModalOpen, setBugReportModalOpen] = React.useState(false);
 
-    const handleClose = ()=> {
+    const handleClose = () => {
         setBugReportModalOpen(false)
     }
 
