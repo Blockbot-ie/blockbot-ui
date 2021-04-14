@@ -94,6 +94,22 @@ export const checkAuthenticated = () => async dispatch => {
   }
 };
 
+// export const googleLogin = (accesstoken) => async dispatch => {
+
+//     try {
+//         const res = await axios.post(
+//             "http://127.0.0.1:8000/api/rest-auth/google/", {access_token: accesstoken,});
+
+//             dispatch({
+//                 type: GOOGLE_AUTH_SUCCESS,
+//                 payload: res.data
+//             })
+//     }
+//     console.log(res);
+//     return await res.status;
+//   };
+
+
 export const googleAuthenticate = (state, code) => async dispatch => {
     if (state && code && !localStorage.getItem('access')) {
         const config = {

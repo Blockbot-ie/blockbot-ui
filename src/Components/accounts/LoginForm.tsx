@@ -6,6 +6,8 @@ import { login } from '../../actions/auth';
 import '../../fontawesome';
 import Loader from 'react-loader-spinner';
 import axios from 'axios';
+import GoogleSocialAuth from './Google';
+import FacebookSocialAuth from './Facebook';
 
 type UserState = {
     username: String,
@@ -102,12 +104,9 @@ const LoginForm = (props: any) => {
                         </button>
                     </div>
                 </form>
-                <button className='btn btn-danger mt-3' onClick={continueWithGoogle}>
-                Continue With Google
-                </button>
-                <button className='btn btn-primary mt-3' onClick={continueWithFacebook}>
-                Continue With Facebook
-                </button>
+                <GoogleSocialAuth />
+                <FacebookSocialAuth />
+                
                 <div className="mt-6">
                     <div className="relative">
                         <div className="absolute inset-0 flex items-center">
