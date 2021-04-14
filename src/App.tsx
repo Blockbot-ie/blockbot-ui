@@ -20,6 +20,7 @@ import ResetPassword from './Components/accounts/ResetPassword';
 import ResetPasswordConfirm from './Components/accounts/ResetPasswordConfirm';
 import Activate from './Components/accounts/Activate';
 import Google from './Components/accounts/Google';
+import Facebook from './Components/accounts/Facebook';
 
 const App = (props: any) => {
 
@@ -48,6 +49,7 @@ const App = (props: any) => {
                 <Route path='/password/reset/confirm/:uid/:token' component={ResetPasswordConfirm} />
                 <Route exact path='/activate/:uid/:token' component={Activate} />
                 <Route exact path='/google' component={Google} />
+                <Route exact path='/facebook' component={Facebook} />
                 <PrivateRoute path="/user-story" component={userStoryMain} />
                 <PrivateRoute path="/exchanges" component={ConnectExchange} />
                 <PrivateRoute path="/strategies" component={Strategies} />
