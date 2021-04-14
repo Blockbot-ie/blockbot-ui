@@ -18,6 +18,7 @@ import ConnectExchange from './Components/strategies/ConnectExchange';
 import Strategies from './Components/strategies/Strategies';
 import ResetPassword from './Components/accounts/ResetPassword';
 import ResetPasswordConfirm from './Components/accounts/ResetPasswordConfirm';
+import Activate from './Components/accounts/Activate';
 
 const App = (props: any) => {
 
@@ -44,6 +45,7 @@ const App = (props: any) => {
                 <Route exact path="/login" component={LoginForm} />
                 <Route path="/reset-password" component={ResetPassword} />
                 <Route path='/password/reset/confirm/:uid/:token' component={ResetPasswordConfirm} />
+                <Route exact path='/activate/:uid/:token' component={Activate} />
                 <PrivateRoute path="/user-story" component={userStoryMain} />
                 <PrivateRoute path="/exchanges" component={ConnectExchange} />
                 <PrivateRoute path="/strategies" component={Strategies} />

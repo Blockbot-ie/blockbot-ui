@@ -14,7 +14,7 @@ type UserState = {
     last_name: String,
     email: String,
     password: String,
-    password2: String
+    re_password: String
 }
 
 const SignupForm = (props: any) => {
@@ -25,15 +25,16 @@ const SignupForm = (props: any) => {
         last_name: '',
         email: '',
         password: '',
-        password2: '',
+        re_password: '',
     })
 
     const onSubmit = (e: any) => {
         e.preventDefault();
-        if (userState.password !== userState.password2) {
+        if (userState.password !== userState.re_password) {
           props.createMessage({ passwordNotMatch: 'Passwords do not match' });
         } else {
-          props.signup({ userState });
+          props.signup(userState.first_name, userState.last_name, userState.email, userState.username, userState.password, userState.re_password);
+          <Redirect to="/login" />
         }
       };
 
@@ -120,16 +121,16 @@ const SignupForm = (props: any) => {
             </div>
 
             <div>
-              <label htmlFor="password2" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="re_password" className="block text-sm font-medium text-gray-700">
                 Confirm Password
               </label>
               <div className="mt-1">
               <input
                 onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
                     const trimmed = e.target.value.trim()
-                    setUserState({ ...userState, password2: trimmed })}
+                    setUserState({ ...userState, re_password: trimmed })}
                 }
-                id="password2" name="password2" type="password" autoComplete="password2" required className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Confirm Password" />
+                id="re_password" name="re_password" type="password" autoComplete="re_password" required className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Confirm Password" />
               </div>
             </div>
 
