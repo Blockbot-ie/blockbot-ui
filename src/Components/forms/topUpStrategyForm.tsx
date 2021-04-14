@@ -15,7 +15,6 @@ const TopUpStrategyForm = (props: any) => {
     })
 
     useEffect(() => {
-        console.log(props)
         const pair = props.currentStrategy.pair
         let i = pair.indexOf('/')
         let ticker_1 = pair.substring(0, i)

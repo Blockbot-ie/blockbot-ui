@@ -215,8 +215,7 @@ export const logout = () => dispatch => {
 // Setup config with token - helper function
 export const tokenConfig = (getState: any) => {
   // Get token from state
-  const token = getState().auth.token;
-
+  const token = getState().auth.access;
   // Headers
   const config = {
     headers: {
@@ -226,7 +225,7 @@ export const tokenConfig = (getState: any) => {
 
   // If token, add to headers config
   if (token) {
-    config.headers['Authorization'] = `Token ${token}`;
+    config.headers['Authorization'] = `JWT ${token}`;
   }
   return config;
 };
