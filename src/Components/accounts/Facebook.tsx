@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import FacebookLogin from 'react-facebook-login';
-import fbLoginService from './fbLoginService';
+import { facebookLogin } from '../../actions/auth';
+import { connect } from 'react-redux';
 
-class FacebookSocialAuth extends Component {
-  render() {
-
+const FacebookSocialAuth = (props: any) => {
+  
     const fbResponse = async (response)  => {
-      fbLoginService(response.accessToken)
+      props.facebookLogin(response.accessToken)
       console.log(response)
   }
-    return (
+    return <>
       <div className="App">
 
         <FacebookLogin
@@ -19,8 +19,10 @@ class FacebookSocialAuth extends Component {
           callback={fbResponse}
         />
       </div>
-    );
-  }
+    </> 
 }
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+});
 
-export default FacebookSocialAuth;
+export default connect(mapStateToProps, { facebookLogin, })(FacebookSocialAuth);

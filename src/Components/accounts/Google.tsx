@@ -1,15 +1,13 @@
-import React, { Component } from 'react';
 import GoogleLogin from 'react-google-login';
-import googleLoginService from './googleLoginService';
+import { googleLogin } from '../../actions/auth';
+import { connect } from 'react-redux';
 
-class GoogleSocialAuth extends Component {
+const GoogleSocialAuth = (props: any) =>  {
 
-  render() {
     const googleResponse = async (response)  => {
-        googleLoginService(response.accessToken)
-      console.log(response)
+        props.googleLogin(response.accessToken)
     }
-    return (
+    return <>
       <div className="App">
       
         <GoogleLogin
@@ -19,8 +17,11 @@ class GoogleSocialAuth extends Component {
           onFailure={googleResponse}
         />
       </div>
-    );
-  }
+    </>
 }
 
-export default GoogleSocialAuth;
+const mapStateToProps = (state) => ({
+    isAuthenticated: state.auth.isAuthenticated,
+  });
+
+export default connect(mapStateToProps, { googleLogin, })(GoogleSocialAuth);

@@ -94,21 +94,7 @@ export const checkAuthenticated = () => async dispatch => {
   }
 };
 
-// export const googleLogin = (accesstoken) => async dispatch => {
-
-//     try {
-//         const res = await axios.post(
-//             "http://127.0.0.1:8000/api/rest-auth/google/", {access_token: accesstoken,});
-
-//             dispatch({
-//                 type: GOOGLE_AUTH_SUCCESS,
-//                 payload: res.data
-//             })
-//     }
-//     console.log(res);
-//     return await res.status;
-//   };
-
+//  
 
 export const googleAuthenticate = (state, code) => async dispatch => {
     if (state && code && !localStorage.getItem('access')) {
@@ -142,6 +128,40 @@ export const googleAuthenticate = (state, code) => async dispatch => {
     }
 };
 
+export const googleLogin = (accessToken) => async dispatch => {
+
+    try {
+        const res = await axios.post("http://127.0.0.1:8000/api/rest-auth/google/", {access_token: accessToken,});
+
+          dispatch({
+            type: GOOGLE_AUTH_SUCCESS,
+            payload: res.data
+        });
+        dispatch(loadUser());
+
+    } catch (err) {
+        dispatch({
+            type: GOOGLE_AUTH_FAIL
+        });
+    }
+  };
+
+export const facebookLogin = (accessToken) => async dispatch => {
+    try {
+        const res = await axios.post("http://localhost:8000/api/rest-auth/facebook/", {access_token: accessToken,});
+
+            dispatch({
+            type: FACEBOOK_AUTH_SUCCESS,
+            payload: res.data
+        });
+        dispatch(loadUser());
+
+    } catch (err) {
+        dispatch({
+            type: FACEBOOK_AUTH_FAIL
+        });
+    }
+};
 export const facebookAuthenticate = (state, code) => async dispatch => {
     if (state && code && !localStorage.getItem('access')) {
         const config = {

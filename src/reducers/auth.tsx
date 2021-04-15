@@ -28,7 +28,7 @@ import {
     user: null,
   };
   
-  export default function (state = initialState, action: { type: any; payload: { access: string, refresh: string }; }) {
+  export default function (state = initialState, action: { type: any; payload: { token: string, refresh: string }; }) {
     const { type, payload } = action;
     switch(type) {
       case AUTHENTICATED_SUCCESS:
@@ -39,12 +39,12 @@ import {
       case LOGIN_SUCCESS:
       case GOOGLE_AUTH_SUCCESS:
       case FACEBOOK_AUTH_SUCCESS:
-          localStorage.setItem('access', payload.access);
+          localStorage.setItem('access', payload.token);
           localStorage.setItem('refresh', payload.refresh);
           return {
               ...state,
               isAuthenticated: true,
-              access: payload.access,
+              access: payload.token,
               refresh: payload.refresh
           }
       case SIGNUP_SUCCESS:
