@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import FacebookLogin from 'react-facebook-login';
+import fbLoginService from './fbLoginService';
 
 class FacebookSocialAuth extends Component {
   render() {
-    const fbResponse = (response) => {
-      console.log(response);
-    }
+
+    const fbResponse = async (response)  => {
+      fbLoginService(response.accessToken)
+      console.log(response)
+  }
     return (
       <div className="App">
 
