@@ -98,7 +98,7 @@ export const checkAuthenticated = () => async dispatch => {
 export const googleLogin = (accessToken) => async dispatch => {
 
     try {
-        const res = await axios.post("http://127.0.0.1:8000/api/rest-auth/google/", {access_token: accessToken,});
+        const res = await axios.post("/api/google/", {access_token: accessToken,});
 
           dispatch({
             type: GOOGLE_AUTH_SUCCESS,
@@ -115,7 +115,7 @@ export const googleLogin = (accessToken) => async dispatch => {
 
 export const facebookLogin = (accessToken) => async dispatch => {
     try {
-        const res = await axios.post("http://localhost:8000/api/rest-auth/facebook/", {access_token: accessToken,});
+        const res = await axios.post("/api/dj-rest-auth/facebook/", {access_token: accessToken,});
 
             dispatch({
             type: FACEBOOK_AUTH_SUCCESS,
