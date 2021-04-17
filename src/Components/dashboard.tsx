@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import BugReportForm from "./forms/bugReportForm";
-import { getDashboardData, getExchanges, getConnectedExchanges, getConnectedStrategies, getStrategies, getStrategyPairs } from '../actions/common';
+import { getDashboardData, getExchanges, getConnectedExchanges, getConnectedStrategies, getStrategies, getStrategyPairs, getDailyBalances } from '../actions/common';
 import { Link } from "react-router-dom";
 import Orders from "./common/orders";
 import StrategyStats from "./common/strategyStats";
@@ -26,6 +26,9 @@ const Dashboard = (props: any) => {
         }
         if (props.connectedStrategies.length < 1) {
             props.getConnectedStrategies()
+        }
+        if (props.dailyBalances.length < 1) {
+          props.getDailyBalances()
         }
     }, []);
 
@@ -144,7 +147,8 @@ const mapStateToProps = (state) => ({
     strategies: state.common.strategies,
     connectedExchanges: state.common.connectedExchanges,
     connectedStrategies: state.common.connectedStrategies,
-    strategyPairs: state.common.strategyPairs
+    strategyPairs: state.common.strategyPairs,
+    dailyBalances: state.common.dailyBalances
   });
 
-export default connect(mapStateToProps, { getDashboardData, getExchanges, getStrategies, getStrategyPairs, getConnectedExchanges, getConnectedStrategies })(Dashboard);
+export default connect(mapStateToProps, { getDashboardData, getExchanges, getStrategies, getStrategyPairs, getConnectedExchanges, getConnectedStrategies, getDailyBalances })(Dashboard);

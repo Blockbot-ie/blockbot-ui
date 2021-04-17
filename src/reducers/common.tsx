@@ -16,7 +16,8 @@ import {
       REPORT_SUBMITTED,
       TOPPED_UP_STRATEGY_SUCCCESS,
       TOPPED_UP_STRATEGY_FAIL,
-      LOGOUT_SUCCESS
+      LOGOUT_SUCCESS,
+      GET_DAILY_BALANCES
     } from '../actions/types';
 
 const initialState = {
@@ -27,6 +28,7 @@ const initialState = {
   connectedStrategies: [],
   strategyPairs: [],
   orders: [],
+  dailyBalances: [],
   isLoading: false,
   formSubmitted: false
 };
@@ -136,6 +138,11 @@ export default function (state = initialState, action) {
         ...state,
         isLoading: false
       }
+    case GET_DAILY_BALANCES:
+      return {
+        ...state,
+        dailyBalances: action.payload
+      }
     case LOGOUT_SUCCESS:
       return {
         dashboardData: [],
@@ -145,6 +152,7 @@ export default function (state = initialState, action) {
         connectedStrategies: [],
         strategyPairs: [],
         orders: [],
+        dailyBalances: [],
         isLoading: false,
         formSubmitted: false
       }

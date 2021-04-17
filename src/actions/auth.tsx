@@ -269,7 +269,3 @@ export const tokenConfig = (getState: any) => {
   }
   return config;
 };
-
-export const userBody = (getState: any) => {
-    
-}

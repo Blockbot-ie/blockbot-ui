@@ -1,7 +1,7 @@
 import axios from "./axios";
 import { createMessage, returnErrors } from './messages';
 import { tokenConfig } from './auth';
-import { GET_DASHBOARDDATA, GET_STRATEGIES, GET_EXCHANGES, CONNECT_EXCHANGE_FAIL, CONNECT_EXCHANGE_SUCCESS, GET_CONNECTED_EXCHANGES, GET_CONNECTED_STRATEGIES, CONNECT_STRATEGY_SUCCESS, CONNECT_STRATEGY_FAIL, GET_STRATEGY_PAIRS, GET_ORDERS, REPORT_SUBMITTED, TOPPED_UP_STRATEGY_SUCCCESS, TOPPED_UP_STRATEGY_FAIL } from './types';
+import { GET_DASHBOARDDATA, GET_STRATEGIES, GET_EXCHANGES, CONNECT_EXCHANGE_FAIL, CONNECT_EXCHANGE_SUCCESS, GET_CONNECTED_EXCHANGES, GET_CONNECTED_STRATEGIES, CONNECT_STRATEGY_SUCCESS, CONNECT_STRATEGY_FAIL, GET_STRATEGY_PAIRS, GET_ORDERS, REPORT_SUBMITTED, TOPPED_UP_STRATEGY_SUCCCESS, TOPPED_UP_STRATEGY_FAIL, GET_DAILY_BALANCES } from './types';
 import { Redirect } from "react-router";
 
 
@@ -193,4 +193,16 @@ export const topUpStrategy = (state) => (dispatch: (arg0: { type: String; payloa
         type: TOPPED_UP_STRATEGY_FAIL,
       });
     });
+};
+
+export const getDailyBalances = () => (dispatch, getState) => {
+  axios
+    .get('/api/get-daily-balances/', tokenConfig(getState))
+    .then((res) => {
+      dispatch({
+        type: GET_DAILY_BALANCES,
+        payload: res.data,
+      });
+    })
+    .catch((err) => dispatch(returnErrors(err.response.data, err.response.status)));
 };
