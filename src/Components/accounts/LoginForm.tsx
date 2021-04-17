@@ -115,7 +115,7 @@ const LoginForm = (props: any) => {
               </div>
             </div>
 
-            <div className="mt-6 grid grid-cols-2 gap-6">
+            <div className="mt-6 grid grid-cols-2 gap-3">
               <div>
                 <FacebookSocialAuth />
               </div>

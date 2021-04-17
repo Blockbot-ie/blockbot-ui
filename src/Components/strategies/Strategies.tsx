@@ -107,8 +107,7 @@ const Strategies = (props: any) => {
     const handleSubmit = (e: any) => {
       e.preventDefault()
       const pairDetails = props.strategyPairs.filter(x => x.strategy_id == currentStrategy.strategy_id && x.symbol == currentStrategy.pair)[0]
-      console.log(topUpAmount)
-      console.log(pairDetails)
+      
       if (currentStrategy.current_currency != topUpAmount.currency) {
         if (topUpAmount.ticker_1 == topUpAmount.currency) {
           if (topUpAmount.amount < pairDetails.ticker_1_min_value) {

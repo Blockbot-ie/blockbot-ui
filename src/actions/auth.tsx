@@ -136,12 +136,12 @@ export const login = (username, password) => async dispatch => {
           'Content-Type': 'application/json'
       }
   };
+  let email = username;
 
-  const body = JSON.stringify({ username, password });
+  const body = username.includes('@') ? JSON.stringify({ email, password }) : JSON.stringify({ username, password });
 
   try {
-      const res = await axios.post(`/api/login/`, body, config);
-    console.log(res.data)
+      const res = await axios.post(`/api/dj-rest-auth/login/ `, body, config);
       dispatch({
           type: LOGIN_SUCCESS,
           payload: res.data
@@ -164,9 +164,8 @@ export const signup = (first_name, last_name, email, username, password1, passwo
 
   const body = JSON.stringify({ first_name, last_name, email, username, password1, password2 });
 
-  console.log(body)
   try {
-      const res = await axios.post(`/api/register/`, body, config);
+      const res = await axios.post(`/api/dj-rest-auth/registration/`, body, config);
 
       dispatch({
           type: SIGNUP_SUCCESS,

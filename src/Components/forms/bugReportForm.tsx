@@ -20,7 +20,7 @@ const BugReportForm = (props: any) => {
     }
 
     const handleSubmit = (e: any) => {
-        console.log('Hello')
+        
         e.preventDefault()
         props.submitBugReport({ bugReportForm })
     }

@@ -106,20 +106,46 @@ const ConnectStrategyForm = (props: any) => {
       let symbol1 = pair.substring(0, i);
       let symbol2 = pair.substring(i+1, pair.length);
       if (connectedStrategyState.current_currency == symbol1) {
-          setConnectedStrategyState({ ...connectedStrategyState, initial_first_symbol_balance: parseFloat(value), initial_second_symbol_balance: 0, current_currency_balance: parseFloat(value) })
+          setConnectedStrategyState({ 
+          ...connectedStrategyState, 
+          initial_first_symbol_balance: parseFloat(value), 
+          initial_second_symbol_balance: 0, 
+          current_currency_balance: parseFloat(value) 
+        })
       }
       if (connectedStrategyState.current_currency == symbol2) {
-          setConnectedStrategyState({ ...connectedStrategyState, initial_second_symbol_balance: parseFloat(value), initial_first_symbol_balance: 0, current_currency_balance: parseFloat(value) })
+        setConnectedStrategyState({ 
+          ...connectedStrategyState, 
+          initial_second_symbol_balance: parseFloat(value), 
+          initial_first_symbol_balance: 0,
+          current_currency_balance: parseFloat(value) 
+        })
       }
     }
 
     const setMax = () => {
       props.connectedExchanges.map(exchange => {
         if (exchange.exchange.user_exchange_account_id == connectedStrategyState.user_exchange_account) {
-          setConnectedStrategyState({
-            ...connectedStrategyState,
-             current_currency_balance: exchange.available_balances[connectedStrategyState.current_currency.toString()]
-          })
+          const pair = connectedStrategyState.pair;
+          let i = pair.indexOf('/');
+          let symbol1 = pair.substring(0, i);
+          let symbol2 = pair.substring(i+1, pair.length);
+          if (connectedStrategyState.current_currency == symbol1) {
+            setConnectedStrategyState({
+              ...connectedStrategyState,
+              current_currency_balance: exchange.available_balances[connectedStrategyState.current_currency.toString()],
+              initial_first_symbol_balance: exchange.available_balances[connectedStrategyState.current_currency.toString()],
+              initial_second_symbol_balance: 0,
+            })
+          }
+          if (connectedStrategyState.current_currency == symbol2) {
+            setConnectedStrategyState({ 
+              ...connectedStrategyState,
+              current_currency_balance: exchange.available_balances[connectedStrategyState.current_currency.toString()],
+              initial_first_symbol_balance: 0,
+              initial_second_symbol_balance: exchange.available_balances[connectedStrategyState.current_currency.toString()],
+            })
+          } 
         }
       })
     }
