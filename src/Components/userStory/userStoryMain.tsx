@@ -61,12 +61,11 @@ const UserStoryMain = () => {
                                                 <a href={step.href} className="relative flex items-start group">
                                                 <span className="h-9 flex items-center">
                                                     <span className="relative z-10 w-8 h-8 flex items-center justify-center bg-indigo-600 rounded-full group-hover:bg-indigo-800">
-                                                    <CheckIcon className="w-5 h-5 text-white" aria-hidden="true" />
+                                                    <CheckIcon className="w-5 h-5 dark:text-gray-900" aria-hidden="true" />
                                                     </span>
                                                 </span>
-                                                <span className="ml-4 min-w-0 flex flex-col">
-                                                    <span className="text-xs font-semibold tracking-wide uppercase">{step.name}</span>
-                                                    
+                                                <span className="ml-4 min-w-0">
+                                                    <span className="text-sm leading-4 text-gray-500 dark:text-gray-300">{step.name}</span>
                                                 </span>
                                                 </a>
                                             </>
@@ -81,9 +80,8 @@ const UserStoryMain = () => {
                                                     <span className="h-2.5 w-2.5 bg-indigo-600 rounded-full" />
                                                     </span>
                                                 </span>
-                                                <span className="ml-4 min-w-0 flex flex-col">
-                                                    <span className="text-xs font-semibold tracking-wide uppercase text-indigo-600">{step.name}</span>
-                                                    
+                                                <span className="ml-4 min-w-0">
+                                                    <span className="text-sm leading-4 text-indigo-600">{step.name}</span>
                                                 </span>
                                                 </a>
                                             </>
@@ -98,8 +96,8 @@ const UserStoryMain = () => {
                                                     <span className="h-2.5 w-2.5 bg-transparent rounded-full group-hover:bg-gray-300" />
                                                     </span>
                                                 </span>
-                                                <span className="ml-4 min-w-0 flex flex-col">
-                                                    <span className="text-xs font-semibold tracking-wide uppercase text-gray-500">{step.name}</span>
+                                                <span className="ml-4 min-w-0">
+                                                    <span className="text-sm leading-4 text-gray-500 dark:text-gray-300">{step.name}</span>
                                                     
                                                 </span>
                                                 </a>
@@ -113,11 +111,14 @@ const UserStoryMain = () => {
                                 <div className="ml-8 mr-16 md:border-l md:border-gray-200 md:dark:border-gray-800"></div>
                                 <div className="w-full">
                                     <div className="h-full flex flex-col justify-between w-full relative">
-                                        
                                         <ConnectExchangeForm />
-                                        
                                     </div>
                                 </div>
+                            </div>
+                            <div className="flex justify-end mt-8 pt-5 space-x-3">
+                                <button className="flex-shrink-0 inline-flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-gray-700 dark:focus:ring-gray-700 transition bg-indigo-500 dark:bg-indigo-500 active:bg-indigo-500 dark:active:bg-indigo-500 border-transparent font-medium  hover:bg-indigo-600 dark:hover:bg-indigo-400 px-4 py-2 rounded-md shadow-sm text-base text-white" type="button">
+                                    <span className="flex-1 flex items-center justify-center space-x-2">Next</span>
+                                </button>
                             </div>
                         </form>
                     </div>
