@@ -5,7 +5,7 @@ import ConnectExchangeForm from "../forms/connectExchangeForm";
 import ConnectStrategyForm from "../forms/connectStrategyForm";
 import ExchangeSignUp from "../common/exchangeSignUp";
 import Review from "./review";
-
+import { CheckIcon } from '@heroicons/react/solid'
 
 const UserStoryMain = () => {
 
@@ -22,167 +22,109 @@ const UserStoryMain = () => {
     const handleOnClick = () => {
         setStep(1)
     }
+    const steps = [
+        { name: 'Sign up to Exchange', href: '#', status: 'complete' },
+        { name: 'Connect Exchange', href: '#', status: 'complete' },
+        { name: 'Connect Strategy', href: '#', status: 'current' },
+        { name: 'Review', href: '#', status: 'upcoming' },
+      ]
+      
+      function classNames(...classes) {
+        return classes.filter(Boolean).join(' ')
+      }
 
     return <>
-    <div className="bg-white overflow-hidden rounded-lg divide-y divide-gray-200">
-    <div className="px- py-2 sm:px-6">
-    <nav aria-label="Progress">
-        <ol className="border border-gray-300 rounded-md divide-y divide-gray-300 md:flex md:divide-y-0">
-            <li className="relative md:flex-1 md:flex">
-            <button onClick={handleOnClick} className="group flex items-center w-full">
-                {step == 1 ?
-                    <span className="px-6 py-4 flex items-center text-sm font-medium">
-                    <span className="flex-shrink-0 w-10 h-10 flex items-center justify-center border-2 border-indigo-600 rounded-full">
-                    <span className="text-indigo-600">01</span>
-                    </span>
-                    <span className="ml-4 text-sm font-medium text-indigo-600">Sign up to Exchange</span>
-                    </span>
-                    :
-                    
-                        <span className="px-6 py-4 flex items-center text-sm font-medium">
-                        <span className="flex-shrink-0 w-10 h-10 flex items-center justify-center bg-indigo-600 rounded-full group-hover:bg-indigo-800">
-                            {/* <!-- Heroicon name: solid/check --> */}
-                            <svg className="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-                            </svg>
-                        </span>
-                        <span className="ml-4 text-sm font-medium text-gray-900">Sign up to Exchange</span>
-                        </span>
-                    
-                }
-            </button>
-            <div className="hidden md:block absolute top-0 right-0 h-full w-5" aria-hidden="true">
-                <svg className="h-full w-full text-gray-300" viewBox="0 0 22 80" fill="none" preserveAspectRatio="none">
-                <path d="M0 -2L20 40L0 82" vector-effect="non-scaling-stroke" stroke="currentcolor" strokeLinejoin="round" />
-                </svg>
-            </div>
-            </li>
-            <li className="relative md:flex-1 md:flex">
-            <a href="#" className="group flex items-center w-full">
-                {step == 1 &&
-                    <span className="px-6 py-4 flex items-center text-sm font-medium">
-                        <span className="px-6 py-4 flex items-center text-sm font-medium">
-                        <span className="flex-shrink-0 w-10 h-10 flex items-center justify-center border-2 border-gray-300 rounded-full group-hover:border-gray-400">
-                            <span className="text-gray-500 group-hover:text-gray-900">02</span>
-                        </span>
-                        <span className="ml-4 text-sm font-medium text-gray-500 group-hover:text-gray-900">Connect Exchange</span>
-                        </span>
-                    </span>
-                }
-                {step == 2 &&
-                    <span className="px-6 py-4 flex items-center text-sm font-medium">
-                    <span className="flex-shrink-0 w-10 h-10 flex items-center justify-center border-2 border-indigo-600 rounded-full">
-                    <span className="text-indigo-600">02</span>
-                    </span>
-                    <span className="ml-4 text-sm font-medium text-indigo-600">Connect Exchange</span>
-                    </span>
-                }
-                {(step == 3 || step == 4) &&
-                    <span className="px-6 py-4 flex items-center text-sm font-medium">
-                    <span className="flex-shrink-0 w-10 h-10 flex items-center justify-center bg-indigo-600 rounded-full group-hover:bg-indigo-800">
-                        {/* <!-- Heroicon name: solid/check --> */}
-                        <svg className="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-                        </svg>
-                    </span>
-                    <span className="ml-4 text-sm font-medium text-gray-900">Connect Exchange</span>
-                    </span>
-                }
-                
-            </a>
-            <div className="hidden md:block absolute top-0 right-0 h-full w-5" aria-hidden="true">
-                <svg className="h-full w-full text-gray-300" viewBox="0 0 22 80" fill="none" preserveAspectRatio="none">
-                <path d="M0 -2L20 40L0 82" vector-effect="non-scaling-stroke" stroke="currentcolor" strokeLinejoin="round" />
-                </svg>
-            </div>
-            </li>
 
-            <li className="relative md:flex-1 md:flex">
-            
-            <a href="#" className="px-6 py-4 flex items-center text-sm font-medium" aria-current="step">
-                {(step == 1 || step == 2) &&
-                <span className="px-6 py-4 flex items-center text-sm font-medium">
-                    <span className="px-6 py-4 flex items-center text-sm font-medium">
-                    <span className="flex-shrink-0 w-10 h-10 flex items-center justify-center border-2 border-gray-300 rounded-full group-hover:border-gray-400">
-                        <span className="text-gray-500 group-hover:text-gray-900">03</span>
-                    </span>
-                    <span className="ml-4 text-sm font-medium text-gray-500 group-hover:text-gray-900">Connect Pair</span>
-                    </span>
-                </span>
-                }
-                {step == 3 &&
-                <span className="px-6 py-4 flex items-center text-sm font-medium">
-                    <span className="flex-shrink-0 w-10 h-10 flex items-center justify-center border-2 border-indigo-600 rounded-full">
-                    <span className="text-indigo-600">03</span>
-                    </span>
-                    <span className="ml-4 text-sm font-medium text-indigo-600">Connect Strategy Pair</span>
-                </span>
-}
-                {step == 4 &&
-                    <span className="px-6 py-4 flex items-center text-sm font-medium">
-                        <span className="flex-shrink-0 w-10 h-10 flex items-center justify-center bg-indigo-600 rounded-full group-hover:bg-indigo-800">
-                            {/* <!-- Heroicon name: solid/check --> */}
-                            <svg className="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-                            </svg>
-                        </span>
-                        <span className="ml-4 text-sm font-medium text-gray-900">Connect Strategy Pair</span>
-                        </span>
-                }
-                    
-            </a>
-            <div className="hidden md:block absolute top-0 right-0 h-full w-5" aria-hidden="true">
-                <svg className="h-full w-full text-gray-300" viewBox="0 0 22 80" fill="none" preserveAspectRatio="none">
-                <path d="M0 -2L20 40L0 82" vector-effect="non-scaling-stroke" stroke="currentcolor" strokeLinejoin="round" />
-                </svg>
-            </div>
-            </li>
-
-            <li className="relative md:flex-1 md:flex">
-            <a href="#" className="group flex items-center">
-                {step == 4 ?
-                <span className="px-6 py-4 flex items-center text-sm font-medium">
-                    <span className="flex-shrink-0 w-10 h-10 flex items-center justify-center border-2 border-indigo-600 rounded-full">
-                    <span className="text-indigo-600">04</span>
-                    </span>
-                    <span className="ml-4 text-sm font-medium text-indigo-600">Review</span>
-                </span>
-                :
-                <span className="px-6 py-4 flex items-center text-sm font-medium">
-                <span className="flex-shrink-0 w-10 h-10 flex items-center justify-center border-2 border-gray-300 rounded-full group-hover:border-gray-400">
-                    <span className="text-gray-500 group-hover:text-gray-900">04</span>
-                </span>
-                <span className="ml-4 text-sm font-medium text-gray-500 group-hover:text-gray-900">Review</span>
-                </span>
-                }
+    <div className="relative flex-1 flex bg-gray-100 dark:bg-gray-900">
+        <div className="flex flex-col w-0 flex-1">
+            <main className="flex flex-col items-center flex-1 relative z-0 pb-6 focus:outline-none md:pb-6">
+                <header className="max-w-7xl w-full px-4 py-8 sm:px-6 lg:px-8">
+                    <div className="md:flex md:items-center md:justify-between md:h-16">
+                        <div className="flex-1 min-w-0">
+                            <h2 className="text-2xl font-bold leading-7 text-gray-900 dark:text-white sm:text-3xl sm:truncate">Connect Exchange</h2>
+                        </div>
+                    </div>
+                </header>
+                <div className="flex-1 max-w-7xl w-full pb-12 px-4 sm:px-6 lg:px-8">
+                    <div className="p-8">
+                        <form action="#">
+                            <div className="flex flex-col md:flex-row justify-around">
+                                <div className="w-full md:w-2/4"> 
+                                    <ol className="">
+                                        {steps.map((step, stepIdx) => (
+                                        <li key={step.name} className={classNames(stepIdx !== steps.length - 1 ? 'pb-10' : '', 'relative')}>
+                                            {step.status === 'complete' ? (
+                                            <>
+                                                {stepIdx !== steps.length - 1 ? (
+                                                <div className="-ml-px absolute mt-0.5 top-4 left-4 w-0.5 h-full bg-indigo-600" aria-hidden="true" />
+                                                ) : null}
+                                                <a href={step.href} className="relative flex items-start group">
+                                                <span className="h-9 flex items-center">
+                                                    <span className="relative z-10 w-8 h-8 flex items-center justify-center bg-indigo-600 rounded-full group-hover:bg-indigo-800">
+                                                    <CheckIcon className="w-5 h-5 text-white" aria-hidden="true" />
+                                                    </span>
+                                                </span>
+                                                <span className="ml-4 min-w-0 flex flex-col">
+                                                    <span className="text-xs font-semibold tracking-wide uppercase">{step.name}</span>
+                                                    
+                                                </span>
+                                                </a>
+                                            </>
+                                            ) : step.status === 'current' ? (
+                                            <>
+                                                {stepIdx !== steps.length - 1 ? (
+                                                <div className="-ml-px absolute mt-0.5 top-4 left-4 w-0.5 h-full dark:bg-gray-700" aria-hidden="true" />
+                                                ) : null}
+                                                <a href={step.href} className="relative flex items-start group" aria-current="step">
+                                                <span className="h-9 flex items-center" aria-hidden="true">
+                                                    <span className="relative z-10 w-8 h-8 flex items-center justify-center dark:bg-gray-700 border-2 border-indigo-600 rounded-full">
+                                                    <span className="h-2.5 w-2.5 bg-indigo-600 rounded-full" />
+                                                    </span>
+                                                </span>
+                                                <span className="ml-4 min-w-0 flex flex-col">
+                                                    <span className="text-xs font-semibold tracking-wide uppercase text-indigo-600">{step.name}</span>
+                                                    
+                                                </span>
+                                                </a>
+                                            </>
+                                            ) : (
+                                            <>
+                                                {stepIdx !== steps.length - 1 ? (
+                                                <div className="-ml-px absolute mt-0.5 top-4 left-4 w-0.5 h-full bg-gray-300" aria-hidden="true" />
+                                                ) : null}
+                                                <a href={step.href} className="relative flex items-start group">
+                                                <span className="h-9 flex items-center" aria-hidden="true">
+                                                    <span className="relative z-10 w-8 h-8 flex items-center justify-center dark:bg-gray-700 border-2 dark:border-gray-700 rounded-full group-hover:border-gray-400">
+                                                    <span className="h-2.5 w-2.5 bg-transparent rounded-full group-hover:bg-gray-300" />
+                                                    </span>
+                                                </span>
+                                                <span className="ml-4 min-w-0 flex flex-col">
+                                                    <span className="text-xs font-semibold tracking-wide uppercase text-gray-500">{step.name}</span>
+                                                    
+                                                </span>
+                                                </a>
+                                            </>
+                                            )}
+                                        </li>
+                                        ))}
+                                    </ol>
+                            
+                                </div>
+                                <div className="ml-8 mr-16 md:border-l md:border-gray-200 md:dark:border-gray-800"></div>
+                                <div className="w-full">
+                                    <div className="h-full flex flex-col justify-between w-full relative">
+                                        
+                                        <ConnectExchangeForm />
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
                 
-            </a>
-            </li>
-        </ol>
-        </nav>
-    </div>
-    <div className="">
-        {step == 1 &&
-            <div className="">
-                <ExchangeSignUp next={next}/>
-            </div>
-        }
-        {step == 2 &&
-            <div className="bg-gray-50">
-                <ConnectExchangeForm next={next}/>
-            </div>
-        }
-        {step == 3 &&
-            <div className="bg-gray-50">
-                <ConnectStrategyForm next={next} back={back}/>
-            </div>
-        }
-        {step == 4 &&
-            <div>
-                <Review />
-            </div>
-        }
-    </div>
+            </main>
+        </div>
     </div>
     </>
 }
