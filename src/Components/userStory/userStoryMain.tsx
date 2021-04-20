@@ -6,12 +6,16 @@ import ConnectStrategyForm from "../forms/connectStrategyForm";
 import ExchangeSignUp from "../common/exchangeSignUp";
 import Review from "./review";
 import { CheckIcon } from '@heroicons/react/solid'
+import { propTypes } from "react-bootstrap/esm/Image";
 
 const UserStoryMain = () => {
+
+    const [currentExchange, setCurrentExchange] = useState('')
 
     const [step, setStep] = useState(1)
 
     const next = () => {
+        handleStatusChange(step)
         setStep(step + 1)
     }
 
@@ -22,9 +26,37 @@ const UserStoryMain = () => {
     const handleOnClick = () => {
         setStep(1)
     }
+    
+    const handleStep1 = (state) => {
+        setCurrentExchange(state)
+        next()
+    }
+
+    const handleStatusChange = (step) => {
+        
+        if (step === 1) {
+            steps[0].status = 'complete'
+            steps[1].status = 'current'
+
+            console.log(steps[1].status)
+        }
+        if (step === 2) {
+            steps[1].status = 'complete'
+            steps[2].status = 'current'
+        }
+        if (step === 3) {
+            steps[2].status = 'complete'
+            steps[3].status = 'current'
+        }
+        if (step === 4) {
+            steps[3].status = 'complete'
+            steps[4].status = 'current'
+        }
+    }
+
     const steps = [
-        { name: 'Sign up to Exchange', href: '#', status: 'complete' },
-        { name: 'Connect Exchange', href: '#', status: 'current' },
+        { name: 'Sign up to Exchange', href: '#', status: 'current' },
+        { name: 'Connect Exchange', href: '#', status: 'upcoming' },
         { name: 'Connect Strategy', href: '#', status: 'upcoming' },
         { name: 'Review', href: '#', status: 'upcoming' },
       ]
@@ -112,10 +144,13 @@ const UserStoryMain = () => {
                                 <div className="w-full">
                                     <div className="h-full flex flex-col justify-between w-full relative">
                                         {step == 1 &&
-                                            <ConnectExchangeForm />
+                                        <ExchangeSignUp setCurrentExchange={handleStep1}/>
                                         }
                                         {step == 2 && 
-                                            <ConnectStrategyForm />
+                                            <ConnectExchangeForm next={next} currentExchange={currentExchange}/>
+                                        }
+                                        {step == 3 &&
+                                        <ConnectStrategyForm next={next}/>
                                         }
                                     </div>
                                 </div>

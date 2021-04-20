@@ -42,11 +42,21 @@ const ConnectExchangeForm = (props: any) => {
             ...connectedExchangeState,
             exchange: props.exchanges[0].exchange_id
           })
-          setSelected({
-            id: props.exchanges[0].exchange_id,
-            name: props.exchanges[0].display_name,
-            image: require('../../images/exchangeLogos/' + props.exchanges[0].name + '.png').default
-          })
+
+          if (props.currentExchange != null) {
+            const currentExchangeProps = props.exchanges.filter(ex => ex.exchange_id == props.currentExchange)[0]
+            setSelected({
+              id: currentExchangeProps.exchange_id,
+              name: currentExchangeProps.display_name,
+              image: require('../../images/exchangeLogos/' + currentExchangeProps.name + '.png').default
+            })  
+          } else {
+            setSelected({
+              id: props.exchanges[0].exchange_id,
+              name: props.exchanges[0].display_name,
+              image: require('../../images/exchangeLogos/' + props.exchanges[0].name + '.png').default
+            })
+          }
         }
       }, []);
 
@@ -78,8 +88,8 @@ const ConnectExchangeForm = (props: any) => {
     <div className="relative">
       <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-white">Connect with your Exchange</h3>
     </div>
-    <div className="mt-6">
-      <div className="mt-6 space-y-6">
+    <div className="mt-2">
+      <div className="space-y-6">
         {exchanges.length > 0 && selected != null ?
         <form onSubmit={handleSubmit}>
         <div>
@@ -158,7 +168,7 @@ const ConnectExchangeForm = (props: any) => {
           </div>
           <div className="flex items-stretch relative">
             <input
-              name="api_key" id="api_key" placeholder="Enter API Key" autoComplete="api_key"
+              name="api_key" id="api_key" placeholder="Enter API Key"
               className="block w-full py-2 rounded-md transition dark:bg-gray-800 disabled:opacity-25 border dark:border-gray-700 focus:border-gray-400 focus:outline-none focus:ring-0 duration-150 ease-in-out sm:text-sm sm:leading-5 dark:text-white shadow-sm"
               type="text" 
               onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -175,7 +185,7 @@ const ConnectExchangeForm = (props: any) => {
             <input
               name="api_secret" id="api_secret" placeholder="Enter API Secret" autoComplete="api_secret"
               className="block w-full py-2 rounded-md transition dark:bg-gray-800 disabled:opacity-25 border dark:border-gray-700 focus:border-gray-400 focus:outline-none focus:ring-0 duration-150 ease-in-out sm:text-sm sm:leading-5 dark:text-white shadow-sm"
-              type="text"
+              type="password"
                 onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
                 const trimmed = e.target.value.trim()
                 setConnectedExchangeState({ ...connectedExchangeState, api_secret: trimmed })}
@@ -190,7 +200,7 @@ const ConnectExchangeForm = (props: any) => {
             <input
               name="passphrase" id="passphrase" placeholder="Enter Passphrase" autoComplete="passphrase"
               className="block w-full py-2 rounded-md transition dark:bg-gray-800 disabled:opacity-25 border dark:border-gray-700 focus:border-gray-400 focus:outline-none focus:ring-0 duration-150 ease-in-out sm:text-sm sm:leading-5 dark:text-white shadow-sm"
-              type="text" 
+              type="password" 
               onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
                 const trimmed = e.target.value.trim()
                 setConnectedExchangeState({ ...connectedExchangeState, api_password: trimmed })}

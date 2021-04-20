@@ -7,7 +7,6 @@ const FacebookSocialAuth = (props: any) => {
   
     const fbResponse = async (response)  => {
       props.facebookLogin(response.accessToken)
-      console.log(response)
   }
     return <>
       <div className="App">
