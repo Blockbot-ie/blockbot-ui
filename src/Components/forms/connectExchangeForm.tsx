@@ -18,10 +18,7 @@ type ConnectExchange = {
 
 const ConnectExchangeForm = (props: any) => {
 
-  const exchanges = [
-    
-  ]
-  const images = [coinbasepro]
+  const exchanges = []
   
   function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -49,7 +46,7 @@ const ConnectExchangeForm = (props: any) => {
               id: currentExchangeProps.exchange_id,
               name: currentExchangeProps.display_name,
               image: require('../../images/exchangeLogos/' + currentExchangeProps.name + '.png').default
-            })  
+            })
           } else {
             setSelected({
               id: props.exchanges[0].exchange_id,

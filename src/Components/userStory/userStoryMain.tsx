@@ -38,7 +38,6 @@ const UserStoryMain = () => {
             steps[0].status = 'complete'
             steps[1].status = 'current'
 
-            console.log(steps[1].status)
         }
         if (step === 2) {
             steps[1].status = 'complete'

@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react"
+import React, { Fragment, useEffect, useState } from "react"
 import { connect } from "react-redux"
 import { getStrategies, connectStrategy, connectExchange, getConnectedExchanges } from '../../actions/common';
 import { createMessage } from '../../actions/messages';
 import logo from '../../close-icon.svg'
 import Loader from 'react-loader-spinner';
-import { setMaxListeners } from "node:process";
+import { Listbox, Transition } from '@headlessui/react'
+import { CheckIcon, SelectorIcon } from '@heroicons/react/solid'
 
 type ConnectStrategy = {
     strategy: String,
@@ -32,12 +33,30 @@ const ConnectStrategyForm = (props: any) => {
       ticker_2: ''
     })
 
-    const [strategyPairs, setStrategyPairs] = useState({
-      pairs: []
-    })
+    const strategies = []
+
+    const connectedExchanges = []
+
+    let strategyPairs = []
+
+    function classNames(...classes) {
+      return classes.filter(Boolean).join(' ')
+    }
+  
+    const [selectedStrategy, setSelectedStrategy] = useState(null)
+
+    const [selectedExchangeAccount, setSelectedExchangeAccount] = useState(null)
+
+    const [selectedStrategyPairs, setSelectedStrategyPairs] = useState(null)
 
     useEffect(() => {
         if (props.connectedExchanges.length > 0) {
+
+          setSelectedExchangeAccount({
+            id: props.connectedExchanges[0].exchange.user_exchange_id,
+            name: props.connectedExchanges[0].exchange.name,
+          })
+
           const filteredPairs = props.strategyPairs.filter(x => x.strategy_id == props.strategies[0].strategy_id)
           setConnectedStrategyState({
             ...connectedStrategyState,
@@ -49,15 +68,30 @@ const ConnectStrategyForm = (props: any) => {
             ticker_2: filteredPairs[0].ticker_2
           })
         }
-    }, [props])
+
+        if (props.strategies.length > 0) {
+          setSelectedStrategy({
+            id: props.strategies[0].strategy_id,
+            name: props.strategies[0].name
+          })
+        }
+
+        if (props.strategyPairs.length > 0) {
+          const filteredPairs = props.strategyPairs.filter(x => x.strategy_id == props.strategies[0].strategy_id)
+          
+          setSelectedStrategyPairs({
+            id: filteredPairs[0].strategy_id,
+            pair: filteredPairs[0].symbol
+          })
+        }
+    }, [])
 
 
     useEffect(() => {
       const filteredPairs = props.strategyPairs.filter(x => x.strategy_id == props.strategies[0].strategy_id)
 
-      setStrategyPairs({
-        pairs: filteredPairs
-      })
+      
+      
     }, [props.strategyPairs])
 
     useEffect(() => {
@@ -66,24 +100,36 @@ const ConnectStrategyForm = (props: any) => {
       }
     }, [props.connectedStrategies])
 
-    const strategyList = props.strategies.map((strategy, i) => 
-        <option key={i} value={strategy.strategy_id.toString()}>{strategy.name}</option>
+    const strategyList = props.strategies.map((strategy) => 
+        strategies.push({
+          id: strategy.strategy_id,
+          name: strategy.name
+        })
     )
+    const supportedStrategyPairs = props.strategyPairs.filter(x => x.strategy_id == props.strategies[0].strategy_id).map((pair, i) => {
+      console.log(pair)
+      
+      strategyPairs.push({
+        id: i,
+        pair: pair.symbol
+      })
+    })
 
     const connectedExchangeAccounts = props.connectedExchanges.map((exchange, i) => 
-        <option key={i} value={exchange.exchange.user_exchange_account_id}>{exchange.exchange.name}</option>
-    )
-
-    const stratPairs = strategyPairs.pairs.map((pair, i) => 
-        <option key={i} value={pair.symbol}>{pair.symbol}</option>
+        connectedExchanges.push({
+          id: exchange.exchange.exchange_id,
+          name: exchange.exchange.name
+        })
     )
 
     const onStrategyChange = (e: any) => {
         if (props.strategyPairs.length > 0) {
             const filteredPairs = props.strategyPairs.filter(x => x.strategy_id == e.target.value)
-            setStrategyPairs({
-              pairs: filteredPairs
+            strategyPairs = []
+            filteredPairs.map((pair, i) => {
+              strategyPairs.push(pair.symbol)
             })
+
             setConnectedStrategyState({
               ...connectedStrategyState,
               strategy: e.target.value,
@@ -171,7 +217,269 @@ const ConnectStrategyForm = (props: any) => {
         }
     } 
     return <>
-    
+
+      <div className="relative">
+        <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-white">Connect with a Strategy</h3>
+      </div>
+      <div className="mt-2">
+        <div className="space-y-6">
+        <form onSubmit={handleSubmit}>
+        <div>
+        {strategies.length > 0 && selectedStrategy != null ?
+            <Listbox value={selectedStrategy} onChange={setSelectedStrategy}>
+              {({ open }) => (
+                <>
+                  <Listbox.Label className="iinline-flex text-sm font-medium leading-5 text-gray-700 dark:text-gray-200">Strategy</Listbox.Label>
+                  <div className="mt-1 relative">
+                    <Listbox.Button className="relative w-full dark:bg-gray-700 border dark:border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                      <span className="flex items-center">
+                        <img src={selectedStrategy.image} alt="" className="flex-shrink-0 h-6 w-6 rounded-full" />
+                        <span className="ml-3 block truncate dark:text-gray-200">{selectedStrategy.name}</span>
+                      </span>
+                      <span className="ml-3 absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                        <SelectorIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                      </span>
+                    </Listbox.Button>
+
+                    <Transition
+                      show={open}
+                      as={Fragment}
+                      leave="transition ease-in duration-100"
+                      leaveFrom="opacity-100"
+                      leaveTo="opacity-0"
+                    >
+                      <Listbox.Options
+                        static
+                        className="absolute z-50 mt-1 w-full dark:bg-gray-700 shadow-lg max-h-56 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
+                      >
+                        {strategies.map((strategy) => (
+                          <Listbox.Option
+                            key={strategy.id}
+                            className={({ active }) =>
+                              classNames(
+                                active ? 'text-white bg-indigo-600' : 'text-gray-900',
+                                'cursor-default select-none relative py-2 pl-3 pr-9'
+                              )
+                            }
+                            value={strategy}
+                          >
+                            {({ selected, active }) => (
+                              <>
+                                <div className="flex items-center">
+                                  <span
+                                    className={classNames(selected ? 'font-semibold' : 'font-normal', 'ml-3 block truncate dark:text-gray-200')}
+                                  >
+                                    {strategy.name}
+                                  </span>
+                                </div>
+
+                                {selected ? (
+                                  <span
+                                    className={classNames(
+                                      active ? 'dark:text-white' : 'text-indigo-600',
+                                      'absolute inset-y-0 right-0 flex items-center pr-4'
+                                    )}
+                                  >
+                                    <CheckIcon className="h-5 w-5" aria-hidden="true" />
+                                  </span>
+                                ) : null}
+                              </>
+                            )}
+                          </Listbox.Option>
+                        ))}
+                      </Listbox.Options>
+                    </Transition>
+                  </div>
+                </>
+              )}
+            </Listbox>
+            :
+            <Loader type="Circles" color="#00BFFF" height={24} width={24}/>
+            }
+        </div>
+        <div>
+        {connectedExchangeAccounts.length > 0 && selectedExchangeAccount != null ?
+            <Listbox value={selectedExchangeAccount} onChange={setSelectedExchangeAccount}>
+              {({ open }) => (
+                <>
+                  <Listbox.Label className="iinline-flex text-sm mt-4 font-medium leading-5 text-gray-700 dark:text-gray-200">Exchange Account</Listbox.Label>
+                  <div className="mt-1 relative">
+                    <Listbox.Button className="relative w-full dark:bg-gray-700 border dark:border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                      <span className="flex items-center">
+                        <span className="ml-3 block truncate dark:text-gray-200">{selectedExchangeAccount.name}</span>
+                      </span>
+                      <span className="ml-3 absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                        <SelectorIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                      </span>
+                    </Listbox.Button>
+
+                    <Transition
+                      show={open}
+                      as={Fragment}
+                      leave="transition ease-in duration-100"
+                      leaveFrom="opacity-100"
+                      leaveTo="opacity-0"
+                    >
+                      <Listbox.Options
+                        static
+                        className="absolute z-50 mt-1 w-full dark:bg-gray-700 shadow-lg max-h-56 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
+                      >
+                        {connectedExchanges.map((exchange) => (
+                          <Listbox.Option
+                            key={exchange.id}
+                            className={({ active }) =>
+                              classNames(
+                                active ? 'text-white bg-indigo-600' : 'text-gray-900',
+                                'cursor-default select-none relative py-2 pl-3 pr-9'
+                              )
+                            }
+                            value={exchange}
+                          >
+                            {({ selected, active }) => (
+                              <>
+                                <div className="flex items-center">
+                                  <span
+                                    className={classNames(selected ? 'font-semibold' : 'font-normal', 'ml-3 block truncate dark:text-gray-200')}
+                                  >
+                                    {exchange.name}
+                                  </span>
+                                </div>
+
+                                {selected ? (
+                                  <span
+                                    className={classNames(
+                                      active ? 'dark:text-white' : 'text-indigo-600',
+                                      'absolute inset-y-0 right-0 flex items-center pr-4'
+                                    )}
+                                  >
+                                    <CheckIcon className="h-5 w-5" aria-hidden="true" />
+                                  </span>
+                                ) : null}
+                              </>
+                            )}
+                          </Listbox.Option>
+                        ))}
+                      </Listbox.Options>
+                    </Transition>
+                  </div>
+                </>
+              )}
+            </Listbox>
+            :
+            <Loader type="Circles" color="#00BFFF" height={24} width={24}/>
+            }
+        </div>
+        <div>
+        {strategyPairs.length > 0 && selectedStrategyPairs != null ?
+            <Listbox value={selectedStrategyPairs} onChange={setSelectedStrategyPairs}>
+              {({ open }) => (
+                <>
+                  <Listbox.Label className="iinline-flex text-sm mt-4 font-medium leading-5 text-gray-700 dark:text-gray-200">Pair</Listbox.Label>
+                  <div className="mt-1 relative">
+                    <Listbox.Button className="relative w-full dark:bg-gray-700 border dark:border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                      <span className="flex items-center">
+                        
+                        <span className="ml-3 block truncate dark:text-gray-200">{selectedStrategyPairs.pair}</span>
+                      </span>
+                      <span className="ml-3 absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                        <SelectorIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                      </span>
+                    </Listbox.Button>
+
+                    <Transition
+                      show={open}
+                      as={Fragment}
+                      leave="transition ease-in duration-100"
+                      leaveFrom="opacity-100"
+                      leaveTo="opacity-0"
+                    >
+                      <Listbox.Options
+                        static
+                        className="absolute z-50 mt-1 w-full dark:bg-gray-700 shadow-lg max-h-56 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
+                      >
+                        {strategyPairs.map((pair) => (
+                          <Listbox.Option
+                            key={pair.id}
+                            className={({ active }) =>
+                              classNames(
+                                active ? 'text-white bg-indigo-600' : 'text-gray-900',
+                                'cursor-default select-none relative py-2 pl-3 pr-9'
+                              )
+                            }
+                            value={pair}
+                          >
+                            {({ selected, active }) => (
+                              <>
+                                <div className="flex items-center">
+                                  <span
+                                    className={classNames(selected ? 'font-semibold' : 'font-normal', 'ml-3 block truncate dark:text-gray-200')}
+                                  >
+                                    {pair.pair}
+                                  </span>
+                                </div>
+
+                                {selected ? (
+                                  <span
+                                    className={classNames(
+                                      active ? 'dark:text-white' : 'text-indigo-600',
+                                      'absolute inset-y-0 right-0 flex items-center pr-4'
+                                    )}
+                                  >
+                                    <CheckIcon className="h-5 w-5" aria-hidden="true" />
+                                  </span>
+                                ) : null}
+                              </>
+                            )}
+                          </Listbox.Option>
+                        ))}
+                      </Listbox.Options>
+                    </Transition>
+                  </div>
+                </>
+              )}
+            </Listbox>
+            :
+            <Loader type="Circles" color="#00BFFF" height={24} width={24}/>
+            }
+        </div>
+        <div>
+          <div className="flex align-middle mb-1 mt-3">
+            <label htmlFor="price" className="inline-flex text-sm font-medium leading-5 text-gray-700 dark:text-gray-200">Amunt</label>
+          </div>
+          <div className="mt-1 relative rounded-md shadow-sm">
+              {/* <button type="button" onClick={() => setMax()} className="focus:ring-indigo-500 focus:border-indigo-500 h-full py-0 pl-2 pr-7 border-transparent bg-transparent text-gray-500 sm:text-sm rounded-md">Max</button> */}
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center">
+                <a className="text-gray-500 sm:text-sm" onClick={setMax}>Max</a>
+              </div>
+              
+            <input
+              className="block w-full py-2 rounded-md transition dark:bg-gray-800 disabled:opacity-25 border dark:border-gray-700 focus:border-gray-400 focus:outline-none focus:ring-0 duration-150 ease-in-out sm:text-sm sm:leading-5 dark:text-white shadow-sm"
+              value={isNaN(connectedStrategyState.current_currency_balance) ? 0.00 : connectedStrategyState.current_currency_balance}
+              onChange={handleCurrencyAmountChange}
+              step={0.000001}
+              type="number" name="current_currency_balance" id="current_currency_balance" placeholder="0.00" />
+            <div className="absolute inset-y-0 right-0 flex items-center">
+              <label htmlFor="current_currency" className="sr-only">Currency</label>
+              <select onChange={handleOnChange} id="current_currency" name="current_currency" className="focus:ring-indigo-500 focus:border-indigo-500 h-full py-0 pl-2 pr-7 border-transparent bg-transparent text-gray-500 sm:text-sm rounded-md">
+                <option selected={connectedStrategyState.current_currency == connectedStrategyState.ticker_1}>{connectedStrategyState.ticker_1}</option>
+                <option selected={connectedStrategyState.current_currency == connectedStrategyState.ticker_2}>{connectedStrategyState.ticker_2}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+          <div className="flex justify-end mt-8 pt-5 space-x-3">
+            <button className="flex-shrink-0 inline-flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-gray-700 dark:focus:ring-gray-700 transition bg-indigo-500 dark:bg-indigo-500 active:bg-indigo-500 dark:active:bg-indigo-500 border-transparent font-medium  hover:bg-indigo-600 dark:hover:bg-indigo-400 px-4 py-2 rounded-md shadow-sm text-base text-white" type="submit">
+                { props.isLoading ? <Loader type="Circles" color="#00BFFF" height={24} width={24}/> : <span className="flex-1 flex items-center justify-center space-x-2">Submit</span>}
+            </button>
+          </div>
+        </form>
+        </div>
+      </div>
+  
+
+
+
+
         <div className="inline-block bg-white sm:mx-auto sm:w-full sm:max-w-md rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:w-full sm:p-6">
           {props.isModal && 
           <button disabled={props.isLoading} onClick={() => props.handleClose()} className="float-right">
@@ -217,7 +525,7 @@ const ConnectStrategyForm = (props: any) => {
                 setConnectedStrategyState({ ...connectedStrategyState, pair: trimmed, ticker_1: ticker_1, ticker_2: ticker_2, current_currency: ticker_2, current_currency_balance: 0.00 })}
                 }
             id="pair" name="pair" autoComplete="pair" className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                {stratPairs}
+                
             </select>
             </div>
             <div>
@@ -242,6 +550,7 @@ const ConnectStrategyForm = (props: any) => {
                 </div>
               </div>
             </div>
+            
             <div className="mt-3 sm:mt-6">
                 <button disabled={props.isLoading} type="submit" className="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm">
                 { props.isLoading ? <Loader type="Circles" color="#00BFFF" height={24} width={24}/> : <span>Submit</span>}
@@ -251,7 +560,6 @@ const ConnectStrategyForm = (props: any) => {
         </div>
     
 </>
-
 }
 
 const mapStateToProps = (state) => ({
