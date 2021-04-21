@@ -4,67 +4,7 @@ import { Row } from "react-bootstrap";
 import ConnectStrategyModalForm from "../forms/connectStrategyModalForm";
 import { useEffect, useState } from "react";
 import { getDailyBalances } from '../../actions/common';
-
-const data = [
-    {
-      name: 'Page A',
-      uv: 4000,
-      pv: 2400,
-    },
-    {
-      name: 'Page B',
-      uv: 3000,
-      pv: 1398,
-    },
-    {
-      name: 'Page C',
-      uv: 2000,
-      pv: 9800,
-    },
-    {
-      name: 'Page D',
-      uv: 2780,
-      pv: 3908,
-    },
-    {
-      name: 'Page E',
-      uv: 1890,
-      pv: 4800,
-    },
-    {
-      name: 'Page F',
-      uv: 2390,
-      pv: 3800,
-    },
-    {
-      name: 'Page G',
-      uv: 3490,
-      pv: 4300,
-    },
-  ];
   
-  const pieData = [
-      { name: 'Group A', value: 400 },
-      { name: 'Group B', value: 300 },
-      { name: 'Group C', value: 300 },
-      { name: 'Group D', value: 200 },
-    ];
-    
-  const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
-  
-  const RADIAN = Math.PI / 180;
-  const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
-    const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
-    const x = cx + radius * Math.cos(-midAngle * RADIAN);
-    const y = cy + radius * Math.sin(-midAngle * RADIAN);
-  
-    return (
-      <text x={x} y={y} fill="white" textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central">
-        {`${(percent * 100).toFixed(0)}%`}
-      </text>
-    );
-  };  
-
 type StrategyData = {
   balance: number,
   incOrDecVsHodl: number
@@ -137,6 +77,16 @@ const StrategyStats = (props: any) => {
     //     </div>
     // )
 
+    const tabs = [
+      { name: 'My Account', href: '#', current: false },
+      { name: 'Company', href: '#', current: false },
+      { name: 'Team Members', href: '#', current: true },
+      { name: 'Billing', href: '#', current: false },
+    ]
+    
+    function classNames(...classes) {
+      return classes.filter(Boolean).join(' ')
+    }
 
 
     const handleClose = ()=> {
@@ -146,36 +96,52 @@ const StrategyStats = (props: any) => {
     const percentage = 100 - ((7 - 4 - 1) / (7 - 1)) * 100;
 
     return <>
-        <div className="bg-white px-4 py-5 border-b border-gray-200 sm:px-6">
-            <div className="-ml-4 -mt-2 flex items-center justify-between flex-wrap sm:flex-nowrap">
-                <div className="ml-4 mt-2">
-                <div>
-                <div className="sm:hidden">
-                    <label htmlFor="tabs" className="sr-only">Select a tab</label>
-                    <select id="tabs" name="tabs" className="block w-full focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md">
-                    <option>20 Week SMA</option>
-                    <option selected>20 Week SMA +</option>
-                    </select>
+        <div className="bg-gray-900 px-4 py-5 border-b border-gray-200 sm:px-6">
+            
+            <div>
+              <div className="sm:hidden">
+                <label htmlFor="tabs" className="sr-only">
+                  Select a tab
+                </label>
+                <select
+                  id="tabs"
+                  name="tabs"
+                  className="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+                  defaultValue={tabs.find((tab) => tab.current).name}
+                >
+                  {tabs.map((tab) => (
+                    <option key={tab.name}>{tab.name}</option>
+                  ))}
+                </select>
+              </div>
+              <div className="hidden sm:block">
+                <div className="border-b border-gray-200">
+                  <nav className="-mb-px flex space-x-8" aria-label="Tabs">
+                    {tabs.map((tab) => (
+                      <a
+                        key={tab.name}
+                        href={tab.href}
+                        className={classNames(
+                          tab.current
+                            ? 'border-indigo-500 text-indigo-600'
+                            : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300',
+                          'whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm'
+                        )}
+                        aria-current={tab.current ? 'page' : undefined}
+                      >
+                        {tab.name}
+                      </a>
+                    ))}
+                  </nav>
                 </div>
-                <div className="hidden sm:block">
-                    <nav className="flex space-x-4" aria-label="Tabs">
-                    {connectedStrategies}
-                    </nav>
-                </div>
-                </div>
-
-                </div>
-                <div className="ml-4 mt-2 flex-shrink-0">
-                <button disabled={props.connectedExchanges.length < 1} onClick={() => setAddModalOpen(true)} type="button" className="relative inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                    Add New Strategy
-                </button>
-                </div>
+              </div>
+            
             </div>
             <br/>
-            <Row>
+            
             {/* {connectedStrategyDetails} */}
             <LineChart
-                width={500}
+                width={800}
                 height={300}
                 data={data}
                 margin={{
@@ -204,24 +170,7 @@ const StrategyStats = (props: any) => {
                 <Line type="monotone" dataKey="hodl_value" stroke="url(#gradient)" activeDot={{ r: 8 }} />
                 <Line type="monotone" dataKey="strategy_value" stroke="#82ca9d" />
                 </LineChart>
-
-                <PieChart width={400} height={200}>
-                    <Pie
-                    data={pieData}
-                    cx="50%"
-                    cy="50%"
-                    labelLine={false}
-                    label={renderCustomizedLabel}
-                    outerRadius={80}
-                    fill="#8884d8"
-                    dataKey="value"
-                    >
-                    {data.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                    ))}
-                    </Pie>
-                </PieChart>
-                </Row>
+                
             </div>
             {addModalOpen &&
             <ConnectStrategyModalForm isOpen={addModalOpen} handleClose={handleClose} />

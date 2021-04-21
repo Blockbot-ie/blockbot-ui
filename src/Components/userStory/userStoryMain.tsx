@@ -66,7 +66,7 @@ const UserStoryMain = () => {
 
     return <>
 
-    <div className="relative flex-1 flex bg-gray-100 dark:bg-gray-900">
+    <div className="relative flex-1 flex bg-gray-900 dark:bg-gray-900">
         <div className="flex flex-col w-0 flex-1">
             <main className="flex flex-col items-center flex-1 relative z-0 pb-6 focus:outline-none md:pb-6">
                 <header className="max-w-7xl w-full px-4 py-8 sm:px-6 lg:px-8">
@@ -150,6 +150,9 @@ const UserStoryMain = () => {
                                         }
                                         {step == 3 &&
                                         <ConnectStrategyForm next={next}/>
+                                        }
+                                        {step == 4 &&
+                                        <Review />
                                         }
                                     </div>
                                 </div>

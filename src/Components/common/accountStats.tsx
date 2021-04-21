@@ -37,11 +37,11 @@ const AccountStats = (props: any) => {
 
     return <>
         <dl className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-3">
-            <div className="px-4 py-5 bg-white shadow rounded-lg overflow-hidden sm:p-6">
-            <dt className="text-sm font-medium text-gray-500 truncate">
+            <div className="px-4 py-3 dark:bg-gray-700 shadow rounded-lg overflow-hidden sm:p-6">
+            <dt className="text-sm font-medium text-gray-300 truncate">
                 Balance
             </dt>
-            <dd className="mt-1 text-3xl font-semibold text-gray-900">
+            <dd className="mt-1 text-3xl font-semibold dark:text-white">
                 {dashboardData.balance != null ?
                    <p>${dashboardData.balance.toFixed(2)}</p>
                 :
@@ -51,11 +51,11 @@ const AccountStats = (props: any) => {
             </dd>
             </div>
 
-            <div className="px-4 py-5 bg-white shadow rounded-lg overflow-hidden sm:p-6">
-            <dt className="text-sm font-medium text-gray-500 truncate">
+            <div className="px-4 py-3 dark:bg-gray-700 shadow rounded-lg overflow-hidden sm:p-6">
+            <dt className="text-sm font-medium text-gray-300 truncate">
                 Inc/Dec vs HODL
             </dt>
-            <dd className="mt-1 text-3xl font-semibold text-gray-900">
+            <dd className="mt-1 text-3xl font-semibold dark:text-white">
             {dashboardData.incOrDecVsHodl != null ?
                    <p>{dashboardData.incOrDecVsHodl.toFixed(2)}%</p>
                 :
@@ -64,11 +64,11 @@ const AccountStats = (props: any) => {
             </dd>
             </div>
 
-            <div className="px-4 py-5 bg-white shadow rounded-lg overflow-hidden sm:p-6">
-            <dt className="text-sm font-medium text-gray-500 truncate">
+            <div className="px-4 py-3 dark:bg-gray-700 shadow rounded-lg overflow-hidden sm:p-6">
+            <dt className="text-sm font-medium text-gray-300 truncate">
                 Active Strategies
             </dt>
-            <dd className="mt-1 text-3xl font-semibold text-gray-900">
+            <dd className="mt-1 text-3xl font-semibold dark:text-white">
                 {dashboardData.activeStrategies}
             </dd>
             </div>

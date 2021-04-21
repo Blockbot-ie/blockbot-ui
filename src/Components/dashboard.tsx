@@ -48,7 +48,7 @@ const Dashboard = (props: any) => {
     const [isOpen, setIsOpen] = useState(true)
 
     return <>
-    <div className="h-screen flex overflow-hidden bg-gray-100">
+    <div className="h-screen flex overflow-hidden dark:bg-gray-900">
         {/* <!-- Off-canvas menu for mobile, show/hide based on off-canvas menu state. --> */}
         <Nav />
         <div className="flex flex-col w-0 flex-1 overflow-hidden"> 

@@ -94,13 +94,13 @@ const ConnectStrategyForm = (props: any) => {
 
         if (props.strategyPairs.length > 0) {
 
-          props.strategyPairs.filter(x => x.strategy_id == props.strategies[0].strategy_id).map((pair, i) => {
-            setStrategyPairs([
-              ...strategyPairs, {
-                id: pair.pair_id,
-                pair: pair.symbol
-              }
-            ])
+          props.strategyPairs.map((pair, i) => {
+
+            setStrategyPairs(strategyPairs => [...strategyPairs, {
+              id: pair.pair_id,
+              strategy_id: pair.strategy_id,
+              pair: pair.symbol
+            }])
           })
 
           const filteredPairs = props.strategyPairs.filter(x => x.strategy_id == props.strategies[0].strategy_id)
@@ -121,23 +121,27 @@ const ConnectStrategyForm = (props: any) => {
     
 
     const onStrategyChange = (e: any) => {
-      console.log(e)
+      
       setSelectedStrategy(e)
       if (props.strategyPairs.length > 0) {
         
           const filteredPairs = props.strategyPairs.filter(x => x.strategy_id == e.id)
           
-          
-          filteredPairs.map((pair, i) => {
-            setStrategyPairs([
-              ...strategyPairs, {
-                id: pair.pair_id,
-                pair: pair.symbol
-              }
-            ])
+          // setStrategyPairs([])
+          // filteredPairs.map((pair, i) => {
+          //   setStrategyPairs([
+          //     ...strategyPairs, {
+          //       id: pair.pair_id,
+          //       pair: pair.symbol
+          //     }
+          //   ])
+          // })
+          setSelectedStrategyPairs({
+            id: filteredPairs[0].strategy_id,
+            strategy_id: filteredPairs[0].strategy_id,
+            pair: filteredPairs[0].symbol
           })
-          setSelectedStrategyPairs(filteredPairs[0].symbol)
-
+          
           setConnectedStrategyState({
             ...connectedStrategyState,
             strategy: e.id,
@@ -146,6 +150,7 @@ const ConnectStrategyForm = (props: any) => {
             current_currency: filteredPairs[0].ticker_2,
             current_currency_balance: 0.00
           })
+          console.log(selectedStrategyPairs)
       }
     }
 
@@ -155,8 +160,7 @@ const ConnectStrategyForm = (props: any) => {
 
     const handleExchangeAccountChange = (e: any) => {
       console.log(e)
-      const trimmed = e.name.trim()
-      setConnectedStrategyState({ ...connectedStrategyState, user_exchange_account: trimmed, current_currency_balance: 0.00 })
+      setConnectedStrategyState({ ...connectedStrategyState, user_exchange_account: e.id, current_currency_balance: 0.00 })
       setSelectedExchangeAccount(e)
     }
 
@@ -226,6 +230,7 @@ const ConnectStrategyForm = (props: any) => {
     const handleSubmit = (e: any) => {
         e.preventDefault()
         const pairDetails = props.strategyPairs.filter(x => x.strategy_id == connectedStrategyState.strategy && x.symbol == connectedStrategyState.pair)[0]
+        console.log(pairDetails)
         if (connectedStrategyState.current_currency == pairDetails.ticker_1) {
           if (connectedStrategyState.current_currency_balance < pairDetails.ticker_1_min_value) {
             props.createMessage({ belowMinAmount: 'Please increase the inital amount' });
@@ -424,7 +429,7 @@ const ConnectStrategyForm = (props: any) => {
                         static
                         className="absolute z-50 mt-1 w-full dark:bg-gray-700 shadow-lg max-h-56 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
                       >
-                        {strategyPairs.map((pair) => (
+                        {strategyPairs.filter(x => x.strategy_id == selectedStrategy.id).map((pair) => (
                           <Listbox.Option
                             key={pair.id}
                             className={({ active }) =>
