@@ -11,15 +11,37 @@ type StrategyData = {
 }
 
 type CurrentStrategy = {
-  strategyId: string,
-  strategyName: string
+  id: string,
+  name: string
 }
 
 const StrategyStats = (props: any) => {
 
+  const [tabs, setTabs] = useState([])
+
+  const [currentTab, setCurrentTab] = useState<CurrentStrategy>({
+    id: '',
+    name: ''
+  })
+  
+
   useEffect(() => {
-    if (props.dailyBalances.length < 1) {
-      props.getDailyBalances()
+    
+    if (props.connectedStrategies.length > 0) {
+
+      props.connectedStrategies.map(strategy => {
+
+        setTabs(tabs => [...tabs, {
+          id: strategy.id,
+          name: strategy.strategy.name,
+          current: true
+        }])
+      })
+
+      setCurrentTab({
+        id: props.connectedStrategies[0].id,
+        name: props.connectedStrategies[0].strategy.name
+      })
     }
   }, [])
 
@@ -28,29 +50,14 @@ const StrategyStats = (props: any) => {
       incOrDecVsHodl: 0
     })
 
-    const [currentTab, setCurrentTab] = useState<CurrentStrategy>({
-      strategyId: '',
-      strategyName: ''
-    })
-
     const [addModalOpen, setAddModalOpen] = useState(false);
 
-    useEffect(() => {
-        if (props.connectedStrategies.length > 0) {
-            
-          setCurrentTab({
-            ...currentTab,
-            strategyId: props.connectedStrategies[0].id,
-            strategyName:props.connectedStrategies[0].strategy.name
-          })
-        }
-    }, [props.connectedStrategies])
 
     const handleClick = (strategy) => {
         setCurrentTab({
           ...currentTab,
-          strategyId: strategy.id,
-          strategyName: strategy.strategy.name
+          id: strategy.id,
+          name: strategy.strategy.name
         })
     }
 
@@ -63,7 +70,7 @@ const StrategyStats = (props: any) => {
     let data = []
 
     const chartData = props.dailyBalances.map(strategy => {
-      if (strategy.strategy_id == currentTab.strategyId) {
+      if (strategy.strategy_id == currentTab.id) {
         data = strategy.data
         console.log(data)
       }
@@ -77,13 +84,7 @@ const StrategyStats = (props: any) => {
     //     </div>
     // )
 
-    const tabs = [
-      { name: 'My Account', href: '#', current: false },
-      { name: 'Company', href: '#', current: false },
-      { name: 'Team Members', href: '#', current: true },
-      { name: 'Billing', href: '#', current: false },
-    ]
-    
+
     function classNames(...classes) {
       return classes.filter(Boolean).join(' ')
     }
@@ -107,7 +108,7 @@ const StrategyStats = (props: any) => {
                   id="tabs"
                   name="tabs"
                   className="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
-                  defaultValue={tabs.find((tab) => tab.current).name}
+                  defaultValue={tabs.find((tab) => tab.current)}
                 >
                   {tabs.map((tab) => (
                     <option key={tab.name}>{tab.name}</option>
@@ -115,7 +116,7 @@ const StrategyStats = (props: any) => {
                 </select>
               </div>
               <div className="hidden sm:block">
-                <div className="border-b border-gray-200">
+                <div className="border-b border-gray-500">
                   <nav className="-mb-px flex space-x-8" aria-label="Tabs">
                     {tabs.map((tab) => (
                       <a
@@ -125,7 +126,7 @@ const StrategyStats = (props: any) => {
                           tab.current
                             ? 'border-indigo-500 text-indigo-600'
                             : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300',
-                          'whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm'
+                          'whitespace-nowrap py-4 px-1 border-b font-medium text-sm'
                         )}
                         aria-current={tab.current ? 'page' : undefined}
                       >
