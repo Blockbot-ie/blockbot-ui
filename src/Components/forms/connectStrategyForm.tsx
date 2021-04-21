@@ -33,11 +33,11 @@ const ConnectStrategyForm = (props: any) => {
       ticker_2: ''
     })
 
-    const strategies = []
+    const [strategies, setStrategies] = useState([])
 
-    const connectedExchanges = []
+    const [connectedExchanges, setConnectedExchanges] = useState([])
 
-    let strategyPairs = []
+    const [strategyPairs, setStrategyPairs] = useState([])
 
     function classNames(...classes) {
       return classes.filter(Boolean).join(' ')
@@ -52,8 +52,15 @@ const ConnectStrategyForm = (props: any) => {
     useEffect(() => {
         if (props.connectedExchanges.length > 0) {
 
+          props.connectedExchanges.map(exchange => {
+            setConnectedExchanges([...connectedExchanges, {
+              id: exchange.exchange.user_exchange_account_id,
+              name: exchange.exchange.name
+            }])
+          })
+
           setSelectedExchangeAccount({
-            id: props.connectedExchanges[0].exchange.user_exchange_id,
+            id: props.connectedExchanges[0].exchange.user_exchange_account_id,
             name: props.connectedExchanges[0].exchange.name,
           })
 
@@ -70,6 +77,15 @@ const ConnectStrategyForm = (props: any) => {
         }
 
         if (props.strategies.length > 0) {
+
+          props.strategies.map(strategy => {
+
+            setStrategies(strategies => [...strategies, {
+              id: strategy.strategy_id,
+              name: strategy.name
+            }])
+          })
+
           setSelectedStrategy({
             id: props.strategies[0].strategy_id,
             name: props.strategies[0].name
@@ -77,6 +93,16 @@ const ConnectStrategyForm = (props: any) => {
         }
 
         if (props.strategyPairs.length > 0) {
+
+          props.strategyPairs.filter(x => x.strategy_id == props.strategies[0].strategy_id).map((pair, i) => {
+            setStrategyPairs([
+              ...strategyPairs, {
+                id: pair.pair_id,
+                pair: pair.symbol
+              }
+            ])
+          })
+
           const filteredPairs = props.strategyPairs.filter(x => x.strategy_id == props.strategies[0].strategy_id)
           
           setSelectedStrategyPairs({
@@ -86,64 +112,65 @@ const ConnectStrategyForm = (props: any) => {
         }
     }, [])
 
-
-    useEffect(() => {
-      const filteredPairs = props.strategyPairs.filter(x => x.strategy_id == props.strategies[0].strategy_id)
-
-      
-      
-    }, [props.strategyPairs])
-
     useEffect(() => {
       if (props.connectedStrategies.length > 0 && !props.isModal) {
         props.next()
       }
     }, [props.connectedStrategies])
 
-    const strategyList = props.strategies.map((strategy) => 
-        strategies.push({
-          id: strategy.strategy_id,
-          name: strategy.name
-        })
-    )
-    const supportedStrategyPairs = props.strategyPairs.filter(x => x.strategy_id == props.strategies[0].strategy_id).map((pair, i) => {
-      console.log(pair)
-      
-      strategyPairs.push({
-        id: i,
-        pair: pair.symbol
-      })
-    })
-
-    const connectedExchangeAccounts = props.connectedExchanges.map((exchange, i) => 
-        connectedExchanges.push({
-          id: exchange.exchange.exchange_id,
-          name: exchange.exchange.name
-        })
-    )
+    
 
     const onStrategyChange = (e: any) => {
-        if (props.strategyPairs.length > 0) {
-            const filteredPairs = props.strategyPairs.filter(x => x.strategy_id == e.target.value)
-            strategyPairs = []
-            filteredPairs.map((pair, i) => {
-              strategyPairs.push(pair.symbol)
-            })
+      console.log(e)
+      setSelectedStrategy(e)
+      if (props.strategyPairs.length > 0) {
+        
+          const filteredPairs = props.strategyPairs.filter(x => x.strategy_id == e.id)
+          
+          
+          filteredPairs.map((pair, i) => {
+            setStrategyPairs([
+              ...strategyPairs, {
+                id: pair.pair_id,
+                pair: pair.symbol
+              }
+            ])
+          })
+          setSelectedStrategyPairs(filteredPairs[0].symbol)
 
-            setConnectedStrategyState({
-              ...connectedStrategyState,
-              strategy: e.target.value,
-              ticker_1: filteredPairs[0].ticker_1,
-              ticker_2: filteredPairs[0].ticker_2,
-              current_currency: filteredPairs[0].ticker_2,
-              current_currency_balance: 0.00
-            })
-        }
+          setConnectedStrategyState({
+            ...connectedStrategyState,
+            strategy: e.id,
+            ticker_1: filteredPairs[0].ticker_1,
+            ticker_2: filteredPairs[0].ticker_2,
+            current_currency: filteredPairs[0].ticker_2,
+            current_currency_balance: 0.00
+          })
+      }
     }
 
-    const handleOnChange = (e: any) => {
+    const handleCurrentCurrencyChange = (e: any) => {
       setConnectedStrategyState({ ...connectedStrategyState, current_currency: e.target.value, current_currency_balance: 0, initial_first_symbol_balance: 0, initial_second_symbol_balance: 0})
     }
+
+    const handleExchangeAccountChange = (e: any) => {
+      console.log(e)
+      const trimmed = e.name.trim()
+      setConnectedStrategyState({ ...connectedStrategyState, user_exchange_account: trimmed, current_currency_balance: 0.00 })
+      setSelectedExchangeAccount(e)
+    }
+
+    const handleStrategyPairChange = (e: any) => {
+      console.log(e)
+      let symbol = e.pair
+      let i = symbol.indexOf('/');
+      let ticker_1 = symbol.substring(0, i);
+      let ticker_2 = symbol.substring(i+1, symbol.length);
+      const trimmed = e.pair.trim()
+      setConnectedStrategyState({ ...connectedStrategyState, pair: trimmed, ticker_1: ticker_1, ticker_2: ticker_2, current_currency: ticker_2, current_currency_balance: 0.00 })
+      setSelectedStrategyPairs(e)
+    }
+
 
     const handleCurrencyAmountChange = (e: any) => {
       const value = e.target.value
@@ -226,7 +253,7 @@ const ConnectStrategyForm = (props: any) => {
         <form onSubmit={handleSubmit}>
         <div>
         {strategies.length > 0 && selectedStrategy != null ?
-            <Listbox value={selectedStrategy} onChange={setSelectedStrategy}>
+            <Listbox value={selectedStrategy} onChange={onStrategyChange}>
               {({ open }) => (
                 <>
                   <Listbox.Label className="iinline-flex text-sm font-medium leading-5 text-gray-700 dark:text-gray-200">Strategy</Listbox.Label>
@@ -298,8 +325,8 @@ const ConnectStrategyForm = (props: any) => {
             }
         </div>
         <div>
-        {connectedExchangeAccounts.length > 0 && selectedExchangeAccount != null ?
-            <Listbox value={selectedExchangeAccount} onChange={setSelectedExchangeAccount}>
+        {connectedExchanges.length > 0 && selectedExchangeAccount != null ?
+            <Listbox value={selectedExchangeAccount} onChange={handleExchangeAccountChange}>
               {({ open }) => (
                 <>
                   <Listbox.Label className="iinline-flex text-sm mt-4 font-medium leading-5 text-gray-700 dark:text-gray-200">Exchange Account</Listbox.Label>
@@ -371,7 +398,7 @@ const ConnectStrategyForm = (props: any) => {
         </div>
         <div>
         {strategyPairs.length > 0 && selectedStrategyPairs != null ?
-            <Listbox value={selectedStrategyPairs} onChange={setSelectedStrategyPairs}>
+            <Listbox value={selectedStrategyPairs} onChange={handleStrategyPairChange}>
               {({ open }) => (
                 <>
                   <Listbox.Label className="iinline-flex text-sm mt-4 font-medium leading-5 text-gray-700 dark:text-gray-200">Pair</Listbox.Label>
@@ -449,18 +476,19 @@ const ConnectStrategyForm = (props: any) => {
           <div className="mt-1 relative rounded-md shadow-sm">
               {/* <button type="button" onClick={() => setMax()} className="focus:ring-indigo-500 focus:border-indigo-500 h-full py-0 pl-2 pr-7 border-transparent bg-transparent text-gray-500 sm:text-sm rounded-md">Max</button> */}
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center">
-                <a className="text-gray-500 sm:text-sm" onClick={setMax}>Max</a>
+                <a className="text-white sm:text-sm" onClick={setMax}>Max</a>
               </div>
               
             <input
-              className="block w-full py-2 rounded-md transition dark:bg-gray-800 disabled:opacity-25 border dark:border-gray-700 focus:border-gray-400 focus:outline-none focus:ring-0 duration-150 ease-in-out sm:text-sm sm:leading-5 dark:text-white shadow-sm"
+            
+              className="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-16 sm:pl-14 sm:text-sm dark:bg-gray-700 dark:text-white border-gray-300 rounded-md"
               value={isNaN(connectedStrategyState.current_currency_balance) ? 0.00 : connectedStrategyState.current_currency_balance}
               onChange={handleCurrencyAmountChange}
               step={0.000001}
               type="number" name="current_currency_balance" id="current_currency_balance" placeholder="0.00" />
             <div className="absolute inset-y-0 right-0 flex items-center">
               <label htmlFor="current_currency" className="sr-only">Currency</label>
-              <select onChange={handleOnChange} id="current_currency" name="current_currency" className="focus:ring-indigo-500 focus:border-indigo-500 h-full py-0 pl-2 pr-7 border-transparent bg-transparent text-gray-500 sm:text-sm rounded-md">
+              <select onChange={handleCurrentCurrencyChange} id="current_currency" name="current_currency" className="focus:ring-gray-300 focus:border-gray-300 h-full py-0 pl-2 pr-7 border-transparent bg-transparent text-white sm:text-sm rounded-md">
                 <option selected={connectedStrategyState.current_currency == connectedStrategyState.ticker_1}>{connectedStrategyState.ticker_1}</option>
                 <option selected={connectedStrategyState.current_currency == connectedStrategyState.ticker_2}>{connectedStrategyState.ticker_2}</option>
               </select>
@@ -475,90 +503,6 @@ const ConnectStrategyForm = (props: any) => {
         </form>
         </div>
       </div>
-  
-
-
-
-
-        <div className="inline-block bg-white sm:mx-auto sm:w-full sm:max-w-md rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:w-full sm:p-6">
-          {props.isModal && 
-          <button disabled={props.isLoading} onClick={() => props.handleClose()} className="float-right">
-          <img src={logo} alt="My Happy SVG"/>
-          </button>
-          }
-        <div className="mt-3 text-center sm:mt-5">
-          <h3 className="text-lg leading-6 font-medium text-gray-900" id="modal-title">
-            Connect with a Strategy to Start Trading
-          </h3>
-        </div>
-        <form onSubmit={handleSubmit} method="POST">
-            <div>
-            <label htmlFor="strategy" className="block text-sm mt-3 font-medium text-gray-700">Strategy</label>
-            <select
-                onChange={onStrategyChange}
-            id="strategy" name="strategy" autoComplete="strategy" className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                {strategyList}
-            </select>
-            </div>
-            <div>
-            <label htmlFor="user_exchange_account" className="block text-sm mt-3 font-medium text-gray-700">Exchange Account</label>
-            <select
-                onChange={(e: any): void => {
-                const trimmed = e.target.value.trim()
-                setConnectedStrategyState({ ...connectedStrategyState, user_exchange_account: trimmed, current_currency_balance: 0.00 })}
-                }
-            id="user_exchange_account" name="user_exchange_account" autoComplete="user_exchange_account" className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                {connectedExchangeAccounts}
-            </select>
-            </div>
-        
-        
-            <div>
-            <label htmlFor="pair" className="block text-sm mt-3 font-medium text-gray-700">Pair</label>
-            <select
-                onChange={(e: any): void => {
-                let symbol = e.target.value
-                let i = symbol.indexOf('/');
-                let ticker_1 = symbol.substring(0, i);
-                let ticker_2 = symbol.substring(i+1, symbol.length);
-                const trimmed = e.target.value.trim()
-                setConnectedStrategyState({ ...connectedStrategyState, pair: trimmed, ticker_1: ticker_1, ticker_2: ticker_2, current_currency: ticker_2, current_currency_balance: 0.00 })}
-                }
-            id="pair" name="pair" autoComplete="pair" className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                
-            </select>
-            </div>
-            <div>
-              <label htmlFor="price" className="block text-sm mt-3 font-medium text-gray-700">Amount</label>
-              <div className="mt-1 relative rounded-md shadow-sm">
-                  {/* <button type="button" onClick={() => setMax()} className="focus:ring-indigo-500 focus:border-indigo-500 h-full py-0 pl-2 pr-7 border-transparent bg-transparent text-gray-500 sm:text-sm rounded-md">Max</button> */}
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center">
-                    <a className="text-gray-500 sm:text-sm" onClick={setMax}>Max</a>
-                  </div>
-                  
-                <input
-                  value={isNaN(connectedStrategyState.current_currency_balance) ? 0.00 : connectedStrategyState.current_currency_balance}
-                  onChange={handleCurrencyAmountChange}
-                  step={0.000001}
-                  type="number" name="current_currency_balance" id="current_currency_balance" className="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-16 sm:pl-14 sm:text-sm border-gray-300 rounded-md" placeholder="0.00" />
-                <div className="absolute inset-y-0 right-0 flex items-center">
-                  <label htmlFor="current_currency" className="sr-only">Currency</label>
-                  <select onChange={handleOnChange} id="current_currency" name="current_currency" className="focus:ring-indigo-500 focus:border-indigo-500 h-full py-0 pl-2 pr-7 border-transparent bg-transparent text-gray-500 sm:text-sm rounded-md">
-                    <option selected={connectedStrategyState.current_currency == connectedStrategyState.ticker_1}>{connectedStrategyState.ticker_1}</option>
-                    <option selected={connectedStrategyState.current_currency == connectedStrategyState.ticker_2}>{connectedStrategyState.ticker_2}</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-            
-            <div className="mt-3 sm:mt-6">
-                <button disabled={props.isLoading} type="submit" className="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm">
-                { props.isLoading ? <Loader type="Circles" color="#00BFFF" height={24} width={24}/> : <span>Submit</span>}
-                </button>
-            </div>
-        </form>
-        </div>
-    
 </>
 }
 
