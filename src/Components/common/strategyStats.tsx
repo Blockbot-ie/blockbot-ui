@@ -4,6 +4,7 @@ import { Row } from "react-bootstrap";
 import ConnectStrategyModalForm from "../forms/connectStrategyModalForm";
 import { useEffect, useState } from "react";
 import { getDailyBalances, getConnectedStrategies } from '../../actions/common';
+import { format } from "date-fns";
   
 type StrategyData = {
   balance: number,
@@ -78,12 +79,13 @@ const StrategyStats = (props: any) => {
   useEffect(() => {
     if (props.dashboardData.length > 0) {
       const stats = props.dashboardData[0].inc_or_dec_vs_hodl.filter(s => s.strategy_pair_id == currentTab.id)[0]
-      console.log(stats)
-      setCurrentTab({
-        ...currentTab,
-        balance: stats.balance,
-        incOrDecVsHodl: stats.inc_or_dec
-      })
+      if (stats) {
+        setCurrentTab({
+          ...currentTab,
+          balance: stats.balance,
+          incOrDecVsHodl: stats.inc_or_dec
+        })
+      } 
     }
   }, [props.dashboardData])
 
@@ -115,7 +117,9 @@ const StrategyStats = (props: any) => {
         setAddModalOpen(false)
     }
 
-    const percentage = 100 - ((7 - 4 - 1) / (7 - 1)) * 100;
+    const dateFormatter = date => {
+      return format(new Date(date), "PP");
+    };
 
     return <>
         <div className="flex flex-col items-center flex-1 relative z-0 pb-6 focus:outline-none md:pb-6">
@@ -198,7 +202,7 @@ const StrategyStats = (props: any) => {
                   <div className="h-96 flex items-center justify-center relative">
                     
                   <ResponsiveContainer width="100%" height="100%">
-                      <ComposedChart width={800} height={300} data={data} margin={{top: 25, right: 30, left: 20, bottom: 5}}>
+                      <AreaChart width={800} height={300} data={data} margin={{top: 25, right: 30, left: 20, bottom: 5}}>
                       <defs>
                         <linearGradient id="colorUv" x1="0" y1="0" x2="100%" y2="1">
                           <stop offset="5%" stopColor="#129a74" stopOpacity={0.1}/>
@@ -207,20 +211,26 @@ const StrategyStats = (props: any) => {
                           <stop offset="95%" stopColor="#1A202E" stopOpacity={0.1}/>
                         </linearGradient>
                       </defs>
-                    <CartesianGrid
-                      vertical={false}
-                      horizontal={false}
-                      strokeDasharray="3 3" />
-                    <XAxis 
+
+                    <YAxis 
+                      axisLine={false}
+                      tickLine={false}
+                    />
+                    
+                    <XAxis
                       dataKey="date"
-                      domain={["dataMin", "dataMax + 1"]}
+                      
+                      axisLine={false}
+                      tickLine={false}
+                      tickFormatter={dateFormatter}
+                      tick={{fill: 'white', fontSize: '13', textAnchor: 'right' }}
                     />
                     
                     <Tooltip />
-                    <Legend verticalAlign="bottom" height={36} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}/>
+                    <Legend verticalAlign="top" height={36} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}/>
                     <Area name="HODL Value" type="monotone" dataKey="hodl_value" stroke="#006991" strokeWidth={2} fillOpacity={opacity.hodl_value} fill="url(#colorUv)" />
                     <Area name="Strategy Value" type="monotone" dataKey="strategy_value" stroke="#31C48D" strokeWidth={2} fillOpacity={opacity.strategy_value} fill="url(#colorUv)" />
-                    </ComposedChart>
+                    </AreaChart>
                   </ResponsiveContainer>
                   
                   </div>
