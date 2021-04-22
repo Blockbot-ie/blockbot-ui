@@ -12,7 +12,9 @@ type StrategyData = {
 
 type CurrentStrategy = {
   id: string,
-  name: string
+  name: string,
+  balance: number,
+  incOrDecVsHodl: number
 }
 
 const StrategyStats = (props: any) => {
@@ -21,7 +23,9 @@ const StrategyStats = (props: any) => {
 
   const [currentTab, setCurrentTab] = useState<CurrentStrategy>({
     id: '',
-    name: ''
+    name: '',
+    balance: 0,
+    incOrDecVsHodl: 0
   })
   
   const [opacity, setOpacity] = useState({
@@ -47,6 +51,8 @@ const StrategyStats = (props: any) => {
       strategy_value: 0.5
     });
   };
+  
+  
 
   useEffect(() => {
     if (props.connectedStrategies.length < 1) props.getConnectedStrategies()
@@ -54,7 +60,6 @@ const StrategyStats = (props: any) => {
     if (props.connectedStrategies.length > 0) {
       if (tabs.length < 1) {
         props.connectedStrategies.map(strategy => {
-          debugger;
           setTabs(tabs => [...tabs, {
             id: strategy.id,
             name: strategy.strategy.name,
@@ -63,15 +68,30 @@ const StrategyStats = (props: any) => {
         })
       }
       setCurrentTab({
+        ...currentTab,
         id: props.connectedStrategies[0].id,
         name: props.connectedStrategies[0].strategy.name
       })
     }
   }, [props.connectedStrategies])
 
+  useEffect(() => {
+    if (props.dashboardData.length > 0) {
+      const stats = props.dashboardData[0].inc_or_dec_vs_hodl.filter(s => s.strategy_pair_id == currentTab.id)[0]
+      console.log(stats)
+      setCurrentTab({
+        ...currentTab,
+        balance: stats.balance,
+        incOrDecVsHodl: stats.inc_or_dec
+      })
+    }
+  }, [props.dashboardData])
+
     const [addModalOpen, setAddModalOpen] = useState(false);
 
     const handleClick = (strategy) => {
+      const stats = props.dashboardData[0].filter(x => x.inc_or_dec_vs_hodl.filter(s => s.strategy_id == currentTab.id))
+      console.log(stats)
         setCurrentTab({
           ...currentTab,
           id: strategy.id,
@@ -150,10 +170,16 @@ const StrategyStats = (props: any) => {
                       <span className="mb-2 text-sm md:text-left leading-5 font-normal dark:text-gray-400">Balance</span>
                       <div className="flex flex-wrap justify-center md:justify-left items-baseline">
                         <span className="text-4xl md:text-5xl dark:text-white font-semibold">
-                          <span className="flex-wrap md:flex-nowrap whitespace-nowrap truncate">$45000</span>
+                          <span className="flex-wrap md:flex-nowrap whitespace-nowrap truncate">${currentTab.balance.toFixed(2)}</span>
                         </span>
                         <span className="pl-4 text-green-400">
-                          <span className="flex-wrap md:flex-nowrap whitespace-nowrap truncate dark:text-green-400">2.78%</span>
+                          <span className={classNames(
+                            currentTab.incOrDecVsHodl > 0
+                              ? "dark:text-green-400"
+                              : "dark:text-red-400", 
+                              "flex-wrap md:flex-nowrap whitespace-nowrap truncate"
+                          )}>
+                          {currentTab.incOrDecVsHodl.toFixed(2)}%</span>
                         </span>
                         <span className="px-4 dark:text-gray-200 text-gray-400 whitespace-nowrap">Past 1D</span>
                       </div>
@@ -191,7 +217,7 @@ const StrategyStats = (props: any) => {
                     />
                     
                     <Tooltip />
-                    <Legend verticalAlign="top" height={36} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}/>
+                    <Legend verticalAlign="bottom" height={36} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}/>
                     <Area name="HODL Value" type="monotone" dataKey="hodl_value" stroke="#006991" strokeWidth={2} fillOpacity={opacity.hodl_value} fill="url(#colorUv)" />
                     <Area name="Strategy Value" type="monotone" dataKey="strategy_value" stroke="#31C48D" strokeWidth={2} fillOpacity={opacity.strategy_value} fill="url(#colorUv)" />
                     </ComposedChart>

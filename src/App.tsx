@@ -40,9 +40,9 @@ const App = (props: any) => {
       <AlertProvider template={AlertTemplate} {...alertOptions}>
         <Router>
           <Fragment>
+            <Nav />
             <Alerts />
               <Switch>
-                <PrivateRoute exact path="/" component={Dashboard}/>
                 <Route path="/signup" component={SignupForm} />
                 <Route exact path="/login" component={LoginForm} />
                 <Route path="/reset-password" component={ResetPassword} />
@@ -51,9 +51,6 @@ const App = (props: any) => {
                 <Route exact path='/google' component={Google} />
                 <Route exact path='/facebook' component={Facebook} />
                 <PrivateRoute path="/user-story" component={userStoryMain} />
-                <PrivateRoute path="/exchanges" component={ConnectExchange} />
-                <PrivateRoute path="/strategies" component={Strategies} />
-                <Route path="/settings" component={Main} />
               </Switch>
             
           </Fragment>
