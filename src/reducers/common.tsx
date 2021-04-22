@@ -16,7 +16,7 @@ import {
       REPORT_SUBMITTED,
       TOPPED_UP_STRATEGY_SUCCCESS,
       TOPPED_UP_STRATEGY_FAIL,
-      LOGOUT_SUCCESS,
+      LOGOUT,
       GET_DAILY_BALANCES
     } from '../actions/types';
 
@@ -143,19 +143,8 @@ export default function (state = initialState, action) {
         ...state,
         dailyBalances: action.payload
       }
-    case LOGOUT_SUCCESS:
-      return {
-        dashboardData: [],
-        strategies: [],
-        exchanges: [],
-        connectedExchanges: [],
-        connectedStrategies: [],
-        strategyPairs: [],
-        orders: [],
-        dailyBalances: [],
-        isLoading: false,
-        formSubmitted: false
-      }
+    case LOGOUT:
+      return state
     default:
       return state;
   }

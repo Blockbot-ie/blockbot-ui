@@ -3,7 +3,7 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Cell, Pi
 import { Row } from "react-bootstrap";
 import ConnectStrategyModalForm from "../forms/connectStrategyModalForm";
 import { useEffect, useState } from "react";
-import { getDailyBalances } from '../../actions/common';
+import { getDailyBalances, getConnectedStrategies } from '../../actions/common';
   
 type StrategyData = {
   balance: number,
@@ -26,32 +26,27 @@ const StrategyStats = (props: any) => {
   
 
   useEffect(() => {
-    
+    if (props.connectedStrategies.length < 1) props.getConnectedStrategies()
+
     if (props.connectedStrategies.length > 0) {
-
-      props.connectedStrategies.map(strategy => {
-
-        setTabs(tabs => [...tabs, {
-          id: strategy.id,
-          name: strategy.strategy.name,
-          current: true
-        }])
-      })
-
+      if (tabs.length < 1) {
+        props.connectedStrategies.map(strategy => {
+          debugger;
+          setTabs(tabs => [...tabs, {
+            id: strategy.id,
+            name: strategy.strategy.name,
+            current: true
+          }])
+        })
+      }
       setCurrentTab({
         id: props.connectedStrategies[0].id,
         name: props.connectedStrategies[0].strategy.name
       })
     }
-  }, [])
-
-    const [strategyData, setStrategyData] = useState<StrategyData>({
-      balance: 0,
-      incOrDecVsHodl: 0
-    })
+  }, [props.connectedStrategies])
 
     const [addModalOpen, setAddModalOpen] = useState(false);
-
 
     const handleClick = (strategy) => {
         setCurrentTab({
@@ -61,34 +56,17 @@ const StrategyStats = (props: any) => {
         })
     }
 
-    const connectedStrategies = props.connectedStrategies.map((strategy, i) => 
-        <button onClick={() => handleClick(strategy)} className={(currentTab == strategy.strategy.name ? "bg-indigo-100 text-indigo-700" : "text-gray-500 hover:text-gray-700") + " px-3 py-2 font-medium text-sm rounded-md"}>
-            {strategy.strategy.name}
-        </button> 
-    )
-
     let data = []
 
     const chartData = props.dailyBalances.map(strategy => {
       if (strategy.strategy_id == currentTab.id) {
         data = strategy.data
-        console.log(data)
       }
     })
-
-    // const connectedStrategyDetails = props.dashboardData.map((strategy) => 
-    //     strategy.inc_or_dec_vs_hodl[0].strategy_name == currentTab &&
-    //     <div>
-    //         <p> Inc/Dec vs HODL: {strategy.inc_or_dec_vs_hodl[0].inc_or_dec.toFixed(2)}%</p>
-    //         <p>Balance: ${strategy.balance.toFixed(2)}</p>
-    //     </div>
-    // )
-
 
     function classNames(...classes) {
       return classes.filter(Boolean).join(' ')
     }
-
 
     const handleClose = ()=> {
         setAddModalOpen(false)
@@ -185,4 +163,4 @@ const mapStateToProps = (state) => ({
     dashboardData: state.common.dashboardData,
     dailyBalances: state.common.dailyBalances
 })
-export default connect(mapStateToProps, { getDailyBalances } )(StrategyStats);
+export default connect(mapStateToProps, { getDailyBalances, getConnectedStrategies } )(StrategyStats);
