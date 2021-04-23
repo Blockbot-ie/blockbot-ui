@@ -9,6 +9,10 @@ type DashboardData = {
 
 const TopStrategies = (props: any) => {
 
+    function classNames(...classes) {
+        return classes.filter(Boolean).join(' ')
+      }
+
     const [dashboardData, setDashboardData] = useState<DashboardData>({
         balance: 0,
         incOrDecVsHodl: 0,
@@ -43,16 +47,27 @@ const TopStrategies = (props: any) => {
 
             return sortedStrategies.map((pair, i) => (
                 <tr>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                    <td className={classNames(
+                            i==0
+                            ? 'text-gold'
+                            :
+                            i == 1
+                            ? 'text-silver'
+                            :
+                            i == 2
+                            ? 'text-bronze'
+                            : 'text-white',
+                          'px-6 py-4 whitespace-nowrap text-sm font-medium'
+                        )}>
                         {i + 1}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm dark:text-white">
                         {pair.strategy_name}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm dark:text-white">
                         {pair.pair}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm dark:text-white">
                         {pair.inc_or_dec.toFixed(2)}
                     </td>
                 </tr>
@@ -65,25 +80,25 @@ const TopStrategies = (props: any) => {
         <div className="flex flex-col">
             <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                 <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-                <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-                    <table className="min-w-full divide-y divide-gray-200">
-                    <thead className="bg-gray-50">
+                <div className="shadow overflow-hidden sm:rounded-lg border border-gray-700">
+                    <table className="min-w-full divide-y divide-gray-300">
+                    <thead className="dark:bg-gray-900">
                         <tr>
-                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium dark:text-white uppercase tracking-wider">
                             Position
                         </th>
-                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium dark:text-white uppercase tracking-wider">
                             Strategy
                         </th>
-                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium dark:text-white uppercase tracking-wider">
                             Pair
                         </th>
-                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium dark:text-white uppercase tracking-wider">
                             %
                         </th>
                         </tr>
                     </thead>
-                    <tbody className="bg-white divide-y divide-gray-200">
+                    <tbody className="dark:bg-gray-700 divide-y divide-gray-200">
                         {strats()}
                     </tbody>
                     </table>

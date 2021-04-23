@@ -15,6 +15,21 @@ module.exports = {
       indigo: colors.indigo,
       red: colors.rose,
       yellow: colors.amber,
+      gold: {
+        light: '#FFD700',
+        DEFAULT: '#FFD700',
+        dark: '#FFD700',
+      },
+      silver: {
+        light: '#C0C0C0',
+        DEFAULT: '#C0C0C0',
+        dark: '#C0C0C0',
+      },
+      bronze: {
+        light: '#cd7f32',
+        DEFAULT: '#cd7f32',
+        dark: '#cd7f32',
+      },
     },
     extend: {},
   },

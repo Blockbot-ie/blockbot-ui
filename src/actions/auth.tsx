@@ -3,13 +3,9 @@ import { returnErrors } from './messages';
 
 import {
   USER_LOADED,
-  USER_LOADING,
   AUTH_ERROR,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
-  LOGOUT_SUCCESS,
-  REGISTER_SUCCESS,
-  REGISTER_FAIL,
   REFRESH_SUCCESS,
   AUTHENTICATED_SUCCESS,
   AUTHENTICATED_FAIL,
@@ -25,7 +21,8 @@ import {
   PASSWORD_RESET_SUCCESS,
   PASSWORD_RESET_FAIL,
   PASSWORD_RESET_CONFIRM_SUCCESS,
-  PASSWORD_RESET_CONFIRM_FAIL
+  PASSWORD_RESET_CONFIRM_FAIL,
+  IS_LOADING
   
 } from './types';
 
@@ -104,7 +101,7 @@ export const tokenRefresh = () => async dispatch => {
             }
         }
 
-        const body = JSON.stringify({ token: localStorage.getItem('refresh') });
+        const body = JSON.stringify({ refresh: localStorage.getItem('refresh') });
 
         try {
             const res = await axios.post('/api/dj-rest-auth/token/refresh/', body, config)

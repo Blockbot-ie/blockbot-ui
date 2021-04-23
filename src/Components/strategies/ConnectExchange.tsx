@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 import ConnectExchangeModalForm from '../forms/connectExchangeModalForm';
 import Nav from '../Nav';
+import Loader from 'react-loader-spinner';
 
 const ConnectExhange = (props: any) => {
 
@@ -64,6 +65,14 @@ const ConnectExhange = (props: any) => {
   }
     
     return <>
+
+    {props.isLoading ?
+    <div className="flex h-screen">
+      <div className="m-auto">
+          <Loader type="Circles" color="#00BFFF" height={64} width={64}/>
+      </div>
+    </div>
+    :
       <div className="max-w-3xl mx-auto px-4 sm:px-6 md:px-8">
           {(props.connectedExchanges.length < 1) ?
             <div>
@@ -120,11 +129,13 @@ const ConnectExhange = (props: any) => {
           </div> 
           }
           </div>
+        }
     </>
 }
 
 const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
+  isLoading: state.common.isLoading,
   exchanges: state.common.exchanges,
   connectedExchanges: state.common.connectedExchanges,
   connectedStrategies: state.common.connectedStrategies,

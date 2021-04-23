@@ -62,67 +62,74 @@ const ConnectStrategyForm = (props: any) => {
     }, [])
 
     useEffect(() => {
-        if (props.connectedExchanges.length > 0) {
+      if (props.strategies.length > 0) {
+        setConnectedStrategyState({
+          ...connectedStrategyState,
+          strategy: props.strategies[0].strategy_id,
+        })
 
-          props.connectedExchanges.map(exchange => {
-            setConnectedExchanges([...connectedExchanges, {
-              id: exchange.exchange.user_exchange_account_id,
-              name: exchange.exchange.name
-            }])
-          })
+        props.strategies.map(strategy => {
 
-          setSelectedExchangeAccount({
-            id: props.connectedExchanges[0].exchange.user_exchange_account_id,
-            name: props.connectedExchanges[0].exchange.name,
-          })
+          setStrategies(strategies => [...strategies, {
+            id: strategy.strategy_id,
+            name: strategy.name
+          }])
+        })
 
-          const filteredPairs = props.strategyPairs.filter(x => x.strategy_id == props.strategies[0].strategy_id)
-          setConnectedStrategyState({
-            ...connectedStrategyState,
-            strategy: props.strategies[0].strategy_id,
-            user_exchange_account: props.connectedExchanges[0].exchange.user_exchange_account_id,
-            pair: props.strategyPairs[0].symbol,
-            current_currency: filteredPairs[0].ticker_2,
-            ticker_1: filteredPairs[0].ticker_1,
-            ticker_2: filteredPairs[0].ticker_2
-          })
-        }
+        setSelectedStrategy({
+          id: props.strategies[0].strategy_id,
+          name: props.strategies[0].name
+        })
+      }
+    }, [props.strategies])
 
-        if (props.strategies.length > 0) {
+    useEffect(() => {
+      if (props.connectedExchanges.length > 0) {
+        setConnectedStrategyState({
+          ...connectedStrategyState,
+          user_exchange_account: props.connectedExchanges[0].exchange.user_exchange_account_id,
+        })
 
-          props.strategies.map(strategy => {
+        props.connectedExchanges.map(exchange => {
+          setConnectedExchanges([...connectedExchanges, {
+            id: exchange.exchange.user_exchange_account_id,
+            name: exchange.exchange.name
+          }])
+        })
 
-            setStrategies(strategies => [...strategies, {
-              id: strategy.strategy_id,
-              name: strategy.name
-            }])
-          })
+        setSelectedExchangeAccount({
+          id: props.connectedExchanges[0].exchange.user_exchange_account_id,
+          name: props.connectedExchanges[0].exchange.name,
+        })
 
-          setSelectedStrategy({
-            id: props.strategies[0].strategy_id,
-            name: props.strategies[0].name
-          })
-        }
+      }  
+    }, [props.connectedExchanges])
 
-        if (props.strategyPairs.length > 0) {
+    useEffect(() => {
+      if (props.strategyPairs.length > 0) {
+        const filteredPairs = props.strategyPairs.filter(x => x.strategy_id == props.strategies[0].strategy_id)
+        setConnectedStrategyState({
+          ...connectedStrategyState,
+          pair: filteredPairs[0].symbol,
+          current_currency: filteredPairs[0].ticker_2,
+          ticker_1: filteredPairs[0].ticker_1,
+          ticker_2: filteredPairs[0].ticker_2
+        })
+        props.strategyPairs.map((pair, i) => {
 
-          props.strategyPairs.map((pair, i) => {
-
-            setStrategyPairs(strategyPairs => [...strategyPairs, {
-              id: pair.pair_id,
-              strategy_id: pair.strategy_id,
-              pair: pair.symbol
-            }])
-          })
-
-          const filteredPairs = props.strategyPairs.filter(x => x.strategy_id == props.strategies[0].strategy_id)
-          
-          setSelectedStrategyPairs({
-            id: filteredPairs[0].strategy_id,
-            pair: filteredPairs[0].symbol
-          })
-        }
-    }, [props.strategies, props.strategyPairs])
+          setStrategyPairs(strategyPairs => [...strategyPairs, {
+            id: pair.pair_id,
+            strategy_id: pair.strategy_id,
+            pair: pair.symbol
+          }])
+        })
+        
+        setSelectedStrategyPairs({
+          id: filteredPairs[0].strategy_id,
+          pair: filteredPairs[0].symbol
+        })
+      }  
+    }, [props.strategyPairs])
 
     useEffect(() => {
       // if (props.connectedStrategies.length > 0 && !props.isModal) {
@@ -138,16 +145,7 @@ const ConnectStrategyForm = (props: any) => {
       if (props.strategyPairs.length > 0) {
         
           const filteredPairs = props.strategyPairs.filter(x => x.strategy_id == e.id)
-          
-          // setStrategyPairs([])
-          // filteredPairs.map((pair, i) => {
-          //   setStrategyPairs([
-          //     ...strategyPairs, {
-          //       id: pair.pair_id,
-          //       pair: pair.symbol
-          //     }
-          //   ])
-          // })
+
           setSelectedStrategyPairs({
             id: filteredPairs[0].strategy_id,
             strategy_id: filteredPairs[0].strategy_id,
@@ -245,7 +243,7 @@ const ConnectStrategyForm = (props: any) => {
         console.log(pairDetails)
         if (connectedStrategyState.current_currency == pairDetails.ticker_1) {
           if (connectedStrategyState.current_currency_balance < pairDetails.ticker_1_min_value) {
-            props.createMessage({ belowMinAmount: 'Please increase the inital amount' });
+            props.createMessage({ belowMinAmount: 'Minimum Amount is ' + pairDetails.ticker_1_min_value + pairDetails.ticker_1});
           }
           else {
             props.connectStrategy({ connectedStrategyState }) 
@@ -253,7 +251,7 @@ const ConnectStrategyForm = (props: any) => {
         }
         if (connectedStrategyState.current_currency == pairDetails.ticker_2) {
           if (connectedStrategyState.current_currency_balance < pairDetails.ticker_2_min_value) {
-            props.createMessage({ belowMinAmount: 'Please increase the inital amout' });
+            props.createMessage({ belowMinAmount: 'Minimum Amount is '  + pairDetails.ticker_2_min_value + pairDetails.ticker_2});
           }
           else {
             props.connectStrategy({ connectedStrategyState }) 

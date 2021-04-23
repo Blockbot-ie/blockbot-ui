@@ -124,7 +124,7 @@ const StrategyStats = (props: any) => {
     }
 
     const dateFormatter = date => {
-      if (date != null) {
+      if (date != null && date != undefined && date != 'auto') {
         return format(new Date(date), "PP");
       }
     };

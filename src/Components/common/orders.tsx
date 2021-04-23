@@ -15,7 +15,7 @@ const Orders = (props: any) => {
 
     const openOrders = () => {
         if (props.orders.filter(order => order.status == 'open').length < 1) {
-            return <p className="text-sm font-medium text-gray-500 truncate">No open orders</p>
+            return <span className="text-sm font-medium dark:text-white truncate">No open orders</span>
         }
         else {
             return props.orders.filter(order => order.status == 'open').map(openOrder => (
@@ -47,7 +47,7 @@ const Orders = (props: any) => {
 
     const filledOrders = () => {
         if (props.orders.filter(order => order.status == 'closed').length < 1) {
-            return <p className="text-sm font-medium text-gray-500 truncate">No filled orders</p>
+            return <p className="text-sm font-medium dark:text-white truncate">No filled orders</p>
         }
         else {
             return props.orders.filter(order => order.status == 'closed').map(filledOrder => (
@@ -78,7 +78,7 @@ const Orders = (props: any) => {
     }
 
     return <>
-    <div className="bg-white px-4 py-5 border-b border-gray-200 sm:px-6">
+    <div className="dark:bg-gray-900 px-4 py-5 border-b border-gray-200 sm:px-6">
         <div className="-ml-4 -mt-2 flex items-center justify-between flex-wrap sm:flex-nowrap">
             <div className="ml-4 mt-2">
             <div>
@@ -108,32 +108,32 @@ const Orders = (props: any) => {
             <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
             <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
             <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-gray-50">
+                <thead className="dark:bg-gray-900">
                     <tr>
-                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium dark:text-white uppercase tracking-wider">
                         Side
                     </th>
-                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium dark:text-white uppercase tracking-wider">
                         Market
                     </th>
-                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium dark:text-white uppercase tracking-wider">
                         Size
                     </th>
-                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium dark:text-white uppercase tracking-wider">
                         Filled
                     </th>
-                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium dark:text-white uppercase tracking-wider">
                         Filled Price
                     </th>
-                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium dark:text-white uppercase tracking-wider">
                         Fee
                     </th>
-                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium dark:text-white uppercase tracking-wider">
                         Date
                     </th>
                     </tr>
                 </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
+                <tbody className="dark:bg-gray-500 divide-y divide-gray-200">
                     {tab == 'Open' ?
                         openOrders()
                     :

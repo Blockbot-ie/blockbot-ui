@@ -209,6 +209,13 @@ const Strategies = (props: any) => {
   }
      
     return <>
+    {props.isLoading ?
+    <div className="flex h-screen">
+      <div className="m-auto">
+          <Loader type="Circles" color="#00BFFF" height={64} width={64}/>
+      </div>
+    </div>
+    :
     <div className="max-w-3xl mx-auto px-4 sm:px-6 md:px-8">
     {(props.connectedExchanges.length < 1) ?
       <div>
@@ -344,6 +351,7 @@ const Strategies = (props: any) => {
       
       }
     </div>
+    }
     </>
   }
 

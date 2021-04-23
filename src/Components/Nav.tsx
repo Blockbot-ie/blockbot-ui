@@ -128,6 +128,7 @@ const Nav = (props: any) => {
                   {navigation.map((item) => (
                     <Link
                       to={item.link}
+                      key={item.name}
                       className={classNames(
                         item.current
                           ? 'dark:bg-gray-500 dark:text-white hover:text-gray-900'
