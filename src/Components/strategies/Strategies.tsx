@@ -160,69 +160,58 @@ const Strategies = (props: any) => {
   const strategyDetails = () => {
     return props.connectedStrategies.map((strategy) =>
       strategy.id == currentStrategy.strategy_pair_id &&
-      <div className="bg-white shadow overflow-hidden sm:rounded-lg">
-      <div className="px-4 py-5 sm:px-6">
-        <h3 className="text-lg leading-6 font-medium text-gray-900">
-          Strategy Pair Details
-        </h3>
-        <p className="mt-1 max-w-2xl text-sm text-gray-500">
-          Personal details and application.
-          <button onClick={() => setTopUpModalOpen(true)} type="submit" className="float-right inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-          Top up
-        </button>
-        </p>    
-      </div>
-      <div className="border-t border-gray-200 px-4 py-5 sm:p-0">
-        <dl className="sm:divide-y sm:divide-gray-200">
-          <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-            <dt className="text-sm font-medium text-gray-500">
-              Strategy
-            </dt>
-            <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-              {strategy.strategy.name}
-            </dd>
-          </div>
-          <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-            <dt className="text-sm font-medium text-gray-500">
-              Account Name
-            </dt>
-            <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-            {strategy.user_exchange_account.name}
-            </dd>
-          </div>
-          <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-            <dt className="text-sm font-medium text-gray-500">
-              Pair
-            </dt>
-            <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-              {strategy.pair}
-            </dd>
-          </div>
-          <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-            <dt className="text-sm font-medium text-gray-500">
-              Current Currency
-            </dt>
-            <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-              {strategy.current_currency}
-            </dd>
-          </div>
-          <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-            <dt className="text-sm font-medium text-gray-500">
-              Current Currency Balance
-            </dt>
-            <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-            {strategy.current_currency_balance}
-            </dd>
-          </div>
-        </dl>
-      </div>
-    </div>
+      <div className="relative">
+            <div className="mt-6">
+                <div className="mt-6">
+                    <div className=" flex flex-col md:flex-row space-y-4 md:space-y-0 items-center xl:items-end md:justify-between">
+                      <div className="flex flex-col">
+                        <span className="mb-5 mt-10 text-l leading-5 dark:text-gray-200 flex whitespace-nowrap">Strategy Details</span>
+                      </div>
+                      <div className="flex flex-col-reverse xl:flex-row md:ml-6 items-center md:items-center">
+                        <button onClick={() => setTopUpModalOpen(true)} type="submit" className="float-right inline-flex justify-center py-2 px-4 mb-5 border-0 shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                          Top up
+                        </button>
+                        </div>
+                    </div>
+                    <div className="shadow rounded-lg overflow-hidden dark:bg-gray-800">
+                        <div className="grid grid-cols-3 gap-4 items-center px-6 py-3 border-b last:border-b-0 dark:border-gray-700">
+                            <dt className="text-sm leading-5 font-medium dark:text-gray-300">Strategy</dt>
+                            <dd className="text-sm leading-5 col-span-2 dark:text-gray-300">{strategy.strategy.name}</dd>
+                        </div>
+                    
+                        <div className="grid grid-cols-3 gap-4 items-center px-6 py-3 border-b last:border-b-0 dark:border-gray-700">
+                            <dt className="text-sm leading-5 font-medium dark:text-gray-300">Account Name</dt>
+                            <dd className="text-sm leading-5 col-span-2 dark:text-gray-300">{strategy.user_exchange_account.name}</dd>
+                        </div>
+                    
+                        <div className="grid grid-cols-3 gap-4 items-center px-6 py-3 border-b last:border-b-0 dark:border-gray-700">
+                            <dt className="text-sm leading-5 font-medium dark:text-gray-300">Pair</dt>
+                            <dd className="text-sm leading-5 col-span-2 dark:text-gray-300">{strategy.pair}</dd>
+                        </div>
+                        <div className="grid grid-cols-3 gap-4 items-center px-6 py-3 border-b last:border-b-0 dark:border-gray-700">
+                            <dt className="text-sm leading-5 font-medium dark:text-gray-300">Current Currency</dt>
+                            <dd className="text-sm leading-5 col-span-2 dark:text-gray-300">{strategy.current_currency}</dd>
+                        </div>
+                        <div className="grid grid-cols-3 gap-4 items-center px-6 py-3 border-b last:border-b-0 dark:border-gray-700">
+                            <dt className="text-sm leading-5 font-medium dark:text-gray-300">Current Currency Balance</dt>
+                            <dd className="text-sm leading-5 col-span-2 dark:text-gray-300">{strategy.current_currency_balance}</dd>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div className="flex justify-end pt-5 space-x-3">
+            <Link to="/connect-strategy" className="flex-shrink-0 inline-flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-gray-700 dark:focus:ring-gray-700 transition bg-indigo-500 dark:bg-indigo-500 active:bg-indigo-500 dark:active:bg-indigo-500 border-transparent font-medium  hover:bg-indigo-600 dark:hover:bg-indigo-400 px-4 py-2 rounded-md shadow-sm text-base text-white">
+                Add new Strategy
+            </Link>
+            </div>
+        </div>
     )
   }
      
     return <>
+    <div className="max-w-3xl mx-auto px-4 sm:px-6 md:px-8">
     {(props.connectedExchanges.length < 1) ?
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 md:px-8">
+      <div>
         <header className="max-w-7xl w-full px-4 py-8 sm:px-6 lg:px-8">
           <div className="md:flex md:items-center md:justify-between md:h-16">
             <div className="flex-1 min-w-0">
@@ -292,25 +281,23 @@ const Strategies = (props: any) => {
         </div>
         :
         <div>
-        
-        <div className="px-4 py-3 bg-gray-50 text-center sm:px-6">
-          <div>
-            <select className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500" id="options-menu" aria-expanded="true" aria-haspopup="true"
-              onChange={(e: any): void => {
-                const trimmed = e.target.value.trim()
-                handleChnange(trimmed)
-              }
-              }>
-              {/* <!-- Heroicon name: solid/chevron-down --> */}
-              <svg className="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-              </svg>
-              {connectedStrategies}
-            </select>
-          </div>
-        </div>
-        {strategyDetails()}      
-      </div>
+            <div className="px-4 py-3 dark:bg-gray-900 text-center sm:px-6">
+              <div>
+                <select className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 dark:bg-gray-700 text-sm font-medium dark:text-white hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500" id="options-menu" aria-expanded="true" aria-haspopup="true"
+                  onChange={(e: any): void => {
+                    const trimmed = e.target.value.trim()
+                    handleChnange(trimmed)}
+                  } >
+                  {/* <!-- Heroicon name: solid/chevron-down --> */}
+                  <svg className="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                  </svg>
+                  {connectedStrategies}
+                </select>
+              </div>
+            </div>
+            {strategyDetails()}      
+          </div> 
        }
         {topUpModalOpen &&
       <div className="fixed z-10 inset-0 overflow-y-auto">
@@ -356,7 +343,7 @@ const Strategies = (props: any) => {
       </div>
       
       }
-
+    </div>
     </>
   }
 

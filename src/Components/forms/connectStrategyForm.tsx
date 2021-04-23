@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from "react"
 import { connect } from "react-redux"
-import { getStrategies, connectStrategy, connectExchange, getConnectedExchanges } from '../../actions/common';
+import { getStrategies, getStrategyPairs, connectStrategy, connectExchange, getConnectedExchanges, getConnectedStrategies } from '../../actions/common';
 import { createMessage } from '../../actions/messages';
 import logo from '../../close-icon.svg'
 import Loader from 'react-loader-spinner';
@@ -48,6 +48,18 @@ const ConnectStrategyForm = (props: any) => {
     const [selectedExchangeAccount, setSelectedExchangeAccount] = useState(null)
 
     const [selectedStrategyPairs, setSelectedStrategyPairs] = useState(null)
+
+
+    useEffect(() => {
+
+      if (props.strategies.length < 1) props.getStrategies();
+
+      if (props.strategyPairs.length < 1) props.getStrategyPairs();
+
+      if (props.connectedExchanges.length < 1) props.getConnectedExchanges();
+
+      if (props.connectedStrategies.length < 1) props.getConnectedStrategies();
+    }, [])
 
     useEffect(() => {
         if (props.connectedExchanges.length > 0) {
@@ -110,12 +122,12 @@ const ConnectStrategyForm = (props: any) => {
             pair: filteredPairs[0].symbol
           })
         }
-    }, [])
+    }, [props.strategies, props.strategyPairs])
 
     useEffect(() => {
-      if (props.connectedStrategies.length > 0 && !props.isModal) {
-        props.next()
-      }
+      // if (props.connectedStrategies.length > 0 && !props.isModal) {
+      //   props.next()
+      // }
     }, [props.connectedStrategies])
 
     
@@ -249,7 +261,7 @@ const ConnectStrategyForm = (props: any) => {
         }
     } 
     return <>
-
+    <div className="max-w-3xl mx-auto px-4 mt-8 sm:px-6 md:px-8">
       <div className="relative">
         <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-white">Connect with a Strategy</h3>
       </div>
@@ -508,6 +520,7 @@ const ConnectStrategyForm = (props: any) => {
         </form>
         </div>
       </div>
+    </div>
 </>
 }
 
@@ -519,4 +532,4 @@ const mapStateToProps = (state) => ({
     isLoading: state.common.isLoading
   });
 
-export default connect(mapStateToProps, { createMessage, getStrategies, connectStrategy, connectExchange, getConnectedExchanges })(ConnectStrategyForm);
+export default connect(mapStateToProps, { createMessage, getStrategies, getStrategyPairs, connectStrategy, connectExchange, getConnectedExchanges, getConnectedStrategies })(ConnectStrategyForm);

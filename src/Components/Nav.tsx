@@ -27,6 +27,7 @@ import Strategies from './strategies/Strategies';
 import PrivateRoute from '../Components/common/PrivateRoute';
 import { getDashboardData, getExchanges, getConnectedExchanges, getConnectedStrategies, getStrategies, getStrategyPairs, getDailyBalances } from '../actions/common';
 import connectExchangeForm from './forms/connectExchangeForm';
+import connectStrategyForm from './forms/connectStrategyForm';
 
 const navigation = [
   { name: 'Dashboard', link: "/", icon: HomeIcon, current: true },
@@ -229,6 +230,7 @@ const Nav = (props: any) => {
               <PrivateRoute path="/exchanges" component={ConnectExchange} />
               <PrivateRoute path="/strategies" component={Strategies} />
               <PrivateRoute path="/connect-exchange" component={connectExchangeForm} />
+              <PrivateRoute path="/connect-strategy" component={connectStrategyForm} />
             
           </div>
         </main>

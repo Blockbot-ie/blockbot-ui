@@ -30,51 +30,43 @@ const ConnectExhange = (props: any) => {
 
       return props.connectedExchanges.map((exchange) =>
         exchange.exchange.user_exchange_account_id == currentExchange &&
-        <div className="bg-white shadow overflow-hidden sm:rounded-lg">
-        <div className="px-4 py-5 sm:px-6">
-          <h3 className="text-lg leading-6 font-medium text-gray-900">
-            Exchange Account Details
-          </h3>
-          <p className="mt-1 max-w-2xl text-sm text-gray-500">
-            Personal details and application.
-          </p>
+        <div className="relative">
+            <div className="mt-6">
+                <div className="mt-6">
+                    <div className="flex-col">
+                        <span className="mb-5 mt-10 text-l leading-5 dark:text-gray-200 flex whitespace-nowrap">Exchange Account Details</span>
+                    </div>
+                    <div className="shadow rounded-lg overflow-hidden dark:bg-gray-800">
+                        <div className="grid grid-cols-3 gap-4 items-center px-6 py-3 border-b last:border-b-0 dark:border-gray-700">
+                            <dt className="text-sm leading-5 font-medium dark:text-gray-300">Exchange</dt>
+                            <dd className="text-sm leading-5 col-span-2 dark:text-gray-300">{exchange.exchange.exchange.name}</dd>
+                        </div>
+                    
+                        <div className="grid grid-cols-3 gap-4 items-center px-6 py-3 border-b last:border-b-0 dark:border-gray-700">
+                            <dt className="text-sm leading-5 font-medium dark:text-gray-300">Account Name</dt>
+                            <dd className="text-sm leading-5 col-span-2 dark:text-gray-300">{exchange.exchange.name}</dd>
+                        </div>
+                    
+                        <div className="grid grid-cols-3 gap-4 items-center px-6 py-3 border-b last:border-b-0 dark:border-gray-700">
+                            <dt className="text-sm leading-5 font-medium dark:text-gray-300">Number of Connected Strategies</dt>
+                            <dd className="text-sm leading-5 col-span-2 dark:text-gray-300">{exchange.strategy_count}</dd>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div className="flex justify-end pt-5 space-x-3">
+            <Link to="/connect-exchange" className="flex-shrink-0 inline-flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-gray-700 dark:focus:ring-gray-700 transition bg-indigo-500 dark:bg-indigo-500 active:bg-indigo-500 dark:active:bg-indigo-500 border-transparent font-medium  hover:bg-indigo-600 dark:hover:bg-indigo-400 px-4 py-2 rounded-md shadow-sm text-base text-white">
+                Add new Exchange
+            </Link>
+            </div>
         </div>
-        <div className="border-t border-gray-200 px-4 py-5 sm:p-0">
-          <dl className="sm:divide-y sm:divide-gray-200">
-            <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-              <dt className="text-sm font-medium text-gray-500">
-                Exchange
-              </dt>
-              <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                {exchange.exchange.exchange.name}
-              </dd>
-            </div>
-            <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-              <dt className="text-sm font-medium text-gray-500">
-                Account Name
-              </dt>
-              <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-              {exchange.exchange.name}
-              </dd>
-            </div>
-            <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-              <dt className="text-sm font-medium text-gray-500">
-                Number of Connected Strategies
-              </dt>
-              <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                {exchange.strategy_count}
-              </dd>
-            </div>
-          </dl>
-        </div>
-      </div>
     )
   }
     
     return <>
-      
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 md:px-8">
           {(props.connectedExchanges.length < 1) ?
-            <div className="max-w-3xl mx-auto px-4 sm:px-6 md:px-8">
+            <div>
               <header className="max-w-7xl w-full px-4 py-8 sm:px-6 lg:px-8">
                 <div className="md:flex md:items-center md:justify-between md:h-16">
                   <div className="flex-1 min-w-0">
@@ -109,9 +101,9 @@ const ConnectExhange = (props: any) => {
             </div>
           :
           <div>
-            <div className="px-4 py-3 bg-gray-50 text-center sm:px-6">
+            <div className="px-4 py-3 dark:bg-gray-900 text-center sm:px-6">
               <div>
-                <select className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500" id="options-menu" aria-expanded="true" aria-haspopup="true"
+                <select className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 dark:bg-gray-700 text-sm font-medium dark:text-white hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500" id="options-menu" aria-expanded="true" aria-haspopup="true"
                   onChange={(e: any): void => {
                     const trimmed = e.target.value.trim()
                     setCurrentExchangeState(trimmed)}
@@ -127,6 +119,7 @@ const ConnectExhange = (props: any) => {
             {exchangeAccountDetails()}      
           </div> 
           }
+          </div>
     </>
 }
 
