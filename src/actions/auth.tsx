@@ -10,6 +10,7 @@ import {
   LOGOUT_SUCCESS,
   REGISTER_SUCCESS,
   REGISTER_FAIL,
+  REFRESH_SUCCESS,
   AUTHENTICATED_SUCCESS,
   AUTHENTICATED_FAIL,
   LOGOUT,
@@ -72,17 +73,16 @@ export const checkAuthenticated = () => async dispatch => {
 
       try {
           const res = await axios.post('/api/dj-rest-auth/token/verify/', body, config)
-
+            console.log(res.data.code)
           if (res.data.code !== 'token_not_valid') {
               dispatch({
                   type: AUTHENTICATED_SUCCESS
               });
           } else {
-              dispatch({
-                  type: AUTHENTICATED_FAIL
-              });
+            dispatch(tokenRefresh());
           }
       } catch (err) {
+          dispatch(tokenRefresh());
           dispatch({
               type: AUTHENTICATED_FAIL
           });
@@ -94,6 +94,37 @@ export const checkAuthenticated = () => async dispatch => {
       });
   }
 };
+
+export const tokenRefresh = () => async dispatch => {
+    if (localStorage.getItem('refresh')) {
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        }
+
+        const body = JSON.stringify({ token: localStorage.getItem('refresh') });
+
+        try {
+            const res = await axios.post('/api/dj-rest-auth/token/refresh/', body, config)
+  
+            if (res.data.code !== 'token_not_valid') {
+                dispatch({
+                    type: REFRESH_SUCCESS
+                });
+            } else {
+                dispatch({
+                    type: AUTHENTICATED_FAIL
+                });
+            }
+        } catch (err) {
+            dispatch({
+                type: AUTHENTICATED_FAIL
+            });
+        }
+    }
+}
 
 export const googleLogin = (accessToken) => async dispatch => {
 

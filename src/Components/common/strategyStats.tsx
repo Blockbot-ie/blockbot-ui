@@ -1,9 +1,8 @@
 import { connect } from "react-redux"
 import { Line, ComposedChart, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import { Row } from "react-bootstrap";
-import ConnectStrategyModalForm from "../forms/connectStrategyModalForm";
+import Loader from 'react-loader-spinner';
 import { useEffect, useState } from "react";
-import { getDailyBalances, getConnectedStrategies } from '../../actions/common';
+import { getConnectedStrategies, getDailyBalances, getDashboardData } from '../../actions/common';
 import { format } from "date-fns";
   
 type StrategyData = {
@@ -36,7 +35,6 @@ const StrategyStats = (props: any) => {
 
   const handleMouseEnter = (o) => {
     const { dataKey } = o;
-    console.log(dataKey)
     setOpacity({
       ...opacity,
       [dataKey]: 0.9
@@ -53,7 +51,15 @@ const StrategyStats = (props: any) => {
     });
   };
   
-  
+  useEffect(() => {
+    if (props.dailyBalances.length < 1) {
+      props.getDailyBalances()
+    }
+
+    if (props.dashboardData.length < 1) {
+      props.getDashboardData()
+    }
+  }, [])
 
   useEffect(() => {
     if (props.connectedStrategies.length < 1) props.getConnectedStrategies()
@@ -118,7 +124,9 @@ const StrategyStats = (props: any) => {
     }
 
     const dateFormatter = date => {
-      return format(new Date(date), "PP");
+      if (date != null) {
+        return format(new Date(date), "PP");
+      }
     };
 
     return <>
@@ -200,17 +208,17 @@ const StrategyStats = (props: any) => {
                     </span>
                   </div>
                   <div className="h-96 flex items-center justify-center relative">
-                    
+                  {props.dailyBalances.length > 0 ?
                   <ResponsiveContainer width="100%" height="100%">
-                      <AreaChart width={800} height={300} data={data} margin={{top: 25, right: 30, left: 20, bottom: 5}}>
-                      <defs>
-                        <linearGradient id="colorUv" x1="0" y1="0" x2="100%" y2="1">
-                          <stop offset="5%" stopColor="#129a74" stopOpacity={0.1}/>
-                          <stop offset="95%" stopColor="#FFFFFF" stopOpacity={0.1}/>
-                          <stop offset="5%" stopColor="#31C48D" stopOpacity={0.1}/>
-                          <stop offset="95%" stopColor="#1A202E" stopOpacity={0.1}/>
-                        </linearGradient>
-                      </defs>
+                    <AreaChart width={800} height={300} data={data} margin={{top: 25, right: 30, left: 20, bottom: 5}}>
+                    <defs>
+                      <linearGradient id="colorUv" x1="0" y1="0" x2="100%" y2="1">
+                        <stop offset="5%" stopColor="#129a74" stopOpacity={0.1}/>
+                        <stop offset="95%" stopColor="#FFFFFF" stopOpacity={0.1}/>
+                        <stop offset="5%" stopColor="#31C48D" stopOpacity={0.1}/>
+                        <stop offset="95%" stopColor="#1A202E" stopOpacity={0.1}/>
+                      </linearGradient>
+                    </defs>
 
                     <YAxis 
                       axisLine={false}
@@ -232,6 +240,9 @@ const StrategyStats = (props: any) => {
                     <Area name="Strategy Value" type="monotone" dataKey="strategy_value" stroke="#31C48D" strokeWidth={2} fillOpacity={opacity.strategy_value} fill="url(#colorUv)" />
                     </AreaChart>
                   </ResponsiveContainer>
+                  :
+                  <Loader type="Circles" color="#00BFFF" height={24} width={24}/>
+                  } 
                   
                   </div>
                 </div>
@@ -248,9 +259,8 @@ const StrategyStats = (props: any) => {
 }
 
 const mapStateToProps = (state) => ({
-    connectedStrategies: state.common.connectedStrategies,
-    connectedExchanges: state.common.connectedExchanges,
     dashboardData: state.common.dashboardData,
-    dailyBalances: state.common.dailyBalances
+    dailyBalances: state.common.dailyBalances,
+    connectedStrategies: state.common.connectedStrategies
 })
-export default connect(mapStateToProps, { getDailyBalances, getConnectedStrategies } )(StrategyStats);
+export default connect(mapStateToProps, { getDailyBalances, getConnectedStrategies, getDashboardData } )(StrategyStats);

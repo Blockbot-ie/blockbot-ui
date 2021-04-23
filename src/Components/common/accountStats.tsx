@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { connect } from "react-redux"
+import { getDashboardData } from '../../actions/common';
 
 type DashboardData = {
     balance: number,
@@ -14,6 +15,10 @@ const AccountStats = (props: any) => {
         incOrDecVsHodl: 0,
         activeStrategies: 0
     })
+
+    useEffect(() => {
+        if (props.dashboardData.length < 1) props.getDashboardData();
+    }, [])
 
     useEffect(() => {
         if (props.dashboardData.length > 0) {
@@ -80,4 +85,4 @@ const mapStateToProps = (state) => ({
     dashboardData: state.common.dashboardData
 })
 
-export default connect(mapStateToProps)(AccountStats);
+export default connect(mapStateToProps, { getDashboardData })(AccountStats);

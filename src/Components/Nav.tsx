@@ -26,6 +26,7 @@ import ConnectExchange from './strategies/ConnectExchange';
 import Strategies from './strategies/Strategies';
 import PrivateRoute from '../Components/common/PrivateRoute';
 import { getDashboardData, getExchanges, getConnectedExchanges, getConnectedStrategies, getStrategies, getStrategyPairs, getDailyBalances } from '../actions/common';
+import connectExchangeForm from './forms/connectExchangeForm';
 
 const navigation = [
   { name: 'Dashboard', link: "/", icon: HomeIcon, current: true },
@@ -40,27 +41,7 @@ function classNames(...classes) {
 const Nav = (props: any) => {
 
   useEffect(() => {
-    if (props.exchanges.length < 1){
-        props.getExchanges()
-    }
-    if (props.strategies.length < 1) {
-        props.getStrategies()
-    }
-    if (props.connectedExchanges.length < 1){
-        props.getConnectedExchanges();
-    }
-    if (props.strategyPairs.length < 1) {
-        props.getStrategyPairs()
-    }
-    if (props.connectedStrategies.length < 1) {
-        props.getConnectedStrategies()
-    }
-    if (props.dailyBalances.length < 1) {
-      props.getDailyBalances()
-    }
-    if (props.dashboardData.length < 1) {
-      props.getDashboardData()
-    }
+
   }, []);
 
 // useEffect(() => {
@@ -85,7 +66,7 @@ const Nav = (props: any) => {
     <>
     {props.isAuthenticated ?
 
-      <div className="h-screen flex overflow-hidden dark:bg-gray-900">
+      <div className="h-screen flex overflow-hidden bg-gray-900 dark:bg-gray-900">
       <Transition.Root show={sidebarOpen} as={Fragment}>
         <Dialog
           as="div"
@@ -243,11 +224,12 @@ const Nav = (props: any) => {
         </div>
         <main className="flex-1 relative z-0 overflow-y-auto focus:outline-none">
           <div className="py-6">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+            
               <PrivateRoute exact path="/" component={Dashboard}/>
               <PrivateRoute path="/exchanges" component={ConnectExchange} />
               <PrivateRoute path="/strategies" component={Strategies} />
-            </div>
+              <PrivateRoute path="/connect-exchange" component={connectExchangeForm} />
+            
           </div>
         </main>
       </div>

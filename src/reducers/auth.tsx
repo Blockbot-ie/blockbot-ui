@@ -12,6 +12,7 @@ import {
   PASSWORD_RESET_CONFIRM_FAIL,
   SIGNUP_SUCCESS,
   SIGNUP_FAIL,
+  REFRESH_SUCCESS,
   ACTIVATION_SUCCESS,
   ACTIVATION_FAIL,
   GOOGLE_AUTH_SUCCESS,
@@ -53,17 +54,17 @@ import {
               ...state,
               isAuthenticated: false
           }
+      case REFRESH_SUCCESS:
+          localStorage.setItem('access', payload.access_token);
+          return {
+              ...state
+          }
       case USER_LOADED:
       case USER_LOADED_SUCCESS:
           return {
               ...state,
               user: payload
-          }
-      case AUTHENTICATED_FAIL:
-          return {
-              ...state,
-              isAuthenticated: false
-          }
+          }      
       case USER_LOADED_FAIL:
           return {
               ...state,
@@ -74,7 +75,7 @@ import {
       case LOGIN_FAIL:
       case SIGNUP_FAIL:
       case LOGOUT:
-          
+      case AUTHENTICATED_FAIL:
           localStorage.removeItem('access');
           localStorage.removeItem('refresh');
           return {
