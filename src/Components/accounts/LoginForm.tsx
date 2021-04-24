@@ -20,26 +20,6 @@ const LoginForm = (props: any) => {
         username: '',
         password: ''
     })
-    
-    const continueWithGoogle = async () => {
-        try {
-            const res = await axios.get(`https://myblockbot-api.herokuapp.com/api/auth/o/google-oauth2/?redirect_uri=http://www.app.myblockbot.com/google`)
-
-            window.location.replace(res.data.authorization_url);
-        } catch (err) {
-
-        }
-    };
-
-    const continueWithFacebook = async () => {
-        try {
-            const res = await axios.get(`https://myblockbot-api.herokuapp.com/api/auth/o/facebook/?redirect_uri=http://www.app.myblockbot.com/facebook`)
-
-            window.location.replace(res.data.authorization_url);
-        } catch (err) {
-
-        }
-    };
 
     const onSubmit = (e: any) => {
         e.preventDefault(); 

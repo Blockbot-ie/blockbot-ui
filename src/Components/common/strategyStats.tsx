@@ -17,9 +17,13 @@ type CurrentStrategy = {
   incOrDecVsHodl: number
 }
 
+const intervals = ['1D', '1W', '1M', '3M', '6M']
+
 const StrategyStats = (props: any) => {
 
   const [tabs, setTabs] = useState([])
+
+  const [intervalState, setIntervalState] = useState('')
 
   const [currentTab, setCurrentTab] = useState<CurrentStrategy>({
     id: '',
@@ -52,9 +56,8 @@ const StrategyStats = (props: any) => {
   };
   
   useEffect(() => {
-    if (props.dailyBalances.length < 1) {
-      props.getDailyBalances()
-    }
+
+    setIntervalState('1D')
 
     if (props.dashboardData.length < 1) {
       props.getDashboardData()
@@ -79,6 +82,9 @@ const StrategyStats = (props: any) => {
         id: props.connectedStrategies[0].id,
         name: props.connectedStrategies[0].strategy.name
       })
+
+      props.getDailyBalances(props.connectedStrategies[0].id, intervalState)
+      
     }
   }, [props.connectedStrategies])
 
@@ -94,6 +100,15 @@ const StrategyStats = (props: any) => {
       } 
     }
   }, [props.dashboardData])
+
+  useEffect(() => {
+    setIntervalState('1D')
+
+    if (currentTab.id != null && currentTab.id != '') {
+      props.getDailyBalances(currentTab.id, intervalState)
+    }
+    
+  }, [currentTab])
 
     const [addModalOpen, setAddModalOpen] = useState(false);
 
@@ -119,8 +134,9 @@ const StrategyStats = (props: any) => {
       return classes.filter(Boolean).join(' ')
     }
 
-    const handleClose = ()=> {
-        setAddModalOpen(false)
+    const onIntervalChange = (e: any) => {
+      setIntervalState(e.target.value)
+      props.getDailyBalances(currentTab.id, e.target.value)
     }
 
     const dateFormatter = date => {
@@ -199,11 +215,16 @@ const StrategyStats = (props: any) => {
                     <span className="flex flex-col-reverse xl:flex-row md:ml-6 items-center md:items-center">
                       
                       <nav className="px-px flex flex-nowrap overflow-x-auto">
-                        <button type="button" className="first:-ml-px relative focus:z-20 flex-shrink-0 inline-flex items-center justify-center overflow-hidden font-medium truncate focus:outline-none focus-visible:ring focus-visible:ring-offset-2 focus-visible:ring-gray-800 focus-visible:ring-offset-gray-900 transition text-base leading-5 px-4 py-2 dark:text-white dark:hover:bg-gray-700 border dark:border-gray-600 -ml-px dark:bg-gray-700 first:rounded-l-md last:rounded-r-md z-10">1D</button>
-                        <button type="button" className="first:-ml-px relative focus:z-20 flex-shrink-0 inline-flex items-center justify-center overflow-hidden font-medium truncate focus:outline-none focus-visible:ring focus-visible:ring-offset-2 focus-visible:ring-gray-800 focus-visible:ring-offset-gray-900 transition text-base leading-5 px-4 py-2 dark:text-white dark:hover:bg-gray-700 border dark:border-gray-600 -ml-px dark:bg-gray-800 dark:active:bg-gray-700 first:rounded-l-md last:rounded-r-md">1W</button>
-                        <button type="button" className="first:-ml-px relative focus:z-20 flex-shrink-0 inline-flex items-center justify-center overflow-hidden font-medium truncate focus:outline-none focus-visible:ring focus-visible:ring-offset-2 focus-visible:ring-gray-800 focus-visible:ring-offset-gray-900 transition text-base leading-5 px-4 py-2 dark:text-white dark:hover:bg-gray-700 border dark:border-gray-600 -ml-px dark:bg-gray-800 dark:active:bg-gray-700 first:rounded-l-md last:rounded-r-md">1M</button>
-                        <button type="button" className="first:-ml-px relative focus:z-20 flex-shrink-0 inline-flex items-center justify-center overflow-hidden font-medium truncate focus:outline-none focus-visible:ring focus-visible:ring-offset-2 focus-visible:ring-gray-800 focus-visible:ring-offset-gray-900 transition text-base leading-5 px-4 py-2 dark:text-white dark:hover:bg-gray-700 border dark:border-gray-600 -ml-px dark:bg-gray-800 dark:active:bg-gray-700 first:rounded-l-md last:rounded-r-md">3M</button>
-                        <button type="button" className="first:-ml-px relative focus:z-20 flex-shrink-0 inline-flex items-center justify-center overflow-hidden font-medium truncate focus:outline-none focus-visible:ring focus-visible:ring-offset-2 focus-visible:ring-gray-800 focus-visible:ring-offset-gray-900 transition text-base leading-5 px-4 py-2 dark:text-white dark:hover:bg-gray-700 border dark:border-gray-600 -ml-px dark:bg-gray-800 dark:active:bg-gray-700 first:rounded-l-md last:rounded-r-md">6M</button>
+                        {intervals.map((interval) => (
+                          <button 
+                          className={classNames(
+                            interval == intervalState
+                            ? "dark:bg-gray-500"
+                            : "dark:bg-gray-700",
+                              "first:-ml-px relative focus:z-20 flex-shrink-0 inline-flex items-center justify-center overflow-hidden font-medium truncate focus:outline-none focus-visible:ring focus-visible:ring-offset-2 focus-visible:ring-gray-800 focus-visible:ring-offset-gray-900 transition text-base leading-5 px-4 py-2 dark:text-white border dark:border-gray-600 -ml-px first:rounded-l-md last:rounded-r-md z-10"
+                            )}
+                          onClick={onIntervalChange} value={interval} type="button" >{interval}</button>  
+                        ))}
                       </nav>
                     </span>
                   </div>

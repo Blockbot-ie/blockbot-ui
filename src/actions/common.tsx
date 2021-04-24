@@ -197,9 +197,19 @@ export const topUpStrategy = (state) => (dispatch: (arg0: { type: String; payloa
     });
 };
 
-export const getDailyBalances = () => (dispatch, getState) => {
+export const getDailyBalances = (strategy_pair_id, interval) => (dispatch, getState) => {
+
+  const token = getState().auth.access;
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    },
+    params: {pair_id: strategy_pair_id, interval: interval }
+  };
+
   axios
-    .get('/api/get-daily-balances/', tokenConfig(getState))
+    .get('/api/daily-balances/request', config)
     .then((res) => {
       dispatch({
         type: GET_DAILY_BALANCES,
