@@ -86,7 +86,7 @@ const ConnectExchangeForm = (props: any) => {
     }
 
     return <>
-    <div className="max-w-3xl mx-auto px-4 mt-8 sm:px-6 md:px-8">
+    <div className="max-w-3xl px-4 mt-8 sm:px-6 md:px-8">
       <div className="relative">
         <h3 className="text-lg leading-6 font-medium text-gray-900 text-white">Connect with your Exchange</h3>
       </div>

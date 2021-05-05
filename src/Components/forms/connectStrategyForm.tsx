@@ -259,9 +259,9 @@ const ConnectStrategyForm = (props: any) => {
         }
     } 
     return <>
-    <div className="max-w-3xl mx-auto px-4 mt-8 sm:px-6 md:px-8">
+    <div className="max-w-3xl px-4 mt-8 sm:px-6 md:px-8">
       <div className="relative">
-        <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-white">Connect with a Strategy</h3>
+        <h3 className="text-lg leading-6 font-medium text-gray-900 text-white">Connect with a Strategy</h3>
       </div>
       <div className="mt-2">
         <div className="space-y-6">
@@ -271,12 +271,12 @@ const ConnectStrategyForm = (props: any) => {
             <Listbox value={selectedStrategy} onChange={onStrategyChange}>
               {({ open }) => (
                 <>
-                  <Listbox.Label className="iinline-flex text-sm font-medium leading-5 text-gray-700 dark:text-gray-200">Strategy</Listbox.Label>
+                  <Listbox.Label className="iinline-flex text-sm font-medium leading-5 text-gray-700 text-gray-200">Strategy</Listbox.Label>
                   <div className="mt-1 relative">
-                    <Listbox.Button className="relative w-full dark:bg-gray-700 border dark:border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    <Listbox.Button className="relative w-full bg-gray-700 border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                       <span className="flex items-center">
                         <img src={selectedStrategy.image} alt="" className="flex-shrink-0 h-6 w-6 rounded-full" />
-                        <span className="ml-3 block truncate dark:text-gray-200">{selectedStrategy.name}</span>
+                        <span className="ml-3 block truncate text-gray-200">{selectedStrategy.name}</span>
                       </span>
                       <span className="ml-3 absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
                         <SelectorIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
@@ -292,7 +292,7 @@ const ConnectStrategyForm = (props: any) => {
                     >
                       <Listbox.Options
                         static
-                        className="absolute z-50 mt-1 w-full dark:bg-gray-700 shadow-lg max-h-56 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
+                        className="absolute z-50 mt-1 w-full bg-gray-700 shadow-lg max-h-56 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
                       >
                         {strategies.map((strategy) => (
                           <Listbox.Option
@@ -309,7 +309,7 @@ const ConnectStrategyForm = (props: any) => {
                               <>
                                 <div className="flex items-center">
                                   <span
-                                    className={classNames(selected ? 'font-semibold' : 'font-normal', 'ml-3 block truncate dark:text-gray-200')}
+                                    className={classNames(selected ? 'font-semibold' : 'font-normal', 'ml-3 block truncate text-gray-200')}
                                   >
                                     {strategy.name}
                                   </span>
@@ -318,7 +318,7 @@ const ConnectStrategyForm = (props: any) => {
                                 {selected ? (
                                   <span
                                     className={classNames(
-                                      active ? 'dark:text-white' : 'text-indigo-600',
+                                      active ? 'text-white' : 'text-indigo-600',
                                       'absolute inset-y-0 right-0 flex items-center pr-4'
                                     )}
                                   >
@@ -344,11 +344,11 @@ const ConnectStrategyForm = (props: any) => {
             <Listbox value={selectedExchangeAccount} onChange={handleExchangeAccountChange}>
               {({ open }) => (
                 <>
-                  <Listbox.Label className="iinline-flex text-sm mt-4 font-medium leading-5 text-gray-700 dark:text-gray-200">Exchange Account</Listbox.Label>
+                  <Listbox.Label className="iinline-flex text-sm mt-4 font-medium leading-5 text-gray-700 text-gray-200">Exchange Account</Listbox.Label>
                   <div className="mt-1 relative">
-                    <Listbox.Button className="relative w-full dark:bg-gray-700 border dark:border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    <Listbox.Button className="relative w-full bg-gray-700 border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                       <span className="flex items-center">
-                        <span className="ml-3 block truncate dark:text-gray-200">{selectedExchangeAccount.name}</span>
+                        <span className="ml-3 block truncate text-gray-200">{selectedExchangeAccount.name}</span>
                       </span>
                       <span className="ml-3 absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
                         <SelectorIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
@@ -364,7 +364,7 @@ const ConnectStrategyForm = (props: any) => {
                     >
                       <Listbox.Options
                         static
-                        className="absolute z-50 mt-1 w-full dark:bg-gray-700 shadow-lg max-h-56 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
+                        className="absolute z-50 mt-1 w-full bg-gray-700 shadow-lg max-h-56 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
                       >
                         {connectedExchanges.map((exchange) => (
                           <Listbox.Option
@@ -381,7 +381,7 @@ const ConnectStrategyForm = (props: any) => {
                               <>
                                 <div className="flex items-center">
                                   <span
-                                    className={classNames(selected ? 'font-semibold' : 'font-normal', 'ml-3 block truncate dark:text-gray-200')}
+                                    className={classNames(selected ? 'font-semibold' : 'font-normal', 'ml-3 block truncate text-gray-200')}
                                   >
                                     {exchange.name}
                                   </span>
@@ -390,7 +390,7 @@ const ConnectStrategyForm = (props: any) => {
                                 {selected ? (
                                   <span
                                     className={classNames(
-                                      active ? 'dark:text-white' : 'text-indigo-600',
+                                      active ? 'text-white' : 'text-indigo-600',
                                       'absolute inset-y-0 right-0 flex items-center pr-4'
                                     )}
                                   >
@@ -416,12 +416,12 @@ const ConnectStrategyForm = (props: any) => {
             <Listbox value={selectedStrategyPairs} onChange={handleStrategyPairChange}>
               {({ open }) => (
                 <>
-                  <Listbox.Label className="iinline-flex text-sm mt-4 font-medium leading-5 text-gray-700 dark:text-gray-200">Pair</Listbox.Label>
+                  <Listbox.Label className="iinline-flex text-sm mt-4 font-medium leading-5 text-gray-700 text-gray-200">Pair</Listbox.Label>
                   <div className="mt-1 relative">
-                    <Listbox.Button className="relative w-full dark:bg-gray-700 border dark:border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    <Listbox.Button className="relative w-full bg-gray-700 border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                       <span className="flex items-center">
                         
-                        <span className="ml-3 block truncate dark:text-gray-200">{selectedStrategyPairs.pair}</span>
+                        <span className="ml-3 block truncate text-gray-200">{selectedStrategyPairs.pair}</span>
                       </span>
                       <span className="ml-3 absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
                         <SelectorIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
@@ -437,7 +437,7 @@ const ConnectStrategyForm = (props: any) => {
                     >
                       <Listbox.Options
                         static
-                        className="absolute z-50 mt-1 w-full dark:bg-gray-700 shadow-lg max-h-56 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
+                        className="absolute z-50 mt-1 w-full bg-gray-700 shadow-lg max-h-56 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
                       >
                         {strategyPairs.filter(x => x.strategy_id == selectedStrategy.id).map((pair) => (
                           <Listbox.Option
@@ -454,7 +454,7 @@ const ConnectStrategyForm = (props: any) => {
                               <>
                                 <div className="flex items-center">
                                   <span
-                                    className={classNames(selected ? 'font-semibold' : 'font-normal', 'ml-3 block truncate dark:text-gray-200')}
+                                    className={classNames(selected ? 'font-semibold' : 'font-normal', 'ml-3 block truncate text-gray-200')}
                                   >
                                     {pair.pair}
                                   </span>
@@ -463,7 +463,7 @@ const ConnectStrategyForm = (props: any) => {
                                 {selected ? (
                                   <span
                                     className={classNames(
-                                      active ? 'dark:text-white' : 'text-indigo-600',
+                                      active ? 'text-white' : 'text-indigo-600',
                                       'absolute inset-y-0 right-0 flex items-center pr-4'
                                     )}
                                   >
@@ -486,7 +486,7 @@ const ConnectStrategyForm = (props: any) => {
         </div>
         <div>
           <div className="flex align-middle mb-1 mt-3">
-            <label htmlFor="price" className="inline-flex text-sm font-medium leading-5 text-gray-700 dark:text-gray-200">Amunt</label>
+            <label htmlFor="price" className="inline-flex text-sm font-medium leading-5 text-gray-700 text-gray-200">Amunt</label>
           </div>
           <div className="mt-1 relative rounded-md shadow-sm">
               {/* <button type="button" onClick={() => setMax()} className="focus:ring-indigo-500 focus:border-indigo-500 h-full py-0 pl-2 pr-7 border-transparent bg-transparent text-gray-500 sm:text-sm rounded-md">Max</button> */}
@@ -496,7 +496,7 @@ const ConnectStrategyForm = (props: any) => {
               
             <input
             
-              className="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-16 sm:pl-14 sm:text-sm dark:bg-gray-700 dark:text-white border-gray-300 rounded-md"
+              className="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-16 sm:pl-14 sm:text-sm bg-gray-700 text-white border-gray-300 rounded-md"
               value={isNaN(connectedStrategyState.current_currency_balance) ? 0.00 : connectedStrategyState.current_currency_balance}
               onChange={handleCurrencyAmountChange}
               step={0.000001}
@@ -511,7 +511,7 @@ const ConnectStrategyForm = (props: any) => {
           </div>
         </div>
           <div className="flex justify-end mt-8 pt-5 space-x-3">
-            <button className="flex-shrink-0 inline-flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-gray-700 dark:focus:ring-gray-700 transition bg-indigo-500 dark:bg-indigo-500 active:bg-indigo-500 dark:active:bg-indigo-500 border-transparent font-medium  hover:bg-indigo-600 dark:hover:bg-indigo-400 px-4 py-2 rounded-md shadow-sm text-base text-white" type="submit">
+            <button className="flex-shrink-0 inline-flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-gray-700 transition bg-indigo-500 bg-indigo-500 active:bg-indigo-500 active:bg-indigo-500 border-transparent font-medium  hover:bg-indigo-600 hover:bg-indigo-400 px-4 py-2 rounded-md shadow-sm text-base text-white" type="submit">
                 { props.isLoading ? <Loader type="Circles" color="#00BFFF" height={24} width={24}/> : <span className="flex-1 flex items-center justify-center space-x-2">Submit</span>}
             </button>
           </div>

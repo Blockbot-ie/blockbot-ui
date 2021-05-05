@@ -14,6 +14,8 @@ const UserStoryMain = () => {
 
     const [step, setStep] = useState(1)
 
+    const [stepsState, setStepsState] = useState([])
+
     const next = () => {
         handleStatusChange(step)
         setStep(step + 1)
@@ -33,24 +35,28 @@ const UserStoryMain = () => {
     }
 
     const handleStatusChange = (step) => {
+
+        const newState = stepsState.slice()
         
         if (step === 1) {
-            steps[0].status = 'complete'
-            steps[1].status = 'current'
-
+            newState[0].status = 'complete'
+            newState[1].status = 'current'
+            newState[2].status = 'upcoming'
+            newState[3].status = 'upcoming'
         }
         if (step === 2) {
-            steps[1].status = 'complete'
-            steps[2].status = 'current'
+            newState[0].status = 'complete'
+            newState[1].status = 'complete'
+            newState[2].status = 'current'
+            newState[3].status = 'upcoming'
         }
         if (step === 3) {
-            steps[2].status = 'complete'
-            steps[3].status = 'current'
+            newState[0].status = 'complete'
+            newState[1].status = 'complete'
+            newState[2].status = 'complete'
+            newState[3].status = 'current'
         }
-        if (step === 4) {
-            steps[3].status = 'complete'
-            steps[4].status = 'current'
-        }
+        setStepsState(newState)
     }
 
     const steps = [
@@ -59,6 +65,15 @@ const UserStoryMain = () => {
         { name: 'Connect Strategy', href: '#', status: 'upcoming' },
         { name: 'Review', href: '#', status: 'upcoming' },
       ]
+
+    useEffect(() => {
+        steps.map(step => {
+            setStepsState(steps => [...steps, {
+                name: step.name,
+                status: step.status
+            }])
+        })
+    }, [])
       
       function classNames(...classes) {
         return classes.filter(Boolean).join(' ')
@@ -78,11 +93,11 @@ const UserStoryMain = () => {
                 </header>
                 <div className="flex-1 max-w-7xl w-full pb-12 px-4 sm:px-6 lg:px-8">
                     <div className="p-8">
-                        
+
                             <div className="flex flex-col md:flex-row justify-around">
                                 <div className="w-full md:w-2/4"> 
                                     <ol className="">
-                                        {steps.map((step, stepIdx) => (
+                                        {stepsState.map((step, stepIdx) => (
                                         <li key={step.name} className={classNames(stepIdx !== steps.length - 1 ? 'pb-10' : '', 'relative')}>
                                             {step.status === 'complete' ? (
                                             <>
@@ -119,7 +134,7 @@ const UserStoryMain = () => {
                                             ) : (
                                             <>
                                                 {stepIdx !== steps.length - 1 ? (
-                                                <div className="-ml-px absolute mt-0.5 top-4 left-4 w-0.5 h-full bg-gray-300" aria-hidden="true" />
+                                                <div className="-ml-px absolute mt-0.5 top-4 left-4 w-0.5 h-full bg-gray-700" aria-hidden="true" />
                                                 ) : null}
                                                 <a href={step.href} className="relative flex items-start group">
                                                 <span className="h-9 flex items-center" aria-hidden="true">
