@@ -67,7 +67,7 @@ const Nav = (props: any) => {
     <>
     {props.isAuthenticated ?
 
-      <div className="h-screen flex overflow-hidden bg-gray-900 dark:bg-gray-900">
+      <div className="h-screen flex overflow-hidden bg-gray-900 bg-gray-900">
       <Transition.Root show={sidebarOpen} as={Fragment}>
         <Dialog
           as="div"
@@ -96,7 +96,7 @@ const Nav = (props: any) => {
             leaveFrom="translate-x-0"
             leaveTo="-translate-x-full"
           >
-            <div className="relative flex-1 flex flex-col max-w-xs w-full dark:bg-gray-900">
+            <div className="relative flex-1 flex flex-col max-w-xs w-full bg-gray-900">
               <Transition.Child
                 as={Fragment}
                 enter="ease-in-out duration-300"
@@ -131,14 +131,14 @@ const Nav = (props: any) => {
                       key={item.name}
                       className={classNames(
                         item.current
-                          ? 'dark:bg-gray-500 dark:text-white hover:text-gray-900'
-                          : 'dark:text-white hover:bg-gray-500 hover:text-gray-900',
+                          ? 'bg-gray-500 text-white hover:text-gray-900'
+                          : 'text-white hover:bg-gray-500 hover:text-gray-900',
                         'group flex items-center px-2 py-2 text-base font-medium rounded-md'
                       )}
                     >
                       <item.icon
                         className={classNames(
-                          item.current ? 'dark:text-gray-300' : 'dark:text-gray-500 group-hover:text-gray-500',
+                          item.current ? 'text-gray-300' : 'text-gray-500 group-hover:text-gray-500',
                           'mr-4 h-6 w-6'
                         )}
                         aria-hidden="true"
@@ -154,8 +154,8 @@ const Nav = (props: any) => {
                     <div>
                     </div>
                     <div className="ml-3">
-                    {/* <p className="text-sm font-medium dark:text-gray-500">{props.user.first_name} {props.user.last_name}</p> */}
-                    <button type="button" onClick={() => logoutClick()} className="text-xs font-medium dark:text-white hover:text-gray-700">Sign Out</button>
+                    {/* <p className="text-sm font-medium text-gray-500">{props.user.first_name} {props.user.last_name}</p> */}
+                    <button type="button" onClick={() => logoutClick()} className="text-xs font-medium text-white hover:text-gray-700">Sign Out</button>
                     </div>
                   </div>
                 </div>
@@ -170,7 +170,7 @@ const Nav = (props: any) => {
       <div className="hidden md:flex md:flex-shrink-0">
         <div className="flex flex-col w-64">
           {/* Sidebar component, swap this element with another sidebar if you like */}
-          <div className="flex flex-col h-0 flex-1 border-r dark:border-gray-500 dark:bg-gray-900">
+          <div className="flex flex-col h-0 flex-1 border-r border-gray-500 bg-gray-900">
             <div className="flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
               <div className="flex items-center flex-shrink-0 px-4">
                 <img
@@ -179,18 +179,18 @@ const Nav = (props: any) => {
                   alt="Workflow"
                 />
               </div>
-              <nav className="mt-5 flex-1 px-2 dark:bg-gray-900 space-y-1">
+              <nav className="mt-5 flex-1 px-2 bg-gray-900 space-y-1">
                 {navigation.map((item) => (
                   <Link
                     to={item.link}
                     className={classNames(
-                      item.current ? 'dark:bg-gray-500 dark:text-white' : 'dark:text-white hover:bg-gray-500 hover:text-gray-900',
+                      item.current ? 'bg-gray-500 text-white' : 'text-white hover:bg-gray-500 hover:text-gray-900',
                       'group flex items-center px-2 py-2 text-sm font-medium rounded-md'
                     )}
                   >
                     <item.icon
                       className={classNames(
-                        item.current ? 'dark:text-gray-300' : 'dark:text-gray-500 group-hover:text-gray-500',
+                        item.current ? 'text-gray-300' : 'text-gray-500 group-hover:text-gray-500',
                         'mr-3 h-6 w-6'
                       )}
                       aria-hidden="true"
@@ -205,8 +205,8 @@ const Nav = (props: any) => {
                 <div className="flex items-center">
                   <div className="ml-3">
                     
-                    {/* <p className="text-sm font-medium dark:text-gray-500">{props.user.first_name} {props.user.last_name}</p> */}
-                    <button type="button" onClick={() => logoutClick()} className="text-xs font-medium dark:text-white hover:text-gray-700">Sign Out</button>
+                    {/* <p className="text-sm font-medium text-gray-500">{props.user.first_name} {props.user.last_name}</p> */}
+                    <button type="button" onClick={() => logoutClick()} className="text-xs font-medium text-white hover:text-gray-700">Sign Out</button>
                   </div>
                 </div>
               </div>

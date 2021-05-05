@@ -66,13 +66,13 @@ const UserStoryMain = () => {
 
     return <>
 
-    <div className="relative flex-1 flex bg-gray-900 dark:bg-gray-900">
+    <div className="relative flex-1 flex bg-gray-900 bg-gray-900">
         <div className="flex flex-col w-0 flex-1">
             <main className="flex flex-col items-center flex-1 relative z-0 pb-6 focus:outline-none md:pb-6">
                 <header className="max-w-7xl w-full px-4 py-8 sm:px-6 lg:px-8">
                     <div className="md:flex md:items-center md:justify-between md:h-16">
                         <div className="flex-1 min-w-0">
-                            <h2 className="text-2xl font-bold leading-7 text-gray-900 dark:text-white sm:text-3xl sm:truncate">Connect Exchange</h2>
+                            <h2 className="text-2xl font-bold leading-7 text-gray-900 text-white sm:text-3xl sm:truncate">Connect Exchange</h2>
                         </div>
                     </div>
                 </header>
@@ -92,22 +92,22 @@ const UserStoryMain = () => {
                                                 <a href={step.href} className="relative flex items-start group">
                                                 <span className="h-9 flex items-center">
                                                     <span className="relative z-10 w-8 h-8 flex items-center justify-center bg-indigo-600 rounded-full group-hover:bg-indigo-800">
-                                                    <CheckIcon className="w-5 h-5 dark:text-gray-900" aria-hidden="true" />
+                                                    <CheckIcon className="w-5 h-5 text-gray-900" aria-hidden="true" />
                                                     </span>
                                                 </span>
                                                 <span className="ml-4 min-w-0">
-                                                    <span className="text-sm leading-4 text-gray-500 dark:text-gray-300">{step.name}</span>
+                                                    <span className="text-sm leading-4 text-gray-500 text-gray-300">{step.name}</span>
                                                 </span>
                                                 </a>
                                             </>
                                             ) : step.status === 'current' ? (
                                             <>
                                                 {stepIdx !== steps.length - 1 ? (
-                                                <div className="-ml-px absolute mt-0.5 top-4 left-4 w-0.5 h-full dark:bg-gray-700" aria-hidden="true" />
+                                                <div className="-ml-px absolute mt-0.5 top-4 left-4 w-0.5 h-full bg-gray-700" aria-hidden="true" />
                                                 ) : null}
                                                 <a href={step.href} className="relative flex items-start group" aria-current="step">
                                                 <span className="h-9 flex items-center" aria-hidden="true">
-                                                    <span className="relative z-10 w-8 h-8 flex items-center justify-center dark:bg-gray-700 border-2 border-indigo-600 rounded-full">
+                                                    <span className="relative z-10 w-8 h-8 flex items-center justify-center bg-gray-700 border-2 border-indigo-600 rounded-full">
                                                     <span className="h-2.5 w-2.5 bg-indigo-600 rounded-full" />
                                                     </span>
                                                 </span>
@@ -123,12 +123,12 @@ const UserStoryMain = () => {
                                                 ) : null}
                                                 <a href={step.href} className="relative flex items-start group">
                                                 <span className="h-9 flex items-center" aria-hidden="true">
-                                                    <span className="relative z-10 w-8 h-8 flex items-center justify-center dark:bg-gray-700 border-2 dark:border-gray-700 rounded-full group-hover:border-gray-400">
+                                                    <span className="relative z-10 w-8 h-8 flex items-center justify-center bg-gray-700 border-2 border-gray-700 rounded-full group-hover:border-gray-400">
                                                     <span className="h-2.5 w-2.5 bg-transparent rounded-full group-hover:bg-gray-300" />
                                                     </span>
                                                 </span>
                                                 <span className="ml-4 min-w-0">
-                                                    <span className="text-sm leading-4 text-gray-500 dark:text-gray-300">{step.name}</span>
+                                                    <span className="text-sm leading-4 text-gray-500 text-gray-300">{step.name}</span>
                                                     
                                                 </span>
                                                 </a>
@@ -139,7 +139,7 @@ const UserStoryMain = () => {
                                     </ol>
                             
                                 </div>
-                                <div className="ml-8 mr-16 md:border-l md:border-gray-200 md:dark:border-gray-800"></div>
+                                <div className="ml-8 mr-16 md:border-l md:border-gray-200 md:border-gray-800"></div>
                                 <div className="w-full">
                                     <div className="h-full flex flex-col justify-between w-full relative">
                                         {step == 1 &&

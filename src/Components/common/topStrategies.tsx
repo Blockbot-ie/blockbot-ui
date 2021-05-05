@@ -61,13 +61,13 @@ const TopStrategies = (props: any) => {
                         )}>
                         {i + 1}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm dark:text-white">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
                         {pair.strategy_name}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm dark:text-white">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
                         {pair.pair}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm dark:text-white">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
                         {pair.inc_or_dec.toFixed(2)}
                     </td>
                 </tr>
@@ -82,23 +82,23 @@ const TopStrategies = (props: any) => {
                 <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
                 <div className="shadow overflow-hidden sm:rounded-lg border border-gray-700">
                     <table className="min-w-full divide-y divide-gray-300">
-                    <thead className="dark:bg-gray-900">
+                    <thead className="bg-gray-900">
                         <tr>
-                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium dark:text-white uppercase tracking-wider">
+                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
                             Position
                         </th>
-                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium dark:text-white uppercase tracking-wider">
+                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
                             Strategy
                         </th>
-                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium dark:text-white uppercase tracking-wider">
+                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
                             Pair
                         </th>
-                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium dark:text-white uppercase tracking-wider">
+                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
                             %
                         </th>
                         </tr>
                     </thead>
-                    <tbody className="dark:bg-gray-700 divide-y divide-gray-200">
+                    <tbody className="bg-gray-700 divide-y divide-gray-200">
                         {strats()}
                     </tbody>
                     </table>

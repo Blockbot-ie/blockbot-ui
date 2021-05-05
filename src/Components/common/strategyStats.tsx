@@ -192,24 +192,24 @@ const StrategyStats = (props: any) => {
 
             <div className="flex-1 max-w-7xl w-full pb-12 px-4 sm:px-6 lg:px-8">
               <div className="space-y-10">
-                <div className="bg-gray-900 dark:bg-gray-900">
+                <div className="bg-gray-900 bg-gray-900">
                   <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 items-center xl:items-end md:justify-between">
                     <div className="flex flex-col">
-                      <span className="mb-2 text-sm md:text-left leading-5 font-normal dark:text-gray-400">Balance</span>
+                      <span className="mb-2 text-sm md:text-left leading-5 font-normal text-gray-400">Balance</span>
                       <div className="flex flex-wrap justify-center md:justify-left items-baseline">
-                        <span className="text-4xl md:text-5xl dark:text-white font-semibold">
+                        <span className="text-4xl md:text-5xl text-white font-semibold">
                           <span className="flex-wrap md:flex-nowrap whitespace-nowrap truncate">${currentTab.balance.toFixed(2)}</span>
                         </span>
                         <span className="pl-4 text-green-400">
                           <span className={classNames(
                             currentTab.incOrDecVsHodl > 0
-                              ? "dark:text-green-400"
-                              : "dark:text-red-400", 
+                              ? "text-green-400"
+                              : "text-red-400", 
                               "flex-wrap md:flex-nowrap whitespace-nowrap truncate"
                           )}>
                           {currentTab.incOrDecVsHodl.toFixed(2)}%</span>
                         </span>
-                        <span className="px-4 dark:text-gray-200 text-gray-400 whitespace-nowrap">Past 1D</span>
+                        <span className="px-4 text-gray-200 text-gray-400 whitespace-nowrap">Past 1D</span>
                       </div>
                     </div>
                     <span className="flex flex-col-reverse xl:flex-row md:ml-6 items-center md:items-center">
@@ -219,9 +219,9 @@ const StrategyStats = (props: any) => {
                           <button 
                           className={classNames(
                             interval == intervalState
-                            ? "dark:bg-gray-500"
-                            : "dark:bg-gray-700",
-                              "first:-ml-px relative focus:z-20 flex-shrink-0 inline-flex items-center justify-center overflow-hidden font-medium truncate focus:outline-none focus-visible:ring focus-visible:ring-offset-2 focus-visible:ring-gray-800 focus-visible:ring-offset-gray-900 transition text-base leading-5 px-4 py-2 dark:text-white border dark:border-gray-600 -ml-px first:rounded-l-md last:rounded-r-md z-10"
+                            ? "bg-gray-500"
+                            : "bg-gray-700",
+                              "first:-ml-px relative focus:z-20 flex-shrink-0 inline-flex items-center justify-center overflow-hidden font-medium truncate focus:outline-none focus-visible:ring focus-visible:ring-offset-2 focus-visible:ring-gray-800 focus-visible:ring-offset-gray-900 transition text-base leading-5 px-4 py-2 text-white border border-gray-600 -ml-px first:rounded-l-md last:rounded-r-md z-10"
                             )}
                           onClick={onIntervalChange} value={interval} type="button" >{interval}</button>  
                         ))}

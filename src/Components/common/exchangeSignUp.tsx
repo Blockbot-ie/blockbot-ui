@@ -29,7 +29,7 @@ const ExchangeSignUp = (props: any) => {
     return <>
         <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {exchanges.map((exchange) => (
-                <li key={exchange.exchange_id} className="col-span-1 dark:bg-indigo-900 rounded-lg shadow divide-y divide-gray-900">
+                <li key={exchange.exchange_id} className="col-span-1 bg-indigo-900 rounded-lg shadow divide-y divide-gray-900">
                 <div className="w-full flex items-center justify-between p-6 space-x-6">
                     <div className="flex-1 truncate">
                     <div className="flex items-center space-x-3">

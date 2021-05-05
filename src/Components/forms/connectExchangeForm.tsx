@@ -88,7 +88,7 @@ const ConnectExchangeForm = (props: any) => {
     return <>
     <div className="max-w-3xl mx-auto px-4 mt-8 sm:px-6 md:px-8">
       <div className="relative">
-        <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-white">Connect with your Exchange</h3>
+        <h3 className="text-lg leading-6 font-medium text-gray-900 text-white">Connect with your Exchange</h3>
       </div>
       <div className="mt-2">
         <div className="space-y-6">
@@ -98,12 +98,12 @@ const ConnectExchangeForm = (props: any) => {
               <Listbox value={selected} onChange={setSelected}>
                 {({ open }) => (
                   <>
-                    <Listbox.Label className="iinline-flex text-sm font-medium leading-5 text-gray-700 dark:text-gray-200">Exchange</Listbox.Label>
+                    <Listbox.Label className="iinline-flex text-sm font-medium leading-5 text-gray-700 text-gray-200">Exchange</Listbox.Label>
                     <div className="mt-1 relative">
-                      <Listbox.Button className="relative w-full dark:bg-gray-700 border-0 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                      <Listbox.Button className="relative w-full bg-gray-700 border-0 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                         <span className="flex items-center">
                           <img src={selected.image} alt="" className="flex-shrink-0 h-6 w-6 rounded-full" />
-                          <span className="ml-3 block truncate dark:text-gray-200">{selected.name}</span>
+                          <span className="ml-3 block truncate text-gray-200">{selected.name}</span>
                         </span>
                         <span className="ml-3 absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
                           <SelectorIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
@@ -119,7 +119,7 @@ const ConnectExchangeForm = (props: any) => {
                       >
                         <Listbox.Options
                           static
-                          className="absolute z-50 mt-1 w-full dark:bg-gray-700 shadow-lg max-h-56 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
+                          className="absolute z-50 mt-1 w-full bg-gray-700 shadow-lg max-h-56 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
                         >
                           {exchanges.map((exchange) => (
                             <Listbox.Option
@@ -137,7 +137,7 @@ const ConnectExchangeForm = (props: any) => {
                                   <div className="flex items-center">
                                     <img src={exchange.image} alt="" className="flex-shrink-0 h-6 w-6 rounded-full" />
                                     <span
-                                      className={classNames(selected ? 'font-semibold' : 'font-normal', 'ml-3 block truncate dark:text-gray-200')}
+                                      className={classNames(selected ? 'font-semibold' : 'font-normal', 'ml-3 block truncate text-gray-200')}
                                     >
                                       {exchange.name}
                                     </span>
@@ -146,7 +146,7 @@ const ConnectExchangeForm = (props: any) => {
                                   {selected ? (
                                     <span
                                       className={classNames(
-                                        active ? 'dark:text-white' : 'text-indigo-600',
+                                        active ? 'text-white' : 'text-indigo-600',
                                         'absolute inset-y-0 right-0 flex items-center pr-4'
                                       )}
                                     >
@@ -166,12 +166,12 @@ const ConnectExchangeForm = (props: any) => {
           </div>
           <div>
             <div className="flex align-middle mb-1 mt-3">
-              <label htmlFor="api_key" className="inline-flex text-sm font-medium leading-5 text-gray-700 dark:text-gray-200">API Key</label>
+              <label htmlFor="api_key" className="inline-flex text-sm font-medium leading-5 text-gray-700 text-gray-200">API Key</label>
             </div>
             <div className="flex items-stretch relative">
               <input
                 name="api_key" id="api_key" placeholder="Enter API Key"
-                className="block w-full py-2 rounded-md transition dark:bg-gray-800 disabled:opacity-25 border-0 focus:border-gray-400 focus:outline-none focus:ring-0 duration-150 ease-in-out sm:text-sm sm:leading-5 dark:text-white shadow-sm"
+                className="block w-full py-2 rounded-md transition bg-gray-800 disabled:opacity-25 border-0 focus:border-gray-400 focus:outline-none focus:ring-0 duration-150 ease-in-out sm:text-sm sm:leading-5 text-white shadow-sm"
                 type="text" 
                 onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
                   const trimmed = e.target.value.trim()
@@ -181,12 +181,12 @@ const ConnectExchangeForm = (props: any) => {
           </div>
           <div>
             <div className="flex align-middle mb-1 mt-3">
-              <label htmlFor="api_secret" className="inline-flex text-sm font-medium leading-5 text-gray-700 dark:text-gray-200">API Secret</label>
+              <label htmlFor="api_secret" className="inline-flex text-sm font-medium leading-5 text-gray-700 text-gray-200">API Secret</label>
             </div>
             <div className="flex items-stretch relative">
               <input
                 name="api_secret" id="api_secret" placeholder="Enter API Secret" autoComplete="api_secret"
-                className="block w-full py-2 rounded-md transition dark:bg-gray-800 disabled:opacity-25 border-0 dark:border-gray-700 focus:border-gray-400 focus:outline-none focus:ring-0 duration-150 ease-in-out sm:text-sm sm:leading-5 dark:text-white shadow-sm"
+                className="block w-full py-2 rounded-md transition bg-gray-800 disabled:opacity-25 border-0 border-gray-700 focus:border-gray-400 focus:outline-none focus:ring-0 duration-150 ease-in-out sm:text-sm sm:leading-5 text-white shadow-sm"
                 type="password"
                   onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
                   const trimmed = e.target.value.trim()
@@ -196,12 +196,12 @@ const ConnectExchangeForm = (props: any) => {
           </div>
           <div>
             <div className="flex align-middle mb-1 mt-3">
-              <label htmlFor="passphrase" className="inline-flex text-sm font-medium leading-5 text-gray-700 dark:text-gray-200">Passphrase</label>
+              <label htmlFor="passphrase" className="inline-flex text-sm font-medium leading-5 text-gray-700 text-gray-200">Passphrase</label>
             </div>
             <div className="flex items-stretch relative">
               <input
                 name="passphrase" id="passphrase" placeholder="Enter Passphrase" autoComplete="passphrase"
-                className="block w-full py-2 rounded-md transition dark:bg-gray-800 disabled:opacity-25 border-0 focus:border-gray-400 focus:outline-none focus:ring-0 duration-150 ease-in-out sm:text-sm sm:leading-5 dark:text-white shadow-sm"
+                className="block w-full py-2 rounded-md transition bg-gray-800 disabled:opacity-25 border-0 focus:border-gray-400 focus:outline-none focus:ring-0 duration-150 ease-in-out sm:text-sm sm:leading-5 text-white shadow-sm"
                 type="password" 
                 onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
                   const trimmed = e.target.value.trim()
@@ -210,7 +210,7 @@ const ConnectExchangeForm = (props: any) => {
             </div>
           </div>
             <div className="flex justify-end mt-8 pt-5 space-x-3">
-              <button className="flex-shrink-0 inline-flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-gray-700 dark:focus:ring-gray-700 transition bg-indigo-500 dark:bg-indigo-500 active:bg-indigo-500 dark:active:bg-indigo-500 border-transparent font-medium  hover:bg-indigo-600 dark:hover:bg-indigo-400 px-4 py-2 rounded-md shadow-sm text-base text-white" type="submit">
+              <button className="flex-shrink-0 inline-flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-gray-700 transition bg-indigo-500 bg-indigo-500 active:bg-indigo-500 active:bg-indigo-500 border-transparent font-medium  hover:bg-indigo-600 hover:bg-indigo-400 px-4 py-2 rounded-md shadow-sm text-base text-white" type="submit">
                   { props.isLoading ? <Loader type="Circles" color="#00BFFF" height={24} width={24}/> : <span className="flex-1 flex items-center justify-center space-x-2">Submit</span>}
               </button>
             </div>
