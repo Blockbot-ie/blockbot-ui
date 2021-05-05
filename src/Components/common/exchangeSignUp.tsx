@@ -5,6 +5,12 @@ import { convertToObject } from 'typescript';
 
 const ExchangeSignUp = (props: any) => {
 
+    useEffect(() => {
+        if (props.exchanges.length < 1) {
+            props.getExchanges()
+        }
+    }, [])
+
     const exchanges = []
 
     const exchangeList = props.exchanges.map((exchange, i) => 

@@ -62,9 +62,9 @@ const ConnectExchangeForm = (props: any) => {
       }, [props.exchanges]);
 
       useEffect(() => {
-        // if (props.connectedExchanges.length > 0 && !props.isModal) {
-        //   props.next()
-        // }
+        if (props.connectedExchanges.length > 0 && !props.isModal) {
+          props.next()
+        }
       }, [props.connectedExchanges])
 
     const exchangeList = props.exchanges.map((exchange, i) => 
