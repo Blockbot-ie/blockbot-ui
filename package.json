@@ -45,6 +45,7 @@
   "scripts": {
     "start": "craco start",
     "build": "craco build",
+    "postbuild": "rimraf build/**/*.map",
     "test": "craco test",
     "eject": "react-scripts eject"
   },

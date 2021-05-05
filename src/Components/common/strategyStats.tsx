@@ -102,7 +102,6 @@ const StrategyStats = (props: any) => {
   }, [props.dashboardData])
 
   useEffect(() => {
-    setIntervalState('1D')
 
     if (currentTab.id != null && currentTab.id != '') {
       props.getDailyBalances(currentTab.id, intervalState)
@@ -110,16 +109,14 @@ const StrategyStats = (props: any) => {
     
   }, [currentTab])
 
-    const [addModalOpen, setAddModalOpen] = useState(false);
-
-    const handleClick = (strategy) => {
-      const stats = props.dashboardData[0].filter(x => x.inc_or_dec_vs_hodl.filter(s => s.strategy_id == currentTab.id))
-      console.log(stats)
-        setCurrentTab({
-          ...currentTab,
-          id: strategy.id,
-          name: strategy.strategy.name
-        })
+    const handleClick = (e) => {
+      console.log(e.target.value)
+      setIntervalState('1D')
+      setCurrentTab({
+        ...currentTab,
+        id: e.target.value
+      })
+      props.getDailyBalances(e.target.value, intervalState)
     }
 
     let data = []
@@ -156,6 +153,7 @@ const StrategyStats = (props: any) => {
                 <select
                   id="tabs"
                   name="tabs"
+                  onSelect={handleClick}
                   className="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
                   defaultValue={tabs.find((tab) => tab.current)}
                 >
@@ -168,9 +166,11 @@ const StrategyStats = (props: any) => {
                 <div className="border-b border-gray-500">
                   <nav className="-mb-px flex space-x-8" aria-label="Tabs">
                     {tabs.map((tab) => (
-                      <a
+                      <button
                         key={tab.name}
-                        href={tab.href}
+                        value={tab.id}
+                        type="button"
+                        onClick={handleClick}
                         className={classNames(
                           tab.current
                             ? 'border-indigo-500 text-indigo-600'
@@ -180,7 +180,7 @@ const StrategyStats = (props: any) => {
                         aria-current={tab.current ? 'page' : undefined}
                       >
                         {tab.name}
-                      </a>
+                      </button>
                     ))}
                   </nav>
                 </div>
