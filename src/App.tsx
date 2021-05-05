@@ -43,6 +43,7 @@ const App = (props: any) => {
             <Nav />
             <Alerts />
               <Switch>
+                <Route path="/user-story" component={userStoryMain} />
                 <Route path="/signup" component={SignupForm} />
                 <Route exact path="/login" component={LoginForm} />
                 <Route path="/reset-password" component={ResetPassword} />
@@ -50,7 +51,6 @@ const App = (props: any) => {
                 <Route exact path='/activate/:uid/:token' component={Activate} />
                 <Route exact path='/google' component={Google} />
                 <Route exact path='/facebook' component={Facebook} />
-                <PrivateRoute path="/user-story" component={userStoryMain} />
               </Switch>
             
           </Fragment>

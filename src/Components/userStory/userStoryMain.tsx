@@ -81,7 +81,7 @@ const UserStoryMain = () => {
 
     return <>
 
-    <div className="relative flex-1 flex bg-gray-900 bg-gray-900">
+    <div className="h-screen flex overflow-hidden bg-gray-900">
         <div className="flex flex-col w-0 flex-1">
             <main className="flex flex-col items-center flex-1 relative z-0 pb-6 focus:outline-none md:pb-6">
                 <header className="max-w-7xl w-full px-4 py-8 sm:px-6 lg:px-8">

@@ -42,7 +42,7 @@ function classNames(...classes) {
 const Nav = (props: any) => {
 
   useEffect(() => {
-
+    console.log(location.pathname)
   }, []);
 
 // useEffect(() => {
@@ -65,7 +65,7 @@ const Nav = (props: any) => {
 
   return (
     <>
-    {props.isAuthenticated ?
+    {props.isAuthenticated && location.pathname != '/user-story' ?
 
       <div className="h-screen flex overflow-hidden bg-gray-900 bg-gray-900">
       <Transition.Root show={sidebarOpen} as={Fragment}>
@@ -238,7 +238,8 @@ const Nav = (props: any) => {
       </div>
       </div>
     :
-      <Redirect to="/login" />
+      location.pathname != "/user-story" &&   
+        <Redirect to="/login" />
     }
     </>
   );
