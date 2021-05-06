@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { getOrders } from '../../actions/common';
-import connectStrategyModalForm from "../forms/connectStrategyModalForm";
+import connectStrategyModalForm from "../forms/exchangeHelperModal";
 
 const Orders = (props: any) => {
 

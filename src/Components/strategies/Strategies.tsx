@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useState, createRef } from "react";
 import { connect } from 'react-redux';
 import { getConnectedExchanges,getStrategies, getConnectedStrategies, getStrategyPairs, topUpStrategy } from '../../actions/common';
-import ConnectStrategyModalForm from '../forms/connectStrategyModalForm';
+import ConnectStrategyModalForm from '../forms/exchangeHelperModal';
 import Nav from '../Nav';
 import '../../fontawesome';
 import logo from '../../close-icon.svg'

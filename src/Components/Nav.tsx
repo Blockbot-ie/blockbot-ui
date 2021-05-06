@@ -41,17 +41,6 @@ function classNames(...classes) {
 
 const Nav = (props: any) => {
 
-  useEffect(() => {
-    console.log(location.pathname)
-  }, []);
-
-// useEffect(() => {
-//   if (props.dashboardData.length > 0) {
-//     props.getDashboardData()
-//   }
-  
-// }, [props.connectedStrategies])
-
   const location = useLocation();
 
   const [sidebarOpen, setSidebarOpen] = useState(false)

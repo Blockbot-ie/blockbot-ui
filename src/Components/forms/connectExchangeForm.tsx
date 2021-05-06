@@ -1,13 +1,13 @@
 import React, { Fragment, useEffect, useState } from "react"
 import { connect } from "react-redux"
 import { getExchanges, connectExchange } from '../../actions/common';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-import logo from '../../close-icon.svg'
 import Loader from "react-loader-spinner";
 import { Listbox, Transition } from '@headlessui/react'
 import { CheckIcon, SelectorIcon } from '@heroicons/react/solid'
 import coinbasepro from "../../images/exchangeLogos/coinbasepro.png";
+import { useLocation } from "react-router-dom";
+import ExchangeHelperModal from "./exchangeHelperModal";
+import ModalVideo from 'react-modal-video'
 
 type ConnectExchange = {
     exchange: String,
@@ -18,6 +18,14 @@ type ConnectExchange = {
 
 const ConnectExchangeForm = (props: any) => {
 
+  const location = useLocation();
+
+  const [open, setOpen] = useState(true)
+
+  const [isOpen, setIsOpen] = useState(false)
+
+  const [isOpen2, setIsOpen2] = useState(false)
+  
   useEffect(() => {
     if (props.exchanges.length < 1) props.getExchanges();
   }, [])
@@ -62,7 +70,7 @@ const ConnectExchangeForm = (props: any) => {
       }, [props.exchanges]);
 
       useEffect(() => {
-        if (props.connectedExchanges.length > 0 && !props.isModal) {
+        if (props.connectedExchanges.length > 0 && location.pathname == '/user-story') {
           props.next()
         }
       }, [props.connectedExchanges])
@@ -85,12 +93,71 @@ const ConnectExchangeForm = (props: any) => {
         props.connectExchange({ connectedExchangeState })
     }
 
+    const handleHelpModal = () => {
+     setOpen(true) 
+    }
+
+    const handleModalClick = () => {
+      setIsOpen(false)
+      setIsOpen2(false)
+      setOpen(false)
+    }
+
+    const handle1 = () => {
+      setIsOpen(true)
+      setIsOpen2(false)
+    }
+
+    const handle2 = () => {
+      setIsOpen(false)
+      setIsOpen2(true)
+    }
+
     return <>
     <div className="max-w-3xl px-4 sm:px-6 md:px-8">
       <div className="relative">
         <h3 className="text-lg leading-6 font-medium text-gray-900 text-white">Connect with your Exchange</h3>
-        <button className="float-right text-indigo-500">Need Help?</button>
+        <button onClick={handleHelpModal} className="float-right text-indigo-500">Need Help?</button>
       </div>
+      {open && selected &&
+          <div className="fixed z-50 right-0 items-end pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            
+            <div className="inline-block bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-sm sm:w-full sm:p-6">
+              <div>
+                <div className="mt-3 text-center sm:mt-5">
+                  <h3 className="text-lg leading-6 font-medium text-gray-900">
+                    Connect with {selected.name}
+                  </h3>
+                  <div>
+                    <div className="mt-2">
+                      <h5 className="text-gray-500"><b>1. </b> Generate API Keys</h5>
+                    </div>
+                    <button className="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-1 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm" onClick={handle1}>View</button>
+                  </div>
+                  <div>
+                    <div className="mt-2">
+                      <h5 className="text-gray-500"><b>2. </b> Connect to MyBlockBot</h5>
+                    </div>
+                    <button className="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-1 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm" onClick={handle2}>View</button>
+                  </div>
+                </div>
+                
+              </div>
+              
+              <div className="mt-5 sm:mt-6">
+                <button
+                  type="button"
+                  className="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm"
+                  onClick={handleModalClick}
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div> 
+        }
+         <ModalVideo channel='youtube' autoplay isOpen={isOpen} videoId="m0yEj0NsdZY" onClose={() => setIsOpen(false)} />
+         <ModalVideo channel='youtube' autoplay isOpen={isOpen2} videoId="5Dx27MQqJrU" onClose={() => setIsOpen2(false)} />
       <div className="mt-2">
         <div className="space-y-6">
           {exchanges.length > 0 && selected != null ?
@@ -224,6 +291,7 @@ const ConnectExchangeForm = (props: any) => {
         </div>
       </div>
     </div>
+    
 </>
 }
 

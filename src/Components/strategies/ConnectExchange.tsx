@@ -4,7 +4,7 @@ import { useState, createRef } from "react";
 import { getExchanges, connectExchange, getConnectedExchanges, getStrategyPairs } from '../../actions/common';
 import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
-import ConnectExchangeModalForm from '../forms/connectExchangeModalForm';
+
 import Nav from '../Nav';
 import Loader from 'react-loader-spinner';
 

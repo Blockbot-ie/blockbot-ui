@@ -2,12 +2,10 @@ import React, { Fragment, useEffect, useState } from "react"
 import { connect } from "react-redux"
 import { getStrategies, getStrategyPairs, connectStrategy, connectExchange, getConnectedExchanges, getConnectedStrategies } from '../../actions/common';
 import { createMessage } from '../../actions/messages';
-import logo from '../../close-icon.svg'
 import Loader from 'react-loader-spinner';
 import { Listbox, Transition } from '@headlessui/react'
 import { CheckIcon, SelectorIcon } from '@heroicons/react/solid'
-import { preProcessFile } from "typescript";
-import { faExternalLinkSquareAlt } from "@fortawesome/free-solid-svg-icons";
+import { useLocation } from 'react-router-dom'
 
 type ConnectStrategy = {
     strategy: String,
@@ -34,6 +32,8 @@ const ConnectStrategyForm = (props: any) => {
       ticker_1: '',
       ticker_2: ''
     })
+
+    const location = useLocation();
 
     const [strategies, setStrategies] = useState([])
 
@@ -139,7 +139,7 @@ const ConnectStrategyForm = (props: any) => {
     }, [props.strategyPairs])
 
     useEffect(() => {
-      if (props.connectedStrategies.length > 0 && !props.isModal) {
+      if (props.connectedStrategies.length > 0 && location.pathname == '/user-story') {
         props.next()
       }
     }, [props.connectedStrategies])
