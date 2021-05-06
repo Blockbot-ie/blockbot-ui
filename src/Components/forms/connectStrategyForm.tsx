@@ -259,7 +259,7 @@ const ConnectStrategyForm = (props: any) => {
         }
     } 
     return <>
-    <div className="max-w-3xl px-4 mt-8 sm:px-6 md:px-8">
+    <div className="max-w-3xl px-4 sm:px-6 md:px-8">
       <div className="relative">
         <h3 className="text-lg leading-6 font-medium text-gray-900 text-white">Connect with a Strategy</h3>
       </div>
@@ -271,7 +271,7 @@ const ConnectStrategyForm = (props: any) => {
             <Listbox value={selectedStrategy} onChange={onStrategyChange}>
               {({ open }) => (
                 <>
-                  <Listbox.Label className="iinline-flex text-sm font-medium leading-5 text-gray-700 text-gray-200">Strategy</Listbox.Label>
+                  <Listbox.Label className="iinline-flex text-sm font-medium leading-5 text-white">Strategy</Listbox.Label>
                   <div className="mt-1 relative">
                     <Listbox.Button className="relative w-full bg-gray-700 border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                       <span className="flex items-center">
@@ -344,7 +344,7 @@ const ConnectStrategyForm = (props: any) => {
             <Listbox value={selectedExchangeAccount} onChange={handleExchangeAccountChange}>
               {({ open }) => (
                 <>
-                  <Listbox.Label className="iinline-flex text-sm mt-4 font-medium leading-5 text-gray-700 text-gray-200">Exchange Account</Listbox.Label>
+                  <Listbox.Label className="iinline-flex text-sm mt-4 font-medium leading-5 text-white">Exchange Account</Listbox.Label>
                   <div className="mt-1 relative">
                     <Listbox.Button className="relative w-full bg-gray-700 border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                       <span className="flex items-center">
@@ -416,7 +416,7 @@ const ConnectStrategyForm = (props: any) => {
             <Listbox value={selectedStrategyPairs} onChange={handleStrategyPairChange}>
               {({ open }) => (
                 <>
-                  <Listbox.Label className="iinline-flex text-sm mt-4 font-medium leading-5 text-gray-700 text-gray-200">Pair</Listbox.Label>
+                  <Listbox.Label className="iinline-flex text-sm mt-4 font-medium leading-5 text-white">Pair</Listbox.Label>
                   <div className="mt-1 relative">
                     <Listbox.Button className="relative w-full bg-gray-700 border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                       <span className="flex items-center">
@@ -486,7 +486,7 @@ const ConnectStrategyForm = (props: any) => {
         </div>
         <div>
           <div className="flex align-middle mb-1 mt-3">
-            <label htmlFor="price" className="inline-flex text-sm font-medium leading-5 text-gray-700 text-gray-200">Amunt</label>
+            <label htmlFor="price" className="inline-flex text-sm font-medium leading-5 text-white">Amunt</label>
           </div>
           <div className="mt-1 relative rounded-md shadow-sm">
               {/* <button type="button" onClick={() => setMax()} className="focus:ring-indigo-500 focus:border-indigo-500 h-full py-0 pl-2 pr-7 border-transparent bg-transparent text-gray-500 sm:text-sm rounded-md">Max</button> */}

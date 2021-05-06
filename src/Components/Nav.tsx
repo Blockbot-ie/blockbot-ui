@@ -67,7 +67,7 @@ const Nav = (props: any) => {
     <>
     {props.isAuthenticated && location.pathname != '/user-story' ?
 
-      <div className="h-screen flex overflow-hidden bg-gray-900 bg-gray-900">
+      <div className="h-screen flex overflow-hidden bg-gray-900">
       <Transition.Root show={sidebarOpen} as={Fragment}>
         <Dialog
           as="div"

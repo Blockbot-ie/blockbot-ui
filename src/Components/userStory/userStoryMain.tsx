@@ -111,7 +111,7 @@ const UserStoryMain = () => {
                                                     </span>
                                                 </span>
                                                 <span className="ml-4 min-w-0">
-                                                    <span className="text-sm leading-4 text-gray-500 text-gray-300">{step.name}</span>
+                                                    <span className="text-sm leading-4 text-white">{step.name}</span>
                                                 </span>
                                                 </a>
                                             </>
@@ -143,7 +143,7 @@ const UserStoryMain = () => {
                                                     </span>
                                                 </span>
                                                 <span className="ml-4 min-w-0">
-                                                    <span className="text-sm leading-4 text-gray-500 text-gray-300">{step.name}</span>
+                                                    <span className="text-sm leading-4 text-white">{step.name}</span>
                                                     
                                                 </span>
                                                 </a>

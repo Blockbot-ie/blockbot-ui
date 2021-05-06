@@ -36,10 +36,10 @@ const LoginForm = (props: any) => {
         </div>
 
         <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-            <div className="bg-gray-900 py-8 px-4 shadow sm:rounded-lg sm:px-10">
+            <div className="bg-gray-700 py-8 px-4 shadow sm:rounded-lg sm:px-10">
                 <form onSubmit={onSubmit} className="space-y-6" action="#" method="POST">
                     <div>
-                        <label htmlFor="username" className="block text-sm font-medium text-gray-700">
+                        <label htmlFor="username" className="block text-sm font-medium text-white">
                         Username or email
                         </label>
                         <div className="mt-1">
@@ -48,11 +48,11 @@ const LoginForm = (props: any) => {
                                 const trimmed = e.target.value.trim()
                                 setUserState({ ...userState, username: trimmed })}
                             }
-                            id="username" name="username" type="username" autoComplete="username" required className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Username" />
+                            id="username" name="username" type="username" autoComplete="username" required className="appearance-none block w-full px-3 py-2 bg-gray-800 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Username" />
                         </div>
                     </div>
                     <div>
-                        <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+                        <label htmlFor="password" className="block text-sm font-medium text-white">
                         Password
                         </label>
                         <div className="mt-1">
@@ -61,13 +61,13 @@ const LoginForm = (props: any) => {
                                 const trimmed = e.target.value.trim()
                                 setUserState({ ...userState, password: trimmed })}
                             }
-                            id="password" name="password" type="password" autoComplete="password" required className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Password" />
+                            id="password" name="password" type="password" autoComplete="password" required className="appearance-none block w-full px-3 py-2 bg-gray-800 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Password" />
                         </div>
                     </div>
                     <div className="flex items-center justify-between">
                         <div className="flex items-center">
                             <input id="remember_me" name="remember_me" type="checkbox" className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded" />
-                            <label htmlFor="remember_me" className="ml-2 block text-sm text-gray-900">
+                            <label htmlFor="remember_me" className="ml-2 block text-sm text-white">
                                 Remember me
                             </label>
                         </div>
@@ -91,7 +91,7 @@ const LoginForm = (props: any) => {
                 <div className="w-full border-t border-gray-300" />
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-white text-gray-500">Or continue with</span>
+                <span className="px-2 bg-gray-700 text-white">Or continue with</span>
               </div>
             </div>
 
@@ -113,14 +113,14 @@ const LoginForm = (props: any) => {
                             <div className="w-full border-t border-gray-300"></div>
                         </div>
                         <div className="relative flex justify-center text-sm">
-                            <span className="px-2 bg-white text-gray-500">
+                            <span className="px-2 bg-gray-700 text-white">
                             Don't have an account yet?
                             </span>
                         </div>
                     </div>
                 </div>
                 <div>
-                    <Link to="/signup" className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                    <Link to="/signup" className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm text-white bg-indigo-600 text-sm font-medium hover:bg-gray-50">
                     Sign up
                     </Link>
                 </div>
