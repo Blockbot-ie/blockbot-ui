@@ -20,7 +20,7 @@ const ConnectExchangeForm = (props: any) => {
 
   useEffect(() => {
     if (props.exchanges.length < 1) props.getExchanges();
-  })
+  }, [])
 
   const exchanges = []
   
@@ -43,8 +43,8 @@ const ConnectExchangeForm = (props: any) => {
             ...connectedExchangeState,
             exchange: props.exchanges[0].exchange_id
           })
-
-          if (props.currentExchange != null) {
+          
+          if (props.currentExchange) {
             const currentExchangeProps = props.exchanges.filter(ex => ex.exchange_id == props.currentExchange)[0]
             setSelected({
               id: currentExchangeProps.exchange_id,

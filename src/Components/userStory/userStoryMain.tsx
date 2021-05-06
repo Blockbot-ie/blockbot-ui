@@ -6,15 +6,33 @@ import ConnectStrategyForm from "../forms/connectStrategyForm";
 import ExchangeSignUp from "../common/exchangeSignUp";
 import Review from "./review";
 import { CheckIcon } from '@heroicons/react/solid'
-import { propTypes } from "react-bootstrap/esm/Image";
+import {  getConnectedExchanges } from '../../actions/common';
 
-const UserStoryMain = () => {
+const UserStoryMain = (props: any) => {
 
     const [currentExchange, setCurrentExchange] = useState('')
 
     const [step, setStep] = useState(1)
 
     const [stepsState, setStepsState] = useState([])
+
+    const steps = [
+        { name: 'Sign up to Exchange', href: '#', status: 'current' },
+        { name: 'Connect Exchange', href: '#', status: 'upcoming' },
+        { name: 'Connect Strategy', href: '#', status: 'upcoming' },
+        { name: 'Review', href: '#', status: 'upcoming' },
+      ]
+
+    useEffect(() => {
+        steps.map(step => {
+            setStepsState(steps => [...steps, {
+                name: step.name,
+                status: step.status
+            }])
+        })
+        if (props.connectedExchanges.length < 1) props.getConnectedExchanges();
+
+    }, [])
 
     const next = () => {
         handleStatusChange(step)
@@ -38,46 +56,33 @@ const UserStoryMain = () => {
 
         const newState = stepsState.slice()
         
-        if (step === 1) {
-            newState[0].status = 'complete'
-            newState[1].status = 'current'
-            newState[2].status = 'upcoming'
-            newState[3].status = 'upcoming'
+        if (newState.length > 0) {
+            if (step === 1) {
+                newState[0].status = 'complete'
+                newState[1].status = 'current'
+                newState[2].status = 'upcoming'
+                newState[3].status = 'upcoming'
+            }
+            if (step === 2) {
+                newState[0].status = 'complete'
+                newState[1].status = 'complete'
+                newState[2].status = 'current'
+                newState[3].status = 'upcoming'
+            }
+            if (step === 3) {
+                newState[0].status = 'complete'
+                newState[1].status = 'complete'
+                newState[2].status = 'complete'
+                newState[3].status = 'current'
+            }
         }
-        if (step === 2) {
-            newState[0].status = 'complete'
-            newState[1].status = 'complete'
-            newState[2].status = 'current'
-            newState[3].status = 'upcoming'
-        }
-        if (step === 3) {
-            newState[0].status = 'complete'
-            newState[1].status = 'complete'
-            newState[2].status = 'complete'
-            newState[3].status = 'current'
-        }
+        
         setStepsState(newState)
     }
-
-    const steps = [
-        { name: 'Sign up to Exchange', href: '#', status: 'current' },
-        { name: 'Connect Exchange', href: '#', status: 'upcoming' },
-        { name: 'Connect Strategy', href: '#', status: 'upcoming' },
-        { name: 'Review', href: '#', status: 'upcoming' },
-      ]
-
-    useEffect(() => {
-        steps.map(step => {
-            setStepsState(steps => [...steps, {
-                name: step.name,
-                status: step.status
-            }])
-        })
-    }, [])
       
-      function classNames(...classes) {
-        return classes.filter(Boolean).join(' ')
-      }
+    function classNames(...classes) {
+    return classes.filter(Boolean).join(' ')
+    }
 
     return <>
 
@@ -158,7 +163,7 @@ const UserStoryMain = () => {
                                 <div className="w-full">
                                     <div className="h-full flex flex-col justify-between w-full relative">
                                         {step == 1 &&
-                                        <ExchangeSignUp setCurrentExchange={handleStep1}/>
+                                        <ExchangeSignUp next={next} setCurrentExchange={handleStep1} connectedExchanges={props.connectedExchanges}/>
                                         }
                                         {step == 2 && 
                                             <ConnectExchangeForm next={next} currentExchange={currentExchange}/>
@@ -181,5 +186,12 @@ const UserStoryMain = () => {
     </div>
     </>
 }
+const mapStateToProps = (state) => ({
+    strategies: state.common.strategies,
+    connectedExchanges: state.common.connectedExchanges,
+    connectedStrategies: state.common.connectedStrategies,
+    strategyPairs: state.common.strategyPairs,
+    isLoading: state.common.isLoading
+  });
 
-export default connect()(UserStoryMain);
+export default connect(mapStateToProps, { getConnectedExchanges })(UserStoryMain); 

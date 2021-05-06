@@ -48,7 +48,7 @@ const LoginForm = (props: any) => {
                                 const trimmed = e.target.value.trim()
                                 setUserState({ ...userState, username: trimmed })}
                             }
-                            id="username" name="username" type="username" autoComplete="username" required className="appearance-none block w-full px-3 py-2 bg-gray-800 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Username" />
+                            id="username" name="username" type="username" autoComplete="username" required className="appearance-none block w-full px-3 py-2 bg-gray-800 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Username" />
                         </div>
                     </div>
                     <div>
@@ -61,7 +61,7 @@ const LoginForm = (props: any) => {
                                 const trimmed = e.target.value.trim()
                                 setUserState({ ...userState, password: trimmed })}
                             }
-                            id="password" name="password" type="password" autoComplete="password" required className="appearance-none block w-full px-3 py-2 bg-gray-800 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Password" />
+                            id="password" name="password" type="password" autoComplete="password" required className="appearance-none block w-full px-3 py-2 bg-gray-800 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Password" />
                         </div>
                     </div>
                     <div className="flex items-center justify-between">

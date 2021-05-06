@@ -173,11 +173,7 @@ const Nav = (props: any) => {
           <div className="flex flex-col h-0 flex-1 border-r border-gray-500 bg-gray-900">
             <div className="flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
               <div className="flex items-center flex-shrink-0 px-4">
-                <img
-                  className="h-8 w-auto"
-                  src="https://tailwindui.com/img/logos/workflow-logo-indigo-600-mark-gray-800-text.svg"
-                  alt="Workflow"
-                />
+                <h3 className="text-indigo-500">My BlockBot</h3>
               </div>
               <nav className="mt-5 flex-1 px-2 bg-gray-900 space-y-1">
                 {navigation.map((item) => (

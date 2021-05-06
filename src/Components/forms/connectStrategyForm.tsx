@@ -6,6 +6,8 @@ import logo from '../../close-icon.svg'
 import Loader from 'react-loader-spinner';
 import { Listbox, Transition } from '@headlessui/react'
 import { CheckIcon, SelectorIcon } from '@heroicons/react/solid'
+import { preProcessFile } from "typescript";
+import { faExternalLinkSquareAlt } from "@fortawesome/free-solid-svg-icons";
 
 type ConnectStrategy = {
     strategy: String,
@@ -56,7 +58,7 @@ const ConnectStrategyForm = (props: any) => {
 
       if (props.strategyPairs.length < 1) props.getStrategyPairs();
 
-      if (props.connectedExchanges.length < 1) props.getConnectedExchanges();
+      if (props.connectedExchanges.length < 2) props.getConnectedExchanges();
 
       if (props.connectedStrategies.length < 1) props.getConnectedStrategies();
     }, [])
@@ -101,12 +103,17 @@ const ConnectStrategyForm = (props: any) => {
           id: props.connectedExchanges[0].exchange.user_exchange_account_id,
           name: props.connectedExchanges[0].exchange.name,
         })
-
       }  
     }, [props.connectedExchanges])
 
     useEffect(() => {
-      if (props.strategyPairs.length > 0) {
+      console.log(connectedExchanges)
+    }, [connectedExchanges])
+
+    useEffect(() => {
+      console.log(props.strategyPairs)
+      console.log(props.strategies)
+      if (props.strategyPairs.length > 0 && props.strategies.length > 0) {
         const filteredPairs = props.strategyPairs.filter(x => x.strategy_id == props.strategies[0].strategy_id)
         setConnectedStrategyState({
           ...connectedStrategyState,
@@ -175,7 +182,7 @@ const ConnectStrategyForm = (props: any) => {
     }
 
     const handleStrategyPairChange = (e: any) => {
-      console.log(e)
+      
       let symbol = e.pair
       let i = symbol.indexOf('/');
       let ticker_1 = symbol.substring(0, i);
@@ -273,9 +280,9 @@ const ConnectStrategyForm = (props: any) => {
                 <>
                   <Listbox.Label className="iinline-flex text-sm font-medium leading-5 text-white">Strategy</Listbox.Label>
                   <div className="mt-1 relative">
-                    <Listbox.Button className="relative w-full bg-gray-700 border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    <Listbox.Button className="relative w-full bg-gray-700 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                       <span className="flex items-center">
-                        <img src={selectedStrategy.image} alt="" className="flex-shrink-0 h-6 w-6 rounded-full" />
+                        
                         <span className="ml-3 block truncate text-gray-200">{selectedStrategy.name}</span>
                       </span>
                       <span className="ml-3 absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
@@ -346,7 +353,7 @@ const ConnectStrategyForm = (props: any) => {
                 <>
                   <Listbox.Label className="iinline-flex text-sm mt-4 font-medium leading-5 text-white">Exchange Account</Listbox.Label>
                   <div className="mt-1 relative">
-                    <Listbox.Button className="relative w-full bg-gray-700 border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    <Listbox.Button className="relative w-full bg-gray-700 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                       <span className="flex items-center">
                         <span className="ml-3 block truncate text-gray-200">{selectedExchangeAccount.name}</span>
                       </span>
@@ -418,7 +425,7 @@ const ConnectStrategyForm = (props: any) => {
                 <>
                   <Listbox.Label className="iinline-flex text-sm mt-4 font-medium leading-5 text-white">Pair</Listbox.Label>
                   <div className="mt-1 relative">
-                    <Listbox.Button className="relative w-full bg-gray-700 border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    <Listbox.Button className="relative w-full bg-gray-700 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                       <span className="flex items-center">
                         
                         <span className="ml-3 block truncate text-gray-200">{selectedStrategyPairs.pair}</span>
@@ -495,12 +502,12 @@ const ConnectStrategyForm = (props: any) => {
               </div>
               
             <input
-            
-              className="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-16 sm:pl-14 sm:text-sm bg-gray-700 text-white border-gray-300 rounded-md"
+              className="block w-full pl-16 sm:pl-14 sm:text-sm bg-gray-700 text-white rounded-md"
               value={isNaN(connectedStrategyState.current_currency_balance) ? 0.00 : connectedStrategyState.current_currency_balance}
               onChange={handleCurrencyAmountChange}
               step={0.000001}
               type="number" name="current_currency_balance" id="current_currency_balance" placeholder="0.00" />
+
             <div className="absolute inset-y-0 right-0 flex items-center">
               <label htmlFor="current_currency" className="sr-only">Currency</label>
               <select onChange={handleCurrentCurrencyChange} id="current_currency" name="current_currency" className="focus:ring-gray-300 focus:border-gray-300 h-full py-0 pl-2 pr-7 border-transparent bg-transparent text-white sm:text-sm rounded-md">

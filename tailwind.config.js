@@ -14,6 +14,7 @@ module.exports = {
       gray: colors.blueGray,
       indigo: colors.indigo,
       red: colors.rose,
+      blue: colors.blue,
       green: colors.green,
       gold: {
         light: '#FFD700',

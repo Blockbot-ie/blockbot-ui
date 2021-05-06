@@ -11,6 +11,12 @@ const ExchangeSignUp = (props: any) => {
         }
     }, [])
 
+    useEffect(() => {
+        if (props.connectedExchanges.length > 0) {
+            props.next()
+          }
+    }, [props.connectedExchanges])
+
     const exchanges = []
 
     const exchangeList = props.exchanges.map((exchange, i) => 
@@ -68,7 +74,8 @@ const ExchangeSignUp = (props: any) => {
 
 const mapStateToProps = (state) => ({
     exchanges: state.common.exchanges,
-    isLoading: state.common.isLoading
+    isLoading: state.common.isLoading,
+    connectedExchanges: state.common.connectedExchanges
   });
 
 export default connect(mapStateToProps, { getExchanges })(ExchangeSignUp);
