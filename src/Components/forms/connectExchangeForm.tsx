@@ -120,10 +120,10 @@ const ConnectExchangeForm = (props: any) => {
       {open && selected &&
           <div className="absolute z-50 right-0 items-end pt-4 px-4 pb-20 text-center sm:block sm:p-0">
             
-            <div className="inline-block bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-auto shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-sm sm:w-full sm:p-6">
+            <div className="inline-block bg-gray-100 rounded-lg px-4 pt-5 pb-4 text-left overflow-auto shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-sm sm:w-full sm:p-6">
               <div>
                 <div className="mt-1 text-center sm:mt-5">
-                  <h3 className="text-lg leading-6 font-medium text-gray-900">
+                  <h3 className="text-lg leading-6 font-medium text-indigo-600">
                     Connect with {selected.name}
                   </h3>
                   <nav aria-label="Progress">
@@ -136,12 +136,37 @@ const ConnectExchangeForm = (props: any) => {
                                 <span className="text-indigo-600">01</span>
                             </span>
                           </span>
+                          <span className="ml-4 mt-2 min-w-0 flex flex-col">
+                          <span className="text-xs text-left font-semibold tracking-wide uppercase text-gray-600">Sign in to {selected.name}</span>
+                            <div className="flex items-stretch">
+                              <button onClick={handle1} className="py-4">
+                                <div className="thumbnail">
+                                    <img className="image1" src={require('../../images/thumbnails/mybb.png').default} width={120} height={80}/>
+                                    <img className="image2" src={require('../../images/thumbnails/play.png').default} width={30} height={40}/>
+                                </div>
+                              </button>
+                              <div className="py-4">
+                                <span className="text-sm text-gray-500">Sign in and navigate to api settings <br /> <FontAwesomeIcon className="ml-2 text-indigo-600" icon={ faHandPointRight } /> <a href="https://pro.coinbase.com/profile/api" target="_blank" className="text-gray-500" >Open {selected.name}</a></span>
+                              </div>
+                            </div>
+                          </span>
+                        </div>
+                      </li>
+
+                      <li className="relative pb-10">
+                        <div className="-ml-px absolute mt-0.5 top-4 left-4 w-0.5 h-full bg-gray-300" aria-hidden="true"></div>
+                        <div className="relative flex items-start group" aria-current="step">
+                          <span className="h-9 flex items-center" aria-hidden="true">
+                            <span className="relative z-10 w-8 h-8 flex items-center justify-center bg-white border-2 border-indigo-600 rounded-full">
+                                <span className="text-indigo-600">02</span>
+                            </span>
+                          </span>
                           <span className="ml-4 min-w-0 flex flex-col">
-                            <span className="text-xs font-semibold tracking-wide uppercase text-indigo-600">Generate API Keys <FontAwesomeIcon className="ml-2" icon={ faHandPointRight } /> <a href="https://pro.coinbase.com/profile/api" target="_blank" className="text-gray-500 lowercase">Open {selected.name}</a></span>
+                            <span className="text-xs text-left font-semibold tracking-wide uppercase text-gray-600">Generate API Keys</span>
                             <div className="flex items-stretch">
                               <button onClick={handle1} className="py-4">
                               <div className="thumbnail">
-                                  <img className="image1" src={require('../../images/thumbnails/mybb.png').default} width={120} height={80}/>
+                                  <img className="image1" src={require('../../images/thumbnails/mybb.png').default} width={140} height={90}/>
                                   <img className="image2" src={require('../../images/thumbnails/play.png').default} width={30} height={40}/>
                                 </div>
                               </button>
@@ -157,11 +182,11 @@ const ConnectExchangeForm = (props: any) => {
                         <div className="relative flex items-start group" aria-current="step">
                           <span className="h-9 flex items-center" aria-hidden="true">
                             <span className="relative z-10 w-8 h-8 flex items-center justify-center bg-white border-2 border-indigo-600 rounded-full">
-                              <span className="text-indigo-600">02</span>
+                              <span className="text-indigo-600">03</span>
                             </span>
                           </span>
                           <span className="ml-4 min-w-0 flex flex-col">
-                            <span className="text-xs font-semibold tracking-wide uppercase text-indigo-600">Connect to MyBlockBot</span>
+                            <span className="text-xs text-left font-semibold tracking-wide uppercase text-gray-600">Connect to MyBlockBot</span>
                             <div className="flex items-stretch">
                               <button onClick={handle2} className="py-4">
                                 <div className="thumbnail">
