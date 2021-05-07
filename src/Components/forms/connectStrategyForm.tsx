@@ -6,6 +6,7 @@ import Loader from 'react-loader-spinner';
 import { Listbox, Transition } from '@headlessui/react'
 import { CheckIcon, SelectorIcon } from '@heroicons/react/solid'
 import { useLocation } from 'react-router-dom'
+import { isConstructorDeclaration } from "typescript";
 
 type ConnectStrategy = {
     strategy: String,
@@ -14,7 +15,7 @@ type ConnectStrategy = {
     initial_first_symbol_balance: number,
     initial_second_symbol_balance: number,
     current_currency: String,
-    current_currency_balance: number,
+    current_currency_balance: string,
     ticker_1: string,
     ticker_2: string
   }
@@ -28,7 +29,7 @@ const ConnectStrategyForm = (props: any) => {
       initial_first_symbol_balance: null,
       initial_second_symbol_balance: null,
       current_currency: '',
-      current_currency_balance: 0.0,
+      current_currency_balance: '',
       ticker_1: '',
       ticker_2: ''
     })
@@ -107,12 +108,10 @@ const ConnectStrategyForm = (props: any) => {
     }, [props.connectedExchanges])
 
     useEffect(() => {
-      console.log(connectedExchanges)
-    }, [connectedExchanges])
+      console.log(strategyPairs)
+    }, [strategyPairs])
 
     useEffect(() => {
-      console.log(props.strategyPairs)
-      console.log(props.strategies)
       if (props.strategyPairs.length > 0 && props.strategies.length > 0) {
         const filteredPairs = props.strategyPairs.filter(x => x.strategy_id == props.strategies[0].strategy_id)
         setConnectedStrategyState({
@@ -165,19 +164,19 @@ const ConnectStrategyForm = (props: any) => {
             ticker_1: filteredPairs[0].ticker_1,
             ticker_2: filteredPairs[0].ticker_2,
             current_currency: filteredPairs[0].ticker_2,
-            current_currency_balance: 0.00
+            current_currency_balance: ''
           })
           console.log(selectedStrategyPairs)
       }
     }
 
     const handleCurrentCurrencyChange = (e: any) => {
-      setConnectedStrategyState({ ...connectedStrategyState, current_currency: e.target.value, current_currency_balance: 0, initial_first_symbol_balance: 0, initial_second_symbol_balance: 0})
+      setConnectedStrategyState({ ...connectedStrategyState, current_currency: e.target.value, current_currency_balance: '0', initial_first_symbol_balance: 0, initial_second_symbol_balance: 0})
     }
 
     const handleExchangeAccountChange = (e: any) => {
       console.log(e)
-      setConnectedStrategyState({ ...connectedStrategyState, user_exchange_account: e.id, current_currency_balance: 0.00 })
+      setConnectedStrategyState({ ...connectedStrategyState, user_exchange_account: e.id, current_currency_balance: '0' })
       setSelectedExchangeAccount(e)
     }
 
@@ -188,7 +187,7 @@ const ConnectStrategyForm = (props: any) => {
       let ticker_1 = symbol.substring(0, i);
       let ticker_2 = symbol.substring(i+1, symbol.length);
       const trimmed = e.pair.trim()
-      setConnectedStrategyState({ ...connectedStrategyState, pair: trimmed, ticker_1: ticker_1, ticker_2: ticker_2, current_currency: ticker_2, current_currency_balance: 0.00 })
+      setConnectedStrategyState({ ...connectedStrategyState, pair: trimmed, ticker_1: ticker_1, ticker_2: ticker_2, current_currency: ticker_2, current_currency_balance: '0' })
       setSelectedStrategyPairs(e)
     }
 
@@ -204,7 +203,7 @@ const ConnectStrategyForm = (props: any) => {
           ...connectedStrategyState, 
           initial_first_symbol_balance: parseFloat(value), 
           initial_second_symbol_balance: 0, 
-          current_currency_balance: parseFloat(value) 
+          current_currency_balance: value
         })
       }
       if (connectedStrategyState.current_currency == symbol2) {
@@ -212,7 +211,7 @@ const ConnectStrategyForm = (props: any) => {
           ...connectedStrategyState, 
           initial_second_symbol_balance: parseFloat(value), 
           initial_first_symbol_balance: 0,
-          current_currency_balance: parseFloat(value) 
+          current_currency_balance: value
         })
       }
     }
@@ -264,7 +263,12 @@ const ConnectStrategyForm = (props: any) => {
             props.connectStrategy({ connectedStrategyState }) 
           }
         }
-    } 
+    }
+
+    const showState = () => {
+      console.log(connectedStrategyState)
+    }
+
     return <>
     <div className="max-w-3xl px-4 sm:px-6 md:px-8">
       <div className="relative">
@@ -493,7 +497,7 @@ const ConnectStrategyForm = (props: any) => {
         </div>
         <div>
           <div className="flex align-middle mb-1 mt-3">
-            <label htmlFor="price" className="inline-flex text-sm font-medium leading-5 text-white">Amunt</label>
+            <label htmlFor="price" className="inline-flex text-sm font-medium leading-5 text-white">Amount</label>
           </div>
           <div className="mt-1 relative rounded-md shadow-sm">
               {/* <button type="button" onClick={() => setMax()} className="focus:ring-indigo-500 focus:border-indigo-500 h-full py-0 pl-2 pr-7 border-transparent bg-transparent text-gray-500 sm:text-sm rounded-md">Max</button> */}
@@ -503,11 +507,9 @@ const ConnectStrategyForm = (props: any) => {
               
             <input
               className="block w-full pl-16 sm:pl-14 sm:text-sm bg-gray-700 text-white rounded-md"
-              value={isNaN(connectedStrategyState.current_currency_balance) ? 0.00 : connectedStrategyState.current_currency_balance}
+              value={connectedStrategyState.current_currency_balance}
               onChange={handleCurrencyAmountChange}
-              step={0.000001}
-              type="number" name="current_currency_balance" id="current_currency_balance" placeholder="0.00" />
-
+              type="text" name="current_currency_balance" id="current_currency_balance" placeholder="0.00" />
             <div className="absolute inset-y-0 right-0 flex items-center">
               <label htmlFor="current_currency" className="sr-only">Currency</label>
               <select onChange={handleCurrentCurrencyChange} id="current_currency" name="current_currency" className="focus:ring-gray-300 focus:border-gray-300 h-full py-0 pl-2 pr-7 border-transparent bg-transparent text-white sm:text-sm rounded-md">
