@@ -47,21 +47,13 @@ const ExchangeSignUp = (props: any) => {
                 </div>
                 <div>
                     <div className="-mt-px flex divide-x divide-gray-900">
-                    <div className="w-0 flex-1 flex">
-                        <a
-                        href={exchange.signUpUrl}
-                        target="_blank"
-                        className="relative -mr-px w-0 flex-1 inline-flex items-center justify-center py-4 text-xs text-white font-medium border-1 border-gray-900 rounded-bl-lg hover:text-gray-500"
-                        >
-                        <span className="ml-3">Register an Account</span>
-                        </a>
-                    </div>
-                    <div className="-ml-px w-0 flex-1 flex">
+                    
+                    <div className=" w-0 flex-1 flex">
                         <a
                         onClick={() => handleOnClick(exchange.exchange_id)}
-                        className="relative w-0 flex-1 inline-flex items-center justify-center py-4 text-xs text-white font-medium border-1 border-gray-900 rounded-br-lg hover:text-gray-500"
+                        className="relative w-0 flex-1 inline-flex items-center justify-center bg-gray-700 hover:bg-gray-500 py-4 text-xs text-white font-medium rounded-b-lg hover:text-gray-500"
                         >
-                        <span className="ml-3 mr-2">Already have an account</span>
+                        <span className="ml-3 mr-2">Continue</span>
                         </a>
                     </div>
                     </div>

@@ -58,15 +58,14 @@ const StrategyStats = (props: any) => {
   useEffect(() => {
 
     setIntervalState('1D')
+    props.getConnectedStrategies()
 
-    if (props.dashboardData.length < 1) {
-      props.getDashboardData()
-    }
+    
+    props.getDashboardData()
+    
   }, [])
 
   useEffect(() => {
-    if (props.connectedStrategies.length < 1) props.getConnectedStrategies()
-
     if (props.connectedStrategies.length > 0) {
       if (tabs.length < 1) {
         props.connectedStrategies.map(strategy => {
@@ -110,13 +109,16 @@ const StrategyStats = (props: any) => {
   }, [currentTab])
 
     const handleClick = (e) => {
-      console.log(e.target.value)
+      const current = tabs.find(x => x.id == e.target.value)
+      const balance = props.dashboardData[0].inc_or_dec_vs_hodl.filter(s => s.strategy_pair_id == current.id)[0]
       setIntervalState('1D')
       setCurrentTab({
-        ...currentTab,
-        id: e.target.value
+        id: current.id,
+        name: current.name,
+        balance: balance.balance,
+        incOrDecVsHodl: balance.inc_or_dec
       })
-      props.getDailyBalances(e.target.value, intervalState)
+      props.getDailyBalances(e.target.value.id, intervalState)
     }
 
     let data = []
@@ -230,45 +232,48 @@ const StrategyStats = (props: any) => {
                   </div>
                   <div className="h-96 flex items-center justify-center relative">
                   {props.dailyBalances.length > 0 ?
-                  <ResponsiveContainer width="100%" height="100%">
-                    <AreaChart width={800} height={300} data={data} margin={{top: 25, right: 30, left: 20, bottom: 5}}>
-                    <defs>
-                      <linearGradient id="colorUv" x1="0" y1="0" x2="100%" y2="1">
-                        <stop offset="5%" stopColor="#129a74" stopOpacity={0.1}/>
-                        <stop offset="95%" stopColor="#FFFFFF" stopOpacity={0.1}/>
-                        <stop offset="5%" stopColor="#31C48D" stopOpacity={0.1}/>
-                        <stop offset="95%" stopColor="#1A202E" stopOpacity={0.1}/>
-                      </linearGradient>
-                    </defs>
+                    props.dailyBalances[0].data.length < 4 != null ?
+                    <h3 className="text-white">We need {3 - props.dailyBalances[0].data.length} days to gather more data</h3>
+                    :
+                    <ResponsiveContainer width="100%" height="100%">
+                      <AreaChart width={800} height={300} data={data} margin={{top: 25, right: 30, left: 20, bottom: 5}}>
+                      <defs>
+                        <linearGradient id="colorUv" x1="0" y1="0" x2="100%" y2="1">
+                          <stop offset="5%" stopColor="#129a74" stopOpacity={0.1}/>
+                          <stop offset="95%" stopColor="#FFFFFF" stopOpacity={0.1}/>
+                          <stop offset="5%" stopColor="#31C48D" stopOpacity={0.1}/>
+                          <stop offset="95%" stopColor="#1A202E" stopOpacity={0.1}/>
+                        </linearGradient>
+                      </defs>
 
-                    <YAxis 
-                      axisLine={false}
-                      tickLine={false}
-                    />
-                    
-                    <XAxis
-                      dataKey="date"
+                      <YAxis 
+                        axisLine={false}
+                        tickLine={false}
+                      />
                       
-                      axisLine={false}
-                      tickLine={false}
-                      tickFormatter={dateFormatter}
-                      tick={{fill: 'white', fontSize: '13', textAnchor: 'right' }}
-                    />
+                      <XAxis
+                        dataKey="date"
+                        
+                        axisLine={false}
+                        tickLine={false}
+                        tickFormatter={dateFormatter}
+                        tick={{fill: 'white', fontSize: '13', textAnchor: 'right' }}
+                      />
+                      
+                      <Tooltip />
+                      <Legend verticalAlign="top" height={36} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}/>
+                      <Area name="HODL Value" type="monotone" dataKey="hodl_value" stroke="#006991" strokeWidth={2} fillOpacity={opacity.hodl_value} fill="url(#colorUv)" />
+                      <Area name="Strategy Value" type="monotone" dataKey="strategy_value" stroke="#31C48D" strokeWidth={2} fillOpacity={opacity.strategy_value} fill="url(#colorUv)" />
+                      </AreaChart>
+                    </ResponsiveContainer>
+                    :
+                    <Loader type="Circles" color="#00BFFF" height={24} width={24}/>
+                    } 
                     
-                    <Tooltip />
-                    <Legend verticalAlign="top" height={36} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}/>
-                    <Area name="HODL Value" type="monotone" dataKey="hodl_value" stroke="#006991" strokeWidth={2} fillOpacity={opacity.hodl_value} fill="url(#colorUv)" />
-                    <Area name="Strategy Value" type="monotone" dataKey="strategy_value" stroke="#31C48D" strokeWidth={2} fillOpacity={opacity.strategy_value} fill="url(#colorUv)" />
-                    </AreaChart>
-                  </ResponsiveContainer>
-                  :
-                  <Loader type="Circles" color="#00BFFF" height={24} width={24}/>
-                  } 
-                  
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
             
             
                 

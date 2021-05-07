@@ -28,6 +28,8 @@ const ConnectExchangeForm = (props: any) => {
 
   const [isOpen2, setIsOpen2] = useState(false)
   
+  const [isOpen3, setIsOpen3] = useState(false)
+  
   useEffect(() => {
     if (props.exchanges.length < 1) props.getExchanges();
   }, [])
@@ -102,17 +104,26 @@ const ConnectExchangeForm = (props: any) => {
     const handleModalClick = () => {
       setIsOpen(false)
       setIsOpen2(false)
+      setIsOpen3(false)
       setOpen(false)
     }
 
     const handle1 = () => {
       setIsOpen(true)
       setIsOpen2(false)
+      setIsOpen3(false)
     }
 
     const handle2 = () => {
       setIsOpen(false)
       setIsOpen2(true)
+      setIsOpen3(false)
+    }
+
+    const handle3 = () => {
+      setIsOpen(false)
+      setIsOpen2(false)
+      setIsOpen3(true)
     }
 
     return <>
@@ -164,7 +175,7 @@ const ConnectExchangeForm = (props: any) => {
                           <span className="ml-4 min-w-0 flex flex-col">
                             <span className="text-xs text-left font-semibold tracking-wide uppercase text-gray-600">Generate API Keys</span>
                             <div className="flex items-stretch">
-                              <button onClick={handle1} className="py-4">
+                              <button onClick={handle2} className="py-4">
                               <div className="thumbnail">
                                   <img className="image1" src={require('../../images/thumbnails/mybb.png').default} width={140} height={90}/>
                                   <img className="image2" src={require('../../images/thumbnails/play.png').default} width={30} height={40}/>
@@ -188,7 +199,7 @@ const ConnectExchangeForm = (props: any) => {
                           <span className="ml-4 min-w-0 flex flex-col">
                             <span className="text-xs text-left font-semibold tracking-wide uppercase text-gray-600">Connect to MyBlockBot</span>
                             <div className="flex items-stretch">
-                              <button onClick={handle2} className="py-4">
+                              <button onClick={handle3} className="py-4">
                                 <div className="thumbnail">
                                   <img className="image1" src={require('../../images/thumbnails/mybb.png').default} width={100} height={70}/>
                                   <img className="image2" src={require('../../images/thumbnails/play.png').default} width={30} height={40}/>
@@ -222,8 +233,9 @@ const ConnectExchangeForm = (props: any) => {
         <h3 className="text-lg leading-6 font-medium text-gray-900 text-white">Connect with your Exchange</h3>
         <button onClick={handleHelpModal} className="float-right text-indigo-500">Need Help?</button>
       </div>
-         <ModalVideo channel='youtube' autoplay isOpen={isOpen} videoId="m0yEj0NsdZY" onClose={() => setIsOpen(false)} />
-         <ModalVideo channel='youtube' autoplay isOpen={isOpen2} videoId="5Dx27MQqJrU" onClose={() => setIsOpen2(false)} />
+          <ModalVideo channel='youtube' autoplay isOpen={isOpen} videoId="Dhgj075C0ow" onClose={() => setIsOpen(false)} />
+          <ModalVideo channel='youtube' autoplay isOpen={isOpen2} videoId="X_mebABFBuQ" onClose={() => setIsOpen2(false)} />
+          <ModalVideo channel='youtube' autoplay isOpen={isOpen3} videoId="5gJq33hJ_JA" onClose={() => setIsOpen3(false)} />
       <div className="mt-2">
         <div className="space-y-6">
           {exchanges.length > 0 && selected != null ?
