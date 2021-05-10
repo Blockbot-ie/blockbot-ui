@@ -232,7 +232,7 @@ const StrategyStats = (props: any) => {
                   </div>
                   <div className="h-96 flex items-center justify-center relative">
                   {props.dailyBalances.length > 0 ?
-                    props.dailyBalances[0].data.length < 4 != null ?
+                    props.dailyBalances[0].data.length < 4 ?
                     <h3 className="text-white">We need {3 - props.dailyBalances[0].data.length} days to gather more data</h3>
                     :
                     <ResponsiveContainer width="100%" height="100%">

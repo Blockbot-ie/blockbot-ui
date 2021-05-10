@@ -13,7 +13,7 @@ const ConnectExhange = (props: any) => {
     const [currentExchange, setCurrentExchangeState] = useState(null);
 
     useEffect(() => {
-      if (props.connectedExchanges.length < 1) props.getConnectedExchanges();
+      props.getConnectedExchanges();
     }, [])
 
     useEffect(() => {

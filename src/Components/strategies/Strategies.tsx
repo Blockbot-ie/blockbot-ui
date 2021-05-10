@@ -33,7 +33,7 @@ const Strategies = (props: any) => {
 
   useEffect(() => {
 
-    if (props.connectedExchanges.length < 1) props.getConnectedExchanges();
+    props.getConnectedExchanges();
 
     props.getConnectedStrategies();
     if (props.connectedStrategies.length > 0) {
@@ -274,8 +274,8 @@ const Strategies = (props: any) => {
             <span className="flex justify-center mt-16">
               <span className="flex flex-col items-middle max-w-sm space-y-8">
                 <span>
-                  <h3 className="w-full text-2xl leading-8 font-semibold text-white">You have not connected with any Exchange</h3>
-                  <p className="w-full leading-6 font-normal text-gray-400">Generate api keys from your preferred exchange to start adding strategies</p>
+                  <h3 className="w-full text-2xl leading-8 font-semibold text-white">You have not connected with any Strategy</h3>
+                  <p className="w-full leading-6 font-normal text-gray-400">Press Connect to start adding Strategies</p>
                 </span>
                 <div className="flex flex-col items-stretch">
                   <Link to="/connect-strategy" className="flex-shrink-0 inline-flex items-center justify-center border-0 focus:outline-none focus:ring-2 focus:ring-gray-200 focus:ring-gray-700 transition bg-violet-500 bg-violet-500 active:bg-violet-500 active:bg-violet-500 border-transparent font-medium  hover:bg-violet-600 hover:bg-violet-400 px-4 py-2 rounded-md shadow-sm text-base text-white">
