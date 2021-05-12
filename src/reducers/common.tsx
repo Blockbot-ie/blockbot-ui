@@ -17,7 +17,8 @@ import {
       TOPPED_UP_STRATEGY_SUCCCESS,
       TOPPED_UP_STRATEGY_FAIL,
       LOGOUT,
-      GET_DAILY_BALANCES
+      GET_DAILY_BALANCES,
+      FORM_SUBMITTED
     } from '../actions/types';
 
 const initialState = {
@@ -38,7 +39,8 @@ export default function (state = initialState, action) {
     case IS_LOADING:
       return {
         ...state,
-        isLoading: true
+        isLoading: true,
+        formSubmitted: false
       }
     case GET_DASHBOARDDATA:
       return {
@@ -127,13 +129,13 @@ export default function (state = initialState, action) {
         orders: action.payload
       }
     case TOPPED_UP_STRATEGY_SUCCCESS:
+    case REPORT_SUBMITTED:
       return {
         ...state,
         isLoading: false,
         formSubmitted: true
       }
     case TOPPED_UP_STRATEGY_FAIL:
-    case REPORT_SUBMITTED:
       return {
         ...state,
         isLoading: false

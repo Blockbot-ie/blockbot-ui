@@ -4,7 +4,7 @@ import { getExchanges, connectExchange } from '../../actions/common';
 import Loader from "react-loader-spinner";
 import { Listbox, Transition } from '@headlessui/react'
 import { CheckIcon, SelectorIcon } from '@heroicons/react/solid'
-import { useLocation } from "react-router-dom";
+import { Redirect, useLocation } from "react-router-dom";
 import ModalVideo from 'react-modal-video'
 import "react-modal-video/scss/modal-video.scss";
 import { faHandPointRight } from '@fortawesome/free-solid-svg-icons'
@@ -131,6 +131,9 @@ const ConnectExchangeForm = (props: any) => {
     }
 
     return <>
+    {props.formSubmitted && location.pathname != '/user-story' ?
+      <Redirect to='/exchanges' />
+    :
     <div className="max-w-3xl px-4 sm:px-6 md:px-8">
       {open && selected &&
           <div className="absolute z-50 right-0 items-end pt-4 px-4 pb-20 text-center sm:block sm:p-0">
@@ -230,7 +233,7 @@ const ConnectExchangeForm = (props: any) => {
         }
       <div className="relative">
         <h3 className="text-lg leading-6 font-medium text-gray-900 text-white">Connect with your Exchange</h3>
-        <button onClick={handleHelpModal} className="float-right text-indigo-500">Need Help?</button>
+        <button onClick={handleHelpModal} className="float-right text-white">Need Help?</button>
       </div>
           <ModalVideo channel='youtube' autoplay isOpen={isOpen} videoId="Dhgj075C0ow" onClose={() => setIsOpen(false)} />
           <ModalVideo channel='youtube' autoplay isOpen={isOpen2} videoId="X_mebABFBuQ" onClose={() => setIsOpen2(false)} />
@@ -368,7 +371,7 @@ const ConnectExchangeForm = (props: any) => {
         </div>
       </div>
     </div>
-    
+  }
 </>
 }
 

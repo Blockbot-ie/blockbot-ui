@@ -5,7 +5,7 @@ import { createMessage } from '../../actions/messages';
 import Loader from 'react-loader-spinner';
 import { Listbox, Transition } from '@headlessui/react'
 import { CheckIcon, SelectorIcon } from '@heroicons/react/solid'
-import { useLocation } from 'react-router-dom'
+import { Redirect, useLocation } from 'react-router-dom'
 import { isConstructorDeclaration } from "typescript";
 
 type ConnectStrategy = {
@@ -270,6 +270,9 @@ const ConnectStrategyForm = (props: any) => {
     }
 
     return <>
+    {props.formSubmitted && location.pathname != '/user-story' ?
+      <Redirect to='/strategies' />
+    :
     <div className="max-w-3xl px-4 sm:px-6 md:px-8">
       <div className="relative">
         <h3 className="text-lg leading-6 font-medium text-gray-900 text-white">Connect with a Strategy</h3>
@@ -528,6 +531,7 @@ const ConnectStrategyForm = (props: any) => {
         </div>
       </div>
     </div>
+  }
 </>
 }
 
@@ -536,7 +540,8 @@ const mapStateToProps = (state) => ({
     connectedExchanges: state.common.connectedExchanges,
     connectedStrategies: state.common.connectedStrategies,
     strategyPairs: state.common.strategyPairs,
-    isLoading: state.common.isLoading
+    isLoading: state.common.isLoading,
+    formSubmitted: state.common.formSubmitted
   });
 
 export default connect(mapStateToProps, { createMessage, getStrategies, getStrategyPairs, connectStrategy, connectExchange, getConnectedExchanges, getConnectedStrategies })(ConnectStrategyForm);
