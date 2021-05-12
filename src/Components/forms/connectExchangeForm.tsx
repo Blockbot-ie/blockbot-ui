@@ -229,25 +229,26 @@ const ConnectExchangeForm = (props: any) => {
                 </div>
               </div>
             </div>
+            {selected.name == 'Binance' ?
+            <div>
+            <ModalVideo channel='youtube' autoplay isOpen={isOpen} videoId="Dhgj075C0ow" onClose={() => setIsOpen(false)} />
+            <ModalVideo channel='youtube' autoplay isOpen={isOpen2} videoId="0f73mw3GtYg" onClose={() => setIsOpen2(false)} />
+            <ModalVideo channel='youtube' autoplay isOpen={isOpen3} videoId="Io_ypOSge5s" onClose={() => setIsOpen3(false)} />
+            </div>
+            :
+            <div>
+            <ModalVideo channel='youtube' autoplay isOpen={isOpen} videoId="Dhgj075C0ow" onClose={() => setIsOpen(false)} />
+            <ModalVideo channel='youtube' autoplay isOpen={isOpen2} videoId="X_mebABFBuQ" onClose={() => setIsOpen2(false)} />
+            <ModalVideo channel='youtube' autoplay isOpen={isOpen3} videoId="5gJq33hJ_JA" onClose={() => setIsOpen3(false)} />
+            </div>
+          }
           </div> 
         }
       <div className="relative">
         <h3 className="text-lg leading-6 font-medium text-gray-900 text-white">Connect with your Exchange</h3>
         <button onClick={handleHelpModal} className="float-right text-white">Need Help?</button>
       </div>
-      {selected.name == 'Binance' ?
-      <div>
-        <ModalVideo channel='youtube' autoplay isOpen={isOpen} videoId="Dhgj075C0ow" onClose={() => setIsOpen(false)} />
-        <ModalVideo channel='youtube' autoplay isOpen={isOpen2} videoId="X_mebABFBuQ" onClose={() => setIsOpen2(false)} />
-        <ModalVideo channel='youtube' autoplay isOpen={isOpen3} videoId="5gJq33hJ_JA" onClose={() => setIsOpen3(false)} />
-        </div>
-        :
-        <div>
-        <ModalVideo channel='youtube' autoplay isOpen={isOpen} videoId="Dhgj075C0ow" onClose={() => setIsOpen(false)} />
-        <ModalVideo channel='youtube' autoplay isOpen={isOpen2} videoId="X_mebABFBuQ" onClose={() => setIsOpen2(false)} />
-        <ModalVideo channel='youtube' autoplay isOpen={isOpen3} videoId="5gJq33hJ_JA" onClose={() => setIsOpen3(false)} />
-        </div>
-      }
+
       <div className="mt-2">
         <div className="space-y-6">
           {exchanges.length > 0 && selected != null ?
