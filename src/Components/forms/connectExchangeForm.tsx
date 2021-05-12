@@ -231,7 +231,7 @@ const ConnectExchangeForm = (props: any) => {
             </div>
             {selected.name == 'Binance' ?
             <div>
-            <ModalVideo channel='youtube' autoplay isOpen={isOpen} videoId="Dhgj075C0ow" onClose={() => setIsOpen(false)} />
+            <ModalVideo channel='youtube' autoplay isOpen={isOpen} videoId="On2Ol1jbZpw" onClose={() => setIsOpen(false)} />
             <ModalVideo channel='youtube' autoplay isOpen={isOpen2} videoId="0f73mw3GtYg" onClose={() => setIsOpen2(false)} />
             <ModalVideo channel='youtube' autoplay isOpen={isOpen3} videoId="Io_ypOSge5s" onClose={() => setIsOpen3(false)} />
             </div>
