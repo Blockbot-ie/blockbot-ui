@@ -67,8 +67,7 @@ const StrategyStats = (props: any) => {
         props.connectedStrategies.map(strategy => {
           setTabs(tabs => [...tabs, {
             id: strategy.id,
-            name: strategy.strategy.name,
-            current: true
+            name: strategy.strategy.name
           }])
         })
       }
@@ -77,9 +76,6 @@ const StrategyStats = (props: any) => {
         id: props.connectedStrategies[0].id,
         name: props.connectedStrategies[0].strategy.name
       })
-
-      // props.getDailyBalances(props.connectedStrategies[0].id, intervalState)
-      
     }
   }, [props.connectedStrategies])
 
@@ -114,6 +110,7 @@ const StrategyStats = (props: any) => {
         balance: balance.balance,
         incOrDecVsHodl: balance.inc_or_dec
       })
+      
       props.getDailyBalances(e.target.value.id, intervalState)
     }
 
@@ -172,7 +169,7 @@ const StrategyStats = (props: any) => {
                         className={classNames(
                           tab.current
                             ? 'border-indigo-500 text-indigo-600'
-                            : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300',
+                            : 'border-transparent text-gray-50 hover:text-gray-700 hover:border-gray-300',
                           'whitespace-nowrap py-4 px-1 border-b font-medium text-sm'
                         )}
                         aria-current={tab.current ? 'page' : undefined}
