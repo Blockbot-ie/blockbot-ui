@@ -17,10 +17,6 @@ const AccountStats = (props: any) => {
     })
 
     useEffect(() => {
-        if (props.dashboardData.length < 1) props.getDashboardData();
-    }, [])
-
-    useEffect(() => {
         if (props.dashboardData.length > 0) {
             let totalIncOrDec = 0
             let totalBalance = 0

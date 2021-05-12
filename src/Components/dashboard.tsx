@@ -13,6 +13,11 @@ const Dashboard = (props: any) => {
     
     const [bugReportModalOpen, setBugReportModalOpen] = React.useState(false);
 
+    useEffect(() => {
+      props.getDashboardData()
+      props.getConnectedStrategies()
+    }, [])
+
     const handleClose = () => {
         setBugReportModalOpen(false)
     }

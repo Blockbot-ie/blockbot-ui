@@ -9,6 +9,7 @@ import ModalVideo from 'react-modal-video'
 import "react-modal-video/scss/modal-video.scss";
 import { faHandPointRight } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import logo from '../../close-icon.svg'
 
 
 type ConnectExchange = {
@@ -51,11 +52,6 @@ const ConnectExchangeForm = (props: any) => {
 
       useEffect(() => {
         if (props.exchanges.length > 0) {
-          setConnectedExchangeState({
-            ...connectedExchangeState,
-            exchange: props.exchanges[0].exchange_id
-          })
-          
           if (props.currentExchange) {
             const currentExchangeProps = props.exchanges.filter(ex => ex.exchange_id == props.currentExchange)[0]
             setSelected({
@@ -63,11 +59,19 @@ const ConnectExchangeForm = (props: any) => {
               name: currentExchangeProps.display_name,
               image: require('../../images/exchangeLogos/' + currentExchangeProps.name + '.png').default
             })
+            setConnectedExchangeState({
+              ...connectedExchangeState,
+              exchange: currentExchangeProps.exchange_id
+            })
           } else {
             setSelected({
               id: props.exchanges[0].exchange_id,
               name: props.exchanges[0].display_name,
               image: require('../../images/exchangeLogos/' + props.exchanges[0].name + '.png').default
+            })
+            setConnectedExchangeState({
+              ...connectedExchangeState,
+              exchange: props.exchanges[0].exchange_id
             })
           }
         }
@@ -130,9 +134,11 @@ const ConnectExchangeForm = (props: any) => {
     <div className="max-w-3xl px-4 sm:px-6 md:px-8">
       {open && selected &&
           <div className="absolute z-50 right-0 items-end pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-            
             <div className="inline-block bg-gray-100 rounded-lg px-4 pt-5 pb-4 text-left overflow-auto shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-sm sm:w-full sm:p-6">
               <div>
+                <button disabled={props.isLoading} onClick={handleModalClick} className="float-right">
+                    <img src={logo} alt="My Happy SVG" height="20" width="20"/>
+                </button>
                 <div className="mt-1 text-center sm:mt-5">
                   <h3 className="text-lg leading-6 font-medium text-indigo-600">
                     Connect with {selected.name}
@@ -155,6 +161,7 @@ const ConnectExchangeForm = (props: any) => {
                                     <img className="image1" src={require('../../images/thumbnails/mybb.png').default} width={120} height={80}/>
                                     <img className="image2" src={require('../../images/thumbnails/play.png').default} width={30} height={40}/>
                                 </div>
+                                <p className="mt-1 text-xs text-gray-500">Watch Video 16s</p>
                               </button>
                               <div className="py-4">
                                 <span className="text-sm text-gray-500">Sign in and navigate to api settings <br /> <FontAwesomeIcon className="ml-2 text-indigo-600" icon={ faHandPointRight } /> <a href="https://pro.coinbase.com/profile/api" target="_blank" className="text-gray-500" >Open {selected.name}</a></span>
@@ -180,6 +187,7 @@ const ConnectExchangeForm = (props: any) => {
                                   <img className="image1" src={require('../../images/thumbnails/mybb.png').default} width={140} height={90}/>
                                   <img className="image2" src={require('../../images/thumbnails/play.png').default} width={30} height={40}/>
                                 </div>
+                                <p className="mt-1 text-xs text-gray-500">Watch Video 74s</p>
                               </button>
                               <div className="py-4">
                                 <span className="text-sm text-gray-500">Go to {selected.name} and generate keys.</span>
@@ -204,6 +212,7 @@ const ConnectExchangeForm = (props: any) => {
                                   <img className="image1" src={require('../../images/thumbnails/mybb.png').default} width={100} height={70}/>
                                   <img className="image2" src={require('../../images/thumbnails/play.png').default} width={30} height={40}/>
                                 </div>
+                                <p className="mt-1 text-xs text-gray-500">Watch Video 19s</p>
                               </button>
                               <div className="py-4">
                                 <span className="ml-1 text-sm text-gray-500">Enter info into MyBlockBot.</span>
@@ -215,16 +224,6 @@ const ConnectExchangeForm = (props: any) => {
                     </ol>
                   </nav>
                 </div>
-              </div>
-              
-              <div className="mt-5 sm:mt-6">
-                <button
-                  type="button"
-                  className="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm"
-                  onClick={handleModalClick}
-                >
-                  Close
-                </button>
               </div>
             </div>
           </div> 
@@ -357,7 +356,7 @@ const ConnectExchangeForm = (props: any) => {
               </div>
             </div>
             }
-            <div className="flex justify-end mt-8 pt-5 space-x-3">
+            <div className="flex mt-8 pt-5 space-x-3">
               <button className="flex-shrink-0 inline-flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-gray-700 transition bg-indigo-500 bg-indigo-500 active:bg-indigo-500 active:bg-indigo-500 border-transparent font-medium  hover:bg-indigo-600 hover:bg-indigo-400 px-4 py-2 rounded-md shadow-sm text-base text-white" type="submit">
                   { props.isLoading ? <Loader type="Circles" color="#00BFFF" height={24} width={24}/> : <span className="flex-1 flex items-center justify-center space-x-2">Submit</span>}
               </button>

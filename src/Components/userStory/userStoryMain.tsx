@@ -167,7 +167,7 @@ const UserStoryMain = (props: any) => {
                                     <ExchangeSignUp next={next} setCurrentExchange={handleStep1} connectedExchanges={props.connectedExchanges}/>
                                     }
                                     {step == 2 && 
-                                        <ConnectExchangeForm next={next} currentExchange={currentExchange}/>
+                                    <ConnectExchangeForm next={next} currentExchange={currentExchange}/>
                                     }
                                     {step == 3 &&
                                     <ConnectStrategyForm next={next}/>

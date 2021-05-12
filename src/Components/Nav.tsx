@@ -45,6 +45,30 @@ const Nav = (props: any) => {
 
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
+  useEffect(() => {
+    if (location.pathname == '/') {
+      navigation[0].current = true
+      navigation[1].current = false
+      navigation[2].current = false
+    }
+    if (location.pathname == '/exchanges') {
+      navigation[0].current = false
+      navigation[1].current = true
+      navigation[2].current = false
+    }
+    if (location.pathname == '/strategies') {
+      navigation[0].current = false
+      navigation[1].current = false
+      navigation[2].current = true
+    }
+  }, [location])
+
+  useEffect(() => {
+
+    if (props.connectedExchanges.length < 1) props.getConnectedExchanges();
+
+  }, [])
+
   const logoutClick = () => {
     if (props.isAuthenticated) {
       store.dispatch<any>(logout());
@@ -155,19 +179,20 @@ const Nav = (props: any) => {
         </Dialog>
       </Transition.Root>
 
-      {/* Static sidebar for desktop */}
+      
       <div className="hidden md:flex md:flex-shrink-0">
         <div className="flex flex-col w-64">
-          {/* Sidebar component, swap this element with another sidebar if you like */}
+          
           <div className="flex flex-col h-0 flex-1 border-r border-gray-500 bg-gray-900">
             <div className="flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
               <div className="flex items-center flex-shrink-0 px-4">
                 <h3 className="text-indigo-500">My BlockBot</h3>
               </div>
               <nav className="mt-5 flex-1 px-2 bg-gray-900 space-y-1">
-                {navigation.map((item) => (
+                {navigation.map((item, i) => (
                   <Link
                     to={item.link}
+                    key={i}
                     className={classNames(
                       item.current ? 'bg-gray-500 text-white' : 'text-white hover:bg-gray-500 hover:text-gray-900',
                       'group flex items-center px-2 py-2 text-sm font-medium rounded-md'

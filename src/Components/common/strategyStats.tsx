@@ -58,10 +58,6 @@ const StrategyStats = (props: any) => {
   useEffect(() => {
 
     setIntervalState('1D')
-    props.getConnectedStrategies()
-
-    
-    props.getDashboardData()
     
   }, [])
 
@@ -82,7 +78,7 @@ const StrategyStats = (props: any) => {
         name: props.connectedStrategies[0].strategy.name
       })
 
-      props.getDailyBalances(props.connectedStrategies[0].id, intervalState)
+      // props.getDailyBalances(props.connectedStrategies[0].id, intervalState)
       
     }
   }, [props.connectedStrategies])
