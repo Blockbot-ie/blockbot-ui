@@ -26,7 +26,6 @@ import {
   
 } from './types';
 
-
 export const loadUser = () => async dispatch => {
   if (localStorage.getItem('access')) {
       const config = {
@@ -36,9 +35,6 @@ export const loadUser = () => async dispatch => {
               'Accept': 'application/json'
           }
       };
-
-
-
       try {
           const res = await axios.get('/api/dj-rest-auth/user/', config);
           dispatch({
@@ -102,13 +98,13 @@ export const tokenRefresh = () => async dispatch => {
         }
 
         const body = JSON.stringify({ refresh: localStorage.getItem('refresh') });
-
         try {
             const res = await axios.post('/api/dj-rest-auth/token/refresh/', body, config)
   
             if (res.data.code !== 'token_not_valid') {
                 dispatch({
-                    type: REFRESH_SUCCESS
+                    type: REFRESH_SUCCESS,
+                    payload: res.data
                 });
             } else {
                 dispatch({
@@ -283,7 +279,8 @@ export const logout = () => dispatch => {
 // Setup config with token - helper function
 export const tokenConfig = (getState: any) => {
   // Get token from state
-  const token = getState().auth.access;
+  const token = localStorage.getItem('access');
+
   // Headers
   const config = {
     headers: {

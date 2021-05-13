@@ -44,7 +44,7 @@ const Nav = (props: any) => {
   const location = useLocation();
 
   const [sidebarOpen, setSidebarOpen] = useState(false)
-
+ 
   useEffect(() => {
     if (location.pathname == '/') {
       navigation[0].current = true
@@ -65,7 +65,7 @@ const Nav = (props: any) => {
 
   useEffect(() => {
 
-    if (props.connectedExchanges.length < 1) props.getConnectedExchanges();
+    
 
   }, [])
 
