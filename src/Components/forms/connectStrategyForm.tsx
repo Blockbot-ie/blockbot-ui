@@ -7,6 +7,7 @@ import { Listbox, Transition } from '@headlessui/react'
 import { CheckIcon, SelectorIcon } from '@heroicons/react/solid'
 import { Redirect, useLocation } from 'react-router-dom'
 import { isConstructorDeclaration } from "typescript";
+import exchangeHelperModal from "./exchangeHelperModal";
 
 type ConnectStrategy = {
     strategy: String,
@@ -21,6 +22,8 @@ type ConnectStrategy = {
   }
 
 const ConnectStrategyForm = (props: any) => {
+
+    const initialStrategyPairState = []
   
     const [connectedStrategyState, setConnectedStrategyState] = useState<ConnectStrategy>({
       strategy: '',
@@ -94,48 +97,60 @@ const ConnectStrategyForm = (props: any) => {
         })
 
         props.connectedExchanges.map(exchange => {
-          setConnectedExchanges([...connectedExchanges, {
+          setConnectedExchanges(connectedExchanges => [...connectedExchanges, {
             id: exchange.exchange.user_exchange_account_id,
-            name: exchange.exchange.name
+            name: exchange.exchange.name,
+            exchange_id: exchange.exchange.exchange.exchange_id
           }])
         })
 
         setSelectedExchangeAccount({
           id: props.connectedExchanges[0].exchange.user_exchange_account_id,
           name: props.connectedExchanges[0].exchange.name,
+          exchange_id: props.connectedExchanges[0].exchange.exchange.exchange_id
         })
       }  
     }, [props.connectedExchanges])
 
     useEffect(() => {
-      console.log(strategyPairs)
+      
     }, [strategyPairs])
 
     useEffect(() => {
-      if (props.strategyPairs.length > 0 && props.strategies.length > 0) {
+      if (props.strategyPairs.length > 0 && props.strategies.length > 0 && selectedExchangeAccount) {
+        setStrategyPairs(initialStrategyPairState)
         const filteredPairs = props.strategyPairs.filter(x => x.strategy_id == props.strategies[0].strategy_id)
-        setConnectedStrategyState({
-          ...connectedStrategyState,
-          pair: filteredPairs[0].symbol,
-          current_currency: filteredPairs[0].ticker_2,
-          ticker_1: filteredPairs[0].ticker_1,
-          ticker_2: filteredPairs[0].ticker_2
-        })
-        props.strategyPairs.map((pair, i) => {
-
-          setStrategyPairs(strategyPairs => [...strategyPairs, {
-            id: pair.pair_id,
-            strategy_id: pair.strategy_id,
-            pair: pair.symbol
-          }])
-        })
-        
-        setSelectedStrategyPairs({
-          id: filteredPairs[0].strategy_id,
-          pair: filteredPairs[0].symbol
+        filteredPairs.map((pair, i) => {
+          
+          if (pair.supported_exchanges.filter(x => x.exchange_id == selectedExchangeAccount.exchange_id).length > 0) {
+            setStrategyPairs(strategyPairs => [...strategyPairs, {
+              id: pair.pair_id,
+              strategy_id: pair.strategy_id,
+              pair: pair.symbol
+            }]) 
+          }
         })
       }  
-    }, [props.strategyPairs])
+    }, [props.strategyPairs, selectedExchangeAccount])
+
+    useEffect(() => {
+      if (strategyPairs.length > 0) {
+        const splitPair = strategyPairs[0].pair.split("/")
+
+        setConnectedStrategyState({
+          ...connectedStrategyState,
+          pair: strategyPairs[0].pair,
+          current_currency: splitPair[1],
+          ticker_1: splitPair[0],
+          ticker_2: splitPair[1]
+        })
+
+        setSelectedStrategyPairs({
+          id: strategyPairs[0].strategy_id,
+          pair: strategyPairs[0].pair
+        })
+      }
+    }, [strategyPairs])
 
     useEffect(() => {
       if (props.connectedStrategies.length > 0 && location.pathname == '/user-story') {
@@ -175,7 +190,6 @@ const ConnectStrategyForm = (props: any) => {
     }
 
     const handleExchangeAccountChange = (e: any) => {
-      console.log(e)
       setConnectedStrategyState({ ...connectedStrategyState, user_exchange_account: e.id, current_currency_balance: '0' })
       setSelectedExchangeAccount(e)
     }

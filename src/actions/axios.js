@@ -2,8 +2,7 @@ import axios from "axios";
 
 const axiosInstance = axios.create({
     // baseURL: "https://myblockbot-api.herokuapp.com"
-  baseURL: "http://localhost:8000",
-    timeout: 5000,
+  baseURL: "http://localhost:8000"
 });
 
 axiosInstance.interceptors.response.use(
