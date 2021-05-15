@@ -31,6 +31,11 @@ module.exports = {
         DEFAULT: '#cd7f32',
         dark: '#cd7f32',
       },
+      fbBlue: {
+        light: '#4c69ba',
+        DEFAULT: '#4c69ba',
+        dark: '#4c69ba',
+      },
     },
     extend: {},
   },

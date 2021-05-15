@@ -291,13 +291,7 @@ const StrategyStats = (props: any) => {
                   </div>
                 </div>
               </div>
-            
-            
-                
             </div>
-            {/* {addModalOpen &&
-            <ConnectStrategyModalForm isOpen={addModalOpen} handleClose={handleClose} />
-            } */}
     </>
 }
 

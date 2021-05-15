@@ -12,7 +12,7 @@ const GoogleSocialAuth = (props: any) =>  {
       
         <GoogleLogin
           clientId="937404097485-5csvq7gt7jr9lv6iam3lpt0kfragmjd0.apps.googleusercontent.com"
-          className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-gray-500 hover:bg-gray-50"
+          className="w-full inline-flex justify-center py-1 px-4 rounded-md shadow-sm"
           buttonText=""
           icon={true}
           onSuccess={googleResponse}

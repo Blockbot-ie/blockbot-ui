@@ -13,7 +13,7 @@ const FacebookSocialAuth = (props: any) => {
 
         <FacebookLogin
           render={renderProps => (
-            <button className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-gray-500 hover:bg-gray-50" onClick={renderProps.onClick} disabled={renderProps.disabled}>
+            <button className="w-full inline-flex justify-center py-2 px-4 rounded-md shadow-sm bg-gray-500 hover:bg-gray-50" onClick={renderProps.onClick} disabled={renderProps.disabled}>
             <svg className="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
                 <path
                 fillRule="evenodd"
@@ -23,7 +23,7 @@ const FacebookSocialAuth = (props: any) => {
             </svg>
             </button>
           )}
-          cssClass="w-full inline-flex justify-center py-3 px-4 border border-gray-300 rounded-md shadow-sm bg-gray-700 text-sm font-medium text-gray-500 hover:bg-gray-50"
+          cssClass="w-full inline-flex justify-center py-3 px-5 rounded-md shadow-sm bg-fbBlue text-sm font-medium text-white hover:bg-gray-500"
           appId= "1169152186870794"
           icon="fa-facebook"
           textButton=""
