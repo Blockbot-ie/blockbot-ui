@@ -115,9 +115,9 @@ const ConnectStrategyForm = (props: any) => {
     }, [props.connectedExchanges])
 
     useEffect(() => {
-      if (props.strategyPairs.length > 0 && props.strategies.length > 0 && selectedExchangeAccount) {
+      if (props.strategyPairs.length > 0 && selectedStrategy && selectedExchangeAccount) {
         setStrategyPairs(initialStrategyPairState)
-        const filteredPairs = props.strategyPairs.filter(x => x.strategy_id == props.strategies[0].strategy_id)
+        const filteredPairs = props.strategyPairs.filter(x => x.strategy_id == selectedStrategy.id)
         filteredPairs.map((pair, i) => {
           
           if (pair.supported_exchanges.filter(x => x.exchange_id == selectedExchangeAccount.exchange_id).length > 0) {
@@ -129,7 +129,7 @@ const ConnectStrategyForm = (props: any) => {
           }
         })
       }  
-    }, [props.strategyPairs, selectedExchangeAccount])
+    }, [props.strategyPairs, selectedExchangeAccount, selectedStrategy])
 
     useEffect(() => {
       if (strategyPairs.length > 0) {
@@ -161,26 +161,12 @@ const ConnectStrategyForm = (props: any) => {
     const onStrategyChange = (e: any) => {
       
       setSelectedStrategy(e)
-      if (props.strategyPairs.length > 0) {
-        
-          const filteredPairs = props.strategyPairs.filter(x => x.strategy_id == e.id)
 
-          setSelectedStrategyPairs({
-            id: filteredPairs[0].strategy_id,
-            strategy_id: filteredPairs[0].strategy_id,
-            pair: filteredPairs[0].symbol
-          })
-          
-          setConnectedStrategyState({
-            ...connectedStrategyState,
-            strategy: e.id,
-            ticker_1: filteredPairs[0].ticker_1,
-            ticker_2: filteredPairs[0].ticker_2,
-            current_currency: filteredPairs[0].ticker_2,
-            current_currency_balance: ''
-          })
-          console.log(selectedStrategyPairs)
-      }
+      setConnectedStrategyState({
+        ...connectedStrategyState,
+        strategy: e.id
+      })
+      
     }
 
     const handleCurrentCurrencyChange = (e: any) => {
@@ -258,7 +244,6 @@ const ConnectStrategyForm = (props: any) => {
     const handleSubmit = (e: any) => {
         e.preventDefault()
         const pairDetails = props.strategyPairs.filter(x => x.strategy_id == connectedStrategyState.strategy && x.symbol == connectedStrategyState.pair)[0]
-        console.log(pairDetails)
         if (connectedStrategyState.current_currency == pairDetails.ticker_1) {
           if (connectedStrategyState.current_currency_balance < pairDetails.ticker_1_min_value) {
             props.createMessage({ belowMinAmount: 'Minimum Amount is ' + pairDetails.ticker_1_min_value + pairDetails.ticker_1});

@@ -1,9 +1,11 @@
 import { connect } from "react-redux"
 import { Line, ComposedChart, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import Loader from 'react-loader-spinner';
-import { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { getConnectedStrategies, getDailyBalances, getDashboardData } from '../../actions/common';
 import { format } from "date-fns";
+import { Listbox, Transition } from '@headlessui/react'
+import { CheckIcon, SelectorIcon } from '@heroicons/react/solid'
   
 type StrategyData = {
   balance: number,
@@ -100,8 +102,8 @@ const StrategyStats = (props: any) => {
     
   }, [currentTab])
 
-    const handleClick = (e) => {
-      const current = tabs.find(x => x.id == e.target.value)
+    const handleClick = (tab) => {
+      const current = tabs.find(x => x.id == tab.id)
       const balance = props.dashboardData[0].inc_or_dec_vs_hodl.filter(s => s.strategy_pair_id == current.id)[0]
       setIntervalState('1D')
       setCurrentTab({
@@ -111,7 +113,7 @@ const StrategyStats = (props: any) => {
         incOrDecVsHodl: balance.inc_or_dec
       })
       
-      props.getDailyBalances(e.target.value.id, intervalState)
+      props.getDailyBalances(tab.id, intervalState)
     }
 
     let data = []
@@ -139,52 +141,6 @@ const StrategyStats = (props: any) => {
 
     return <>
         <div className="flex flex-col items-center flex-1 relative z-0 pb-6 focus:outline-none md:pb-6">
-            
-            <div>
-              <div className="sm:hidden">
-                <label htmlFor="tabs" className="sr-only">
-                  Select a tab
-                </label>
-                <select
-                  id="tabs"
-                  name="tabs"
-                  onSelect={handleClick}
-                  className="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
-                  defaultValue={tabs.find((tab) => tab.current)}
-                >
-                  {tabs.map((tab) => (
-                    <option key={tab.name}>{tab.name}</option>
-                  ))}
-                </select>
-              </div>
-              <div className="hidden sm:block">
-                <div className="border-b border-gray-500">
-                  <nav className="-mb-px flex space-x-8" aria-label="Tabs">
-                    {tabs.map((tab) => (
-                      <button
-                        key={tab.name}
-                        value={tab.id}
-                        type="button"
-                        onClick={handleClick}
-                        className={classNames(
-                          tab.current
-                            ? 'border-indigo-500 text-indigo-600'
-                            : 'border-transparent text-gray-50 hover:text-gray-700 hover:border-gray-300',
-                          'whitespace-nowrap py-4 px-1 border-b font-medium text-sm'
-                        )}
-                        aria-current={tab.current ? 'page' : undefined}
-                      >
-                        {tab.name}
-                      </button>
-                    ))}
-                  </nav>
-                </div>
-              </div>
-            
-            </div>
-            <br/>
-            
-
             <div className="flex-1 max-w-7xl w-full pb-12 px-4 sm:px-6 lg:px-8">
               <div className="space-y-10">
                 <div className="bg-gray-900 bg-gray-900">
@@ -207,8 +163,76 @@ const StrategyStats = (props: any) => {
                         <span className="px-4 text-gray-200 text-gray-400 whitespace-nowrap">Past 1D</span>
                       </div>
                     </div>
+                    <div className="flex flex-col">
+                    <Listbox value={currentTab} onChange={handleClick}>
+                      {({ open }) => (
+                        <>
+                          <Listbox.Label className="mb-2 text-sm md:text-left leading-5 text-center font-normal text-gray-400">Strategy</Listbox.Label>
+                          <div className="mt-1 relative">
+                            <Listbox.Button className="relative w-full bg-gray-700 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                              <span className="flex items-center">
+                                
+                                <span className="ml-3 block truncate text-gray-200">{currentTab.name}</span>
+                              </span>
+                              <span className="ml-3 absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                                <SelectorIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                              </span>
+                            </Listbox.Button>
+
+                            <Transition
+                              show={open}
+                              as={Fragment}
+                              leave="transition ease-in duration-100"
+                              leaveFrom="opacity-100"
+                              leaveTo="opacity-0"
+                            >
+                              <Listbox.Options
+                                static
+                                className="absolute z-50 mt-1 w-full bg-gray-700 shadow-lg max-h-56 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
+                              >
+                                {tabs.map((tab) => (
+                                  <Listbox.Option
+                                    key={tab.id}
+                                    className={({ active }) =>
+                                      classNames(
+                                        active ? 'text-white bg-indigo-600' : 'text-gray-900',
+                                        'cursor-default select-none relative py-2 pl-3 pr-9'
+                                      )
+                                    }
+                                    value={tab}
+                                  >
+                                    {({ selected, active }) => (
+                                      <>
+                                        <div className="flex items-center">
+                                          <span
+                                            className={classNames(selected ? 'font-semibold' : 'font-normal', 'ml-3 block truncate text-gray-200')}
+                                          >
+                                            {tab.name}
+                                          </span>
+                                        </div>
+
+                                        {selected ? (
+                                          <span
+                                            className={classNames(
+                                              active ? 'text-white' : 'text-indigo-600',
+                                              'absolute inset-y-0 right-0 flex items-center pr-4'
+                                            )}
+                                          >
+                                            <CheckIcon className="h-5 w-5" aria-hidden="true" />
+                                          </span>
+                                        ) : null}
+                                      </>
+                                    )}
+                                  </Listbox.Option>
+                                ))}
+                              </Listbox.Options>
+                            </Transition>
+                          </div>
+                        </>
+                      )}
+                    </Listbox>
+                    </div>
                     <span className="flex flex-col-reverse xl:flex-row md:ml-6 items-center md:items-center">
-                      
                       <nav className="px-px flex flex-nowrap overflow-x-auto">
                         {intervals.map((interval) => (
                           <button 
