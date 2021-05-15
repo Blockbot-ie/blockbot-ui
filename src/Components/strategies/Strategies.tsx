@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useState, createRef } from "react";
+import { Fragment, useState, createRef } from "react";
 import { connect } from 'react-redux';
 import { getConnectedExchanges,getStrategies, getConnectedStrategies, getStrategyPairs, topUpStrategy } from '../../actions/common';
 import ConnectStrategyModalForm from '../forms/exchangeHelperModal';
@@ -9,6 +9,10 @@ import logo from '../../close-icon.svg'
 import Loader from 'react-loader-spinner';
 import { createMessage } from '../../actions/messages';
 import { Link } from 'react-router-dom';
+import { Dialog, Transition } from '@headlessui/react'
+import { CheckIcon } from '@heroicons/react/outline'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 
 const Strategies = (props: any) => {
 
@@ -290,7 +294,8 @@ const Strategies = (props: any) => {
         <div>
             <div className="px-4 py-3 bg-gray-900 text-center sm:px-6">
               <div>
-                <select className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-gray-700 text-sm font-medium text-white hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500" id="options-menu" aria-expanded="true" aria-haspopup="true"
+              <span className="mb-2 mt-2 text-l leading-5 text-gray-200 flex whitespace-nowrap">Your Connected Strategies</span>
+                <select className="inline-flex justify-center w-full rounded-md shadow-sm px-4 py-2 bg-gray-700 text-sm font-medium text-white hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500" id="options-menu" aria-expanded="true" aria-haspopup="true"
                   onChange={(e: any): void => {
                     const trimmed = e.target.value.trim()
                     handleChnange(trimmed)}
@@ -306,50 +311,69 @@ const Strategies = (props: any) => {
             {strategyDetails()}      
           </div> 
        }
-        {topUpModalOpen &&
-      <div className="fixed z-10 inset-0 overflow-y-auto">
-      <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-      <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
-      <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-      <div className="inline-block bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
-      
-      <button disabled={props.isLoading} onClick={() => handleClose()} className="float-right">
-      <img src={logo} alt="My Happy SVG"/>
-      </button>
-      <p className="text-sm font-medium text-gray-500 truncate">We recommend topping up by your current currency</p>
-        <form onSubmit={handleSubmit} method="POST">
-            
-            <div>
-              <label htmlFor="price" className="block text-sm mt-3 font-medium text-gray-700">Amount</label>
-              <div className="mt-1 relative rounded-md shadow-sm">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  {/* <span className="text-gray-500 sm:text-sm">
-                    $
-                  </span> */}
+        <Transition.Root show={topUpModalOpen} as={Fragment}>
+          <Dialog as="div" static className="fixed z-10 inset-0 overflow-y-auto" open={topUpModalOpen} onClose={setTopUpModalOpen}>
+            <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+              <Transition.Child
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0"
+                enterTo="opacity-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100"
+                leaveTo="opacity-0"
+              >
+                <Dialog.Overlay className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+              </Transition.Child>
+
+              {/* This element is to trick the browser into centering the modal contents. */}
+              <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">
+                &#8203;
+              </span>
+              <Transition.Child
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                enterTo="opacity-100 translate-y-0 sm:scale-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100 translate-y-0 sm:scale-100"
+                leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+              >
+                <div className="inline-block bg-gray-700 rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-sm sm:w-full sm:p-6">
+                  <button onClick={() => {setTopUpModalOpen(false)}} className="float-right">
+                      <img src={logo} alt="My Happy SVG" height="20" width="20"/>
+                  </button>
+                  <form method="POST">
+                    <div>
+                      <label htmlFor="price" className="block text-sm font-medium text-white">Amount</label>
+                      <div className="mt-1 relative rounded-md shadow-sm">
+                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                          {/* <span className="text-gray-500 sm:text-sm">
+                            $
+                          </span> */}
+                        </div>
+                        <input
+                          onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {setTopUpAmount({...topUpAmount, amount: parseFloat(e.target.value)})}}
+                        type="number" name="current_currency_balance" id="current_currency_balance" className="border-0 block w-full pl-7 pr-12 sm:text-sm rounded-md text-white bg-gray-800" placeholder="0.00" />
+                        <div className="absolute inset-y-0 right-0 flex items-center">
+                          <label htmlFor="current_currency" className="sr-only">Currency</label>
+                          <select onChange={handleOnChange} id="current_currency" name="current_currency" className="h-full py-0 pl-2 pr-7 border-0 bg-transparent text-white sm:text-sm rounded-md">
+                            <option >{topUpAmount.ticker_1}</option>
+                            <option>{topUpAmount.ticker_2}</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <button disabled={props.isLoading} type="submit" className="w-full inline-flex mt-3 justify-center py-2 px-4 shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    { props.isLoading && <FontAwesomeIcon icon={ faSpinner } /> }
+                    Submit
+                    </button>
+                  </form>
                 </div>
-                <input
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {setTopUpAmount({...topUpAmount, amount: parseFloat(e.target.value)})}}
-                type="text" name="current_currency_balance" id="current_currency_balance" className="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" placeholder="0.00" />
-                <div className="absolute inset-y-0 right-0 flex items-center">
-                  <label htmlFor="current_currency" className="sr-only">Currency</label>
-                  <select onChange={handleOnChange} id="current_currency" name="current_currency" className="focus:ring-indigo-500 focus:border-indigo-500 h-full py-0 pl-2 pr-7 border-transparent bg-transparent text-gray-500 sm:text-sm rounded-md">
-                    <option selected={topUpAmount.currency == topUpAmount.ticker_1}>{topUpAmount.ticker_1}</option>
-                    <option selected={topUpAmount.currency == topUpAmount.ticker_2}>{topUpAmount.ticker_2}</option>
-                  </select>
-                </div>
-              </div>
+              </Transition.Child>
             </div>
-            <div className="mt-3 sm:mt-6">
-                <button disabled={props.isLoading} type="submit" className="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm">
-                { props.isLoading ? <Loader type="Circles" color="#00BFFF" height={24} width={24}/> : <span>Submit</span>}
-                </button>
-            </div>
-        </form>
-      </div>
-      </div>
-      </div>
-      
-      }
+          </Dialog>
+        </Transition.Root>
     </div>
     }
     </>
