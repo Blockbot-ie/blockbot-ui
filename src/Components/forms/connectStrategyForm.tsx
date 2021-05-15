@@ -58,13 +58,13 @@ const ConnectStrategyForm = (props: any) => {
 
     useEffect(() => {
 
-      if (props.strategies.length < 1) props.getStrategies();
+      props.getStrategies();
 
-      if (props.strategyPairs.length < 1) props.getStrategyPairs();
+      props.getStrategyPairs();
 
-      if (props.connectedExchanges.length < 2) props.getConnectedExchanges();
+      props.getConnectedExchanges();
 
-      if (props.connectedStrategies.length < 1) props.getConnectedStrategies();
+      props.getConnectedStrategies();
     }, [])
 
     useEffect(() => {
@@ -97,11 +97,13 @@ const ConnectStrategyForm = (props: any) => {
         })
 
         props.connectedExchanges.map(exchange => {
-          setConnectedExchanges(connectedExchanges => [...connectedExchanges, {
-            id: exchange.exchange.user_exchange_account_id,
-            name: exchange.exchange.name,
-            exchange_id: exchange.exchange.exchange.exchange_id
-          }])
+          if (connectedExchanges.filter(x => x.id == exchange.exchange.user_exchange_account_id).length < 1) {
+            setConnectedExchanges(connectedExchanges => [...connectedExchanges, {
+              id: exchange.exchange.user_exchange_account_id,
+              name: exchange.exchange.name,
+              exchange_id: exchange.exchange.exchange.exchange_id
+            }])
+          }
         })
 
         setSelectedExchangeAccount({
@@ -111,10 +113,6 @@ const ConnectStrategyForm = (props: any) => {
         })
       }  
     }, [props.connectedExchanges])
-
-    useEffect(() => {
-      
-    }, [strategyPairs])
 
     useEffect(() => {
       if (props.strategyPairs.length > 0 && props.strategies.length > 0 && selectedExchangeAccount) {
