@@ -162,9 +162,9 @@ const ConnectExchangeForm = (props: any) => {
                               <button onClick={handle1} className="py-4">
                                 <div className="thumbnail">
                                     <img className="image1" src={require('../../images/thumbnails/mybb.png').default} width={120} height={80}/>
-                                    <img className="image2" src={require('../../images/thumbnails/play.png').default} width={30} height={40}/>
+                                    <img className="image2" src={require('../../images/thumbnails/play.png').default} width={25} height={25}/>
+                                    <p className="mt-1 text-xs text-gray-500">Watch Video 16s</p>
                                 </div>
-                                <p className="mt-1 text-xs text-gray-500">Watch Video 16s</p>
                               </button>
                               <div className="py-4">
                                 <span className="text-sm text-gray-500">Sign in and navigate to api settings <br /> <FontAwesomeIcon className="ml-2 text-indigo-600" icon={ faHandPointRight } /> <a href={selected.name == 'Binance' ? "https://www.binance.com/en/my/settings/api-management" : "https://pro.coinbase.com/profile/api"} target="_blank" className="text-gray-500" >Open {selected.name}</a></span>
@@ -188,9 +188,9 @@ const ConnectExchangeForm = (props: any) => {
                               <button onClick={handle2} className="py-4">
                               <div className="thumbnail">
                                   <img className="image1" src={require('../../images/thumbnails/mybb.png').default} width={140} height={90}/>
-                                  <img className="image2" src={require('../../images/thumbnails/play.png').default} width={30} height={40}/>
+                                  <img className="image2" src={require('../../images/thumbnails/play.png').default} width={25} height={25}/>
+                                  <p className="mt-1 text-xs text-gray-500">Watch Video 74s</p>
                                 </div>
-                                <p className="mt-1 text-xs text-gray-500">Watch Video 74s</p>
                               </button>
                               <div className="py-4">
                                 <span className="text-sm text-gray-500">Go to {selected.name} and generate keys.</span>
@@ -213,9 +213,9 @@ const ConnectExchangeForm = (props: any) => {
                               <button onClick={handle3} className="py-4">
                                 <div className="thumbnail">
                                   <img className="image1" src={require('../../images/thumbnails/mybb.png').default} width={100} height={70}/>
-                                  <img className="image2" src={require('../../images/thumbnails/play.png').default} width={30} height={40}/>
-                                </div>
-                                <p className="mt-1 text-xs text-gray-500">Watch Video 19s</p>
+                                  <img className="image2" src={require('../../images/thumbnails/play.png').default} width={25} height={25}/>
+                                  <p className="mt-1 text-xs text-gray-500">Watch Video 19s</p>
+                                </div>                                
                               </button>
                               <div className="py-4">
                                 <span className="ml-1 text-sm text-gray-500">Enter info into MyBlockBot.</span>
