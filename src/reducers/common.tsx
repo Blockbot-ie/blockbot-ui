@@ -86,7 +86,6 @@ export default function (state = initialState, action) {
       }
       return {
         ...state,
-        connectedExchanges: [...state.connectedExchanges, action.payload],
         isLoading: false,
         formSubmitted: true
       };
@@ -106,7 +105,7 @@ export default function (state = initialState, action) {
     case CONNECT_STRATEGY_SUCCESS:
       return {
         ...state,
-        connectedStrategies: [...state.connectedStrategies, action.payload],
+        connectedStrategies: [...initialState.connectedStrategies, action.payload],
         isLoading: false,
         formSubmitted: true
       }

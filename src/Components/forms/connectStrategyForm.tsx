@@ -6,8 +6,6 @@ import Loader from 'react-loader-spinner';
 import { Listbox, Transition } from '@headlessui/react'
 import { CheckIcon, SelectorIcon } from '@heroicons/react/solid'
 import { Redirect, useLocation } from 'react-router-dom'
-import { isConstructorDeclaration } from "typescript";
-import exchangeHelperModal from "./exchangeHelperModal";
 
 type ConnectStrategy = {
     strategy: String,
@@ -75,12 +73,14 @@ const ConnectStrategyForm = (props: any) => {
         })
 
         props.strategies.map(strategy => {
-
-          setStrategies(strategies => [...strategies, {
-            id: strategy.strategy_id,
-            name: strategy.name
-          }])
+          if (strategies.filter(x => x.id == strategy.strategy_id).length < 1) {
+            setStrategies(strategies => [...strategies, {
+              id: strategy.strategy_id,
+              name: strategy.name
+            }])
+          }
         })
+      
 
         setSelectedStrategy({
           id: props.strategies[0].strategy_id,
@@ -155,9 +155,7 @@ const ConnectStrategyForm = (props: any) => {
         props.next()
       }
     }, [props.connectedStrategies])
-
-    
-
+  
     const onStrategyChange = (e: any) => {
       
       setSelectedStrategy(e)

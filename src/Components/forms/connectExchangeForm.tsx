@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from "react"
 import { connect } from "react-redux"
-import { getExchanges, connectExchange } from '../../actions/common';
+import { getExchanges, connectExchange, getConnectedExchanges } from '../../actions/common';
 import Loader from "react-loader-spinner";
 import { Listbox, Transition } from '@headlessui/react'
 import { CheckIcon, SelectorIcon } from '@heroicons/react/solid'
@@ -10,6 +10,7 @@ import "react-modal-video/scss/modal-video.scss";
 import { faHandPointRight } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import logo from '../../close-icon.svg'
+import { pathToFileURL } from "node:url";
 
 
 type ConnectExchange = {
@@ -82,6 +83,10 @@ const ConnectExchangeForm = (props: any) => {
           props.next()
         }
       }, [props.connectedExchanges])
+
+      useEffect(() => {
+        if (props.formSubmitted && location.pathname == '/user-story') props.next();
+      }, [props.formSubmitted])
 
     const exchangeList = props.exchanges.map((exchange, i) => 
       exchanges.push({
@@ -393,4 +398,4 @@ const mapStateToProps = (state) => ({
     connectedExchanges: state.common.connectedExchanges
   });
 
-export default connect(mapStateToProps, { getExchanges, connectExchange })(ConnectExchangeForm);
+export default connect(mapStateToProps, { getExchanges, connectExchange, getConnectedExchanges })(ConnectExchangeForm);

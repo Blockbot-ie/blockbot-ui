@@ -1,13 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-
-
+import { getConnectedStrategies } from '../../actions/common';
 
 const Review = (props: any) => {
 
+    useEffect(() => {
+        if (props.connectedStrategies.length < 1) {
+            props.getConnectedStrategies()
+        }
+    }, [])
     
     return <>
+    {props.connectedStrategies.length > 0 &&
         <div className="relative">
             <h3 className="text-lg leading-6 font-medium text-gray-900 text-white">
             Strategy Information
@@ -51,6 +56,7 @@ const Review = (props: any) => {
             </Link>
             </div>
         </div>
+    }
     </>
 }
 
@@ -61,4 +67,4 @@ const mapStateToProps = (state) => ({
     connectedStrategies: state.common.connectedStrategies,
   });
 
-export default connect(mapStateToProps)(Review);
+export default connect(mapStateToProps, {getConnectedStrategies})(Review);
