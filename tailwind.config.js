@@ -16,6 +16,11 @@ module.exports = {
       red: colors.rose,
       blue: colors.blue,
       green: colors.green,
+      buyGreen: {
+        light: '#2EAE34',
+        DEFAULT: '#2EAE34',
+        dark: '#2EAE34',
+      },
       gold: {
         light: '#FFD700',
         DEFAULT: '#FFD700',

@@ -1,17 +1,23 @@
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { getOrders } from '../../actions/common';
-import connectStrategyModalForm from "../forms/exchangeHelperModal";
+import Moment from 'moment';
 
 const Orders = (props: any) => {
 
     useEffect(() => {
-        if (props.orders.length < 1) {
-            props.getOrders()
-        }
+        props.getOrders()
     }, [])
 
     const [tab, setTab] = useState('Open')
+
+    function classNames(...classes) {
+        return classes.filter(Boolean).join(' ')
+    }
+
+    function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+    }
 
     const openOrders = () => {
         if (props.orders.filter(order => order.status == 'open').length < 1) {
@@ -20,25 +26,30 @@ const Orders = (props: any) => {
         else {
             return props.orders.filter(order => order.status == 'open').map(openOrder => (
                 <tr>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                        {openOrder.side}
+                    <td className={classNames(
+                        openOrder.side == 'buy'
+                        ? "text-buyGreen"
+                        : "text-red-500"
+                        ,"px-6 py-4 whitespace-nowrap text-sm font-medium"
+                    )}>
+                        {capitalizeFirstLetter(openOrder.side)}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-white">
                         {openOrder.market}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-white">
                         {openOrder.size}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-white">
                         {openOrder.filled}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-white">
                         ${openOrder.filled_price}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                        ${openOrder.fee}
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-white">
+                        ${openOrder.fee.toFixed(2)}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-white">
                         {openOrder.created_on}
                     </td>
                 </tr>
@@ -52,25 +63,30 @@ const Orders = (props: any) => {
         else {
             return props.orders.filter(order => order.status == 'closed').map(filledOrder => (
                 <tr>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                        {filledOrder.side}
+                    <td className={classNames(
+                        filledOrder.side == 'buy'
+                        ? "text-buyGreen"
+                        : "text-red-600"
+                        ,"px-6 py-4 whitespace-nowrap text-sm font-medium"
+                    )}>
+                        {capitalizeFirstLetter(filledOrder.side)}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-white">
                         {filledOrder.market}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-white">
                         {filledOrder.size}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-white">
                         {filledOrder.filled}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-white">
                         ${filledOrder.filled_price}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                        ${filledOrder.fee}
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-white">
+                        ${filledOrder.fee.toFixed(2)}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-white">
                         {filledOrder.created_on}
                     </td>
                 </tr>
@@ -78,7 +94,7 @@ const Orders = (props: any) => {
     }
 
     return <>
-    <div className="bg-gray-900 px-4 py-5 border-b border-gray-200 sm:px-6">
+    <div className="mt-5">
         <div className="-ml-4 -mt-2 flex items-center justify-between flex-wrap sm:flex-nowrap">
             <div className="ml-4 mt-2">
             <div>
@@ -133,7 +149,7 @@ const Orders = (props: any) => {
                     </th>
                     </tr>
                 </thead>
-                <tbody className="bg-gray-500 divide-y divide-gray-200">
+                <tbody className="bg-gray-700 divide-y divide-gray-200">
                     {tab == 'Open' ?
                         openOrders()
                     :
