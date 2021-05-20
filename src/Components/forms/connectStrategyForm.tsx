@@ -60,9 +60,8 @@ const ConnectStrategyForm = (props: any) => {
 
       props.getStrategyPairs();
 
-      props.getConnectedExchanges();
+      if (props.connectedExchanges.length < 1) props.getConnectedExchanges();
 
-      props.getConnectedStrategies();
     }, [])
 
     useEffect(() => {
@@ -265,8 +264,17 @@ const ConnectStrategyForm = (props: any) => {
     }
 
     return <>
-    {props.formSubmitted && location.pathname != '/user-story' ?
-      <Redirect to='/strategies' />
+    {props.isLoading ? 
+    <div className="flex h-screen">
+      <div className="m-auto">
+          <Loader type="Circles" color="#00BFFF" height={64} width={64}/>
+      </div>
+    </div> 
+  
+    :
+    
+    props.formSubmitted && location.pathname != '/user-story' ?
+      <Redirect to='/' />
     :
     <div className="max-w-3xl px-4 sm:px-6 md:px-8">
       <div className="relative">

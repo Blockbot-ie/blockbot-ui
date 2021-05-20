@@ -134,6 +134,7 @@ export const googleLogin = (accessToken) => async dispatch => {
         dispatch({
             type: GOOGLE_AUTH_FAIL
         });
+        dispatch(returnErrors(err.response.data, err.response.status));
     }
   };
 
@@ -176,6 +177,7 @@ export const login = (username, password) => async dispatch => {
       dispatch({
           type: LOGIN_FAIL
       })
+      dispatch(returnErrors(err.response.data, err.response.status));
   }
 };
 

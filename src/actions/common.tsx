@@ -18,6 +18,7 @@ export const getDashboardData = () => (dispatch, getState) => {
 
 // GET Strategies
 export const getStrategies = () => (dispatch, getState) => {
+  dispatch({ type: 'IS_LOADING' });
   axios
     .get('/api/strategies/', tokenConfig(getState))
     .then((res) => {
@@ -31,7 +32,7 @@ export const getStrategies = () => (dispatch, getState) => {
 
 // GET Exchanges
 export const getExchanges = () => (dispatch, getState) => {
-  
+  dispatch({ type: 'IS_LOADING' });
   axios
     .get('/api/exchanges/', tokenConfig(getState))
     .then((res) => {
@@ -126,7 +127,7 @@ export const getConnectedStrategies = (state) => (dispatch: (arg0: { type: Strin
 }
 
 export const getStrategyPairs = (state) => (dispatch: (arg0: { type: String; payload?: any }) => void, getState: any) => {
-
+  dispatch({ type: 'IS_LOADING' });
   axios
     .get('/api/strategy_pairs', tokenConfig(getState))
     .then((res) => {

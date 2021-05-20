@@ -137,7 +137,7 @@ const ConnectExchangeForm = (props: any) => {
 
     return <>
     {props.formSubmitted && location.pathname != '/user-story' ?
-      <Redirect to='/exchanges' />
+      <Redirect to='/' />
     :
     <div className="max-w-3xl px-4 sm:px-6 md:px-8">
       {open && selected &&

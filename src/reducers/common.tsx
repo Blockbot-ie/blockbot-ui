@@ -145,7 +145,7 @@ export default function (state = initialState, action) {
         dailyBalances: action.payload
       }
     case LOGOUT:
-      return state
+      return initialState
     default:
       return state;
   }

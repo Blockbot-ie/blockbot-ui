@@ -45,30 +45,6 @@ const Nav = (props: any) => {
 
   const [sidebarOpen, setSidebarOpen] = useState(false)
  
-  useEffect(() => {
-    if (location.pathname == '/') {
-      navigation[0].current = true
-      navigation[1].current = false
-      navigation[2].current = false
-    }
-    if (location.pathname == '/exchanges') {
-      navigation[0].current = false
-      navigation[1].current = true
-      navigation[2].current = false
-    }
-    if (location.pathname == '/strategies') {
-      navigation[0].current = false
-      navigation[1].current = false
-      navigation[2].current = true
-    }
-  }, [location])
-
-  useEffect(() => {
-
-    
-
-  }, [])
-
   const logoutClick = () => {
     if (props.isAuthenticated) {
       store.dispatch<any>(logout());
@@ -237,9 +213,9 @@ const Nav = (props: any) => {
         <main className="flex-1 relative z-0 overflow-y-auto focus:outline-none">
           <div className="py-6">
             
-              <PrivateRoute exact path="/" component={Dashboard}/>
-              <PrivateRoute path="/exchanges" component={ConnectExchange} />
-              <PrivateRoute path="/strategies" component={Strategies} />
+              <Route exact path="/" render={() => <Dashboard nav={navigation} /> } />
+              <Route path="/exchanges" render={() => <ConnectExchange nav={navigation} /> }/>
+              <Route path="/strategies" render={() => <Strategies nav={navigation} /> } />
               <PrivateRoute path="/connect-exchange" component={connectExchangeForm} />
               <PrivateRoute path="/connect-strategy" component={connectStrategyForm} />
             
