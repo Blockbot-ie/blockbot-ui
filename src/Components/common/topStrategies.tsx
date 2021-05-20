@@ -46,7 +46,7 @@ const TopStrategies = (props: any) => {
             )
 
             return sortedStrategies.map((pair, i) => (
-                <tr>
+                <tr key={i}>
                     <td className={classNames(
                             i==0
                             ? 'text-gold'

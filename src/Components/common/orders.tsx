@@ -21,7 +21,7 @@ const Orders = (props: any) => {
 
     const openOrders = () => {
         if (props.orders.filter(order => order.status == 'open').length < 1) {
-            return <span className="text-sm font-medium text-white truncate">No open orders</span>
+            return <p className="text-sm font-medium text-white truncate">No open orders</p>
         }
         else {
             return props.orders.filter(order => order.status == 'open').map(openOrder => (
@@ -38,7 +38,7 @@ const Orders = (props: any) => {
                         {openOrder.market}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-white">
-                        {openOrder.size}
+                        {openOrder.size} {openOrder.size_symbol}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-white">
                         {openOrder.filled}
@@ -75,7 +75,7 @@ const Orders = (props: any) => {
                         {filledOrder.market}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-white">
-                        {filledOrder.size}
+                        {filledOrder.size} {filledOrder.size_symbol}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-white">
                         {filledOrder.filled}

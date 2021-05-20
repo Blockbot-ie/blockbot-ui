@@ -234,8 +234,9 @@ const StrategyStats = (props: any) => {
                     </div>
                     <span className="flex flex-col-reverse xl:flex-row md:ml-6 items-center md:items-center">
                       <nav className="px-px flex flex-nowrap overflow-x-auto">
-                        {intervals.map((interval) => (
-                          <button 
+                        {intervals.map((interval, i) => (
+                          <button
+                          key={i}
                           className={classNames(
                             interval == intervalState
                             ? "bg-gray-500"
