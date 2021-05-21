@@ -145,7 +145,7 @@ const StrategyStats = (props: any) => {
               <div className="space-y-10">
                 <div className="bg-gray-900 bg-gray-900">
                   <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 items-center xl:items-end md:justify-between">
-                    <div className="flex flex-col">
+                    <div className="flex flex-col mt-4">
                       <span className="mb-2 text-sm md:text-left leading-5 font-normal text-gray-400">Balance</span>
                       <div className="flex flex-wrap justify-center md:justify-left items-baseline">
                         <span className="text-4xl md:text-5xl text-white font-semibold">

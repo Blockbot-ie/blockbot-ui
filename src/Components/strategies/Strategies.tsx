@@ -9,8 +9,7 @@ import logo from '../../close-icon.svg'
 import Loader from 'react-loader-spinner';
 import { createMessage } from '../../actions/messages';
 import { Link } from 'react-router-dom';
-import { Dialog, Transition } from '@headlessui/react'
-import { CheckIcon } from '@heroicons/react/outline'
+import { Dialog, Transition, Switch } from '@headlessui/react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 
@@ -27,12 +26,15 @@ const Strategies = (props: any) => {
 
   const [topUpModalOpen, setTopUpModalOpen] = React.useState(false);
 
+  const [enabled, setEnabled] = useState(true)
+
   const [topUpAmount, setTopUpAmount] = useState({
     strategy_pair_id: '',
     currency: '',
     amount: null,
     ticker_1: '',
-    ticker_2: ''
+    ticker_2: '',
+    topUp: true
   })
 
   useEffect(() => {
@@ -111,9 +113,20 @@ const Strategies = (props: any) => {
       })
     }
 
-    const handleClose = ()=> {
-      setAddModalOpen(false)
-      setTopUpModalOpen(false)
+    const onSwitchChange = () => {
+      if (enabled) {
+        setEnabled(false)
+        setTopUpAmount({
+          ...topUpAmount,
+          topUp: false
+        })
+      } else {
+        setEnabled(true)
+        setTopUpAmount({
+          ...topUpAmount,
+          topUp: true
+        })
+      }
     }
   
     const handleSubmit = (e: any) => {
@@ -155,15 +168,16 @@ const Strategies = (props: any) => {
           amount: topUpAmount.amount
         }
         props.topUpStrategy({ dataToSend })
-      }
-
-      
-      
+      }      
     }
   
   const connectedStrategies = props.connectedStrategies.map((strategy, i) => 
-    <option key={i} value={strategy.id}>{strategy.pair} - {strategy.strategy.name}</option>
+    <option key={strategy.id} value={strategy.id}>{strategy.pair} - {strategy.strategy.name}</option>
   )
+
+  function classNames(...classes) {
+    return classes.filter(Boolean).join(' ')
+  }
 
   const strategyDetails = () => {
     return props.connectedStrategies.map((strategy) =>
@@ -177,7 +191,7 @@ const Strategies = (props: any) => {
                       </div>
                       <div className="flex flex-col-reverse xl:flex-row md:ml-6 items-center md:items-center">
                         <button onClick={() => setTopUpModalOpen(true)} type="submit" className="float-right inline-flex justify-center py-2 px-4 mb-5 border-0 shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                          Top up
+                          Edit Balance
                         </button>
                         </div>
                     </div>
@@ -347,9 +361,9 @@ const Strategies = (props: any) => {
                   <button onClick={() => {setTopUpModalOpen(false)}} className="float-right">
                       <img src={logo} alt="My Happy SVG" height="20" width="20"/>
                   </button>
-                  <form method="POST">
+                  <form method="POST" onSubmit={handleSubmit}>
                     <div>
-                      <label htmlFor="price" className="block text-sm font-medium text-white">Amount</label>
+                      <label htmlFor="price" className="block text-sm font-medium text-white">Edit Balance</label>
                       <div className="mt-1 relative rounded-md shadow-sm">
                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                           {/* <span className="text-gray-500 sm:text-sm">
@@ -368,6 +382,37 @@ const Strategies = (props: any) => {
                         </div>
                       </div>
                     </div>
+                    <Switch.Group as="div" className="flex items-center justify-center mt-2">
+                      <Switch.Label as="span" className="mr-3">
+                        <span className={classNames(
+                          enabled ? 'text-gray-500' : 'text-white',
+                          'text-sm font-medium'
+                        )}>Remove</span>
+                      </Switch.Label>
+                      <Switch
+                        checked={enabled}
+                        onChange={onSwitchChange}
+                        className={classNames(
+                          enabled ? 'bg-indigo-600' : 'bg-gray-200',
+                          'relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200'
+                        )}
+                      >
+                        <span className="sr-only">Use setting</span>
+                        <span
+                          aria-hidden="true"
+                          className={classNames(
+                            enabled ? 'translate-x-5' : 'translate-x-0',
+                            'pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200'
+                          )}
+                        />
+                      </Switch>
+                      <Switch.Label as="span" className="ml-3">
+                        <span className={classNames(
+                            enabled ? 'text-white' : 'text-gray-500',
+                            'text-sm font-medium'
+                          )}>Add</span>
+                      </Switch.Label>
+                    </Switch.Group>
                     <button disabled={props.isLoading} type="submit" className="w-full inline-flex mt-3 justify-center py-2 px-4 shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                     { props.isLoading && <FontAwesomeIcon icon={ faSpinner } /> }
                     Submit
