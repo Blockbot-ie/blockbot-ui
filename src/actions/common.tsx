@@ -139,6 +139,28 @@ export const getStrategyPairs = (state) => (dispatch: (arg0: { type: String; pay
     .catch((err) => dispatch(returnErrors(err.response.data, err.response.status)));
 }
 
+export const reactivatePair = (state) => (dispatch: (arg0: { type: String; payload?: any; }) =>  void, getState: any) => {
+  // Request Body
+  const body = JSON.stringify(state.pair_id);
+
+  dispatch({ type: 'IS_LOADING' });
+  axios
+    .post('/api/reactivate-pair', body, tokenConfig(getState))
+    .then((res) => {
+      dispatch(createMessage({ reportSubmitted: 'Pair reactivated' }));
+      dispatch({
+        type: REPORT_SUBMITTED,
+        payload: res.data,
+      });
+    })
+    .catch((err) => {
+      dispatch(returnErrors(err.response.data, err.response.status));
+      dispatch({
+        type: CONNECT_STRATEGY_FAIL,
+      });
+    });
+};
+
 // GET Orders
 export const getOrders = () => (dispatch, getState) => {
   axios

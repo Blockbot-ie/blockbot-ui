@@ -69,7 +69,8 @@ const StrategyStats = (props: any) => {
         props.connectedStrategies.map(strategy => {
           setTabs(tabs => [...tabs, {
             id: strategy.id,
-            name: strategy.strategy.name
+            name: strategy.strategy.name,
+            is_active: strategy.is_active
           }])
         })
       }

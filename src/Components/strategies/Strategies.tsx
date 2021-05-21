@@ -1,9 +1,7 @@
 import React, { useEffect } from 'react';
 import { Fragment, useState, createRef } from "react";
 import { connect } from 'react-redux';
-import { getConnectedExchanges,getStrategies, getConnectedStrategies, getStrategyPairs, topUpStrategy } from '../../actions/common';
-import ConnectStrategyModalForm from '../forms/exchangeHelperModal';
-import Nav from '../Nav';
+import { getConnectedExchanges,getStrategies, getConnectedStrategies, getStrategyPairs, reactivatePair, topUpStrategy } from '../../actions/common';
 import '../../fontawesome';
 import logo from '../../close-icon.svg'
 import Loader from 'react-loader-spinner';
@@ -175,6 +173,13 @@ const Strategies = (props: any) => {
     <option key={strategy.id} value={strategy.id}>{strategy.pair} - {strategy.strategy.name}</option>
   )
 
+  const reactivateStrategy = () => {
+    const pair_id = {
+      pair_id: currentStrategy.strategy_pair_id
+    }
+    props.reactivatePair({ pair_id })
+  }
+
   function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
   }
@@ -189,11 +194,20 @@ const Strategies = (props: any) => {
                       <div className="flex flex-col">
                         <span className="mb-5 mt-10 text-l leading-5 text-gray-200 flex whitespace-nowrap">Strategy Details</span>
                       </div>
-                      <div className="flex flex-col-reverse xl:flex-row md:ml-6 items-center md:items-center">
-                        <button onClick={() => setTopUpModalOpen(true)} type="submit" className="float-right inline-flex justify-center py-2 px-4 mb-5 border-0 shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                          Edit Balance
-                        </button>
+                      {strategy.is_active ?
+                        <div className="flex flex-col-reverse xl:flex-row md:ml-6 items-center md:items-center">
+                          <button onClick={() => setTopUpModalOpen(true)} type="submit" className="float-right inline-flex justify-center py-2 px-4 mb-5 border-0 shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            Edit Balance
+                          </button>
                         </div>
+                        : 
+                        <div className="flex flex-col-reverse xl:flex-row md:ml-6 items-center md:items-center">
+                          <button onClick={reactivateStrategy} type="submit" className="float-right inline-flex justify-center py-2 px-4 mb-5 border-0 shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            Re-activate
+                          </button>
+                        </div>
+                      }
+                      
                     </div>
                     <div className="shadow rounded-lg overflow-hidden bg-gray-800">
                         <div className="grid grid-cols-3 gap-4 items-center px-6 py-3 border-b last:border-b-0 border-gray-700">
@@ -217,6 +231,10 @@ const Strategies = (props: any) => {
                         <div className="grid grid-cols-3 gap-4 items-center px-6 py-3 border-b last:border-b-0 border-gray-700">
                             <dt className="text-sm leading-5 font-medium text-gray-300">Current Currency Balance</dt>
                             <dd className="text-sm leading-5 col-span-2 text-gray-300">{strategy.current_currency_balance}</dd>
+                        </div>
+                        <div className="grid grid-cols-3 gap-4 items-center px-6 py-3 border-b last:border-b-0 border-gray-700">
+                            <dt className="text-sm leading-5 font-medium text-gray-300">Active</dt>
+                            <dd className="text-sm leading-5 col-span-2 text-gray-300">{strategy.is_active.toString()}</dd>
                         </div>
                     </div>
                 </div>
@@ -438,4 +456,4 @@ const Strategies = (props: any) => {
     connectedExchanges: state.common.connectedExchanges
   });
   
-  export default connect(mapStateToProps, { createMessage, getStrategies, getConnectedExchanges, getConnectedStrategies, getStrategyPairs, topUpStrategy })(Strategies);
+  export default connect(mapStateToProps, { createMessage, getStrategies, getConnectedExchanges, getConnectedStrategies, getStrategyPairs, reactivatePair, topUpStrategy })(Strategies);
