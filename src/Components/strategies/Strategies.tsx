@@ -131,17 +131,19 @@ const Strategies = (props: any) => {
       e.preventDefault()
       const pairDetails = props.strategyPairs.filter(x => x.strategy_id == currentStrategy.strategy_id && x.symbol == currentStrategy.pair)[0]
       
+      const dataToSend = {
+        strategy_pair_id: topUpAmount.strategy_pair_id,
+        currency: topUpAmount.currency,
+        amount: topUpAmount.amount,
+        is_top_up: topUpAmount.topUp
+      }
+
       if (currentStrategy.current_currency != topUpAmount.currency) {
         if (topUpAmount.ticker_1 == topUpAmount.currency) {
           if (topUpAmount.amount < pairDetails.ticker_1_min_value) {
             props.createMessage({ belowMinAmount: 'Please increase the inital amount' });
           }
           else {
-            const dataToSend = {
-              strategy_pair_id: topUpAmount.strategy_pair_id,
-              currency: topUpAmount.currency,
-              amount: topUpAmount.amount
-            }
             props.topUpStrategy({ dataToSend })
           }
         }
@@ -150,21 +152,11 @@ const Strategies = (props: any) => {
             props.createMessage({ belowMinAmount: 'Please increase the inital amount' });
           }
           else {
-            const dataToSend = {
-              strategy_pair_id: topUpAmount.strategy_pair_id,
-              currency: topUpAmount.currency,
-              amount: topUpAmount.amount
-            }
             props.topUpStrategy({ dataToSend })
           }
         }
       }
       else {
-        const dataToSend = {
-          strategy_pair_id: topUpAmount.strategy_pair_id,
-          currency: topUpAmount.currency,
-          amount: topUpAmount.amount
-        }
         props.topUpStrategy({ dataToSend })
       }      
     }
