@@ -37,9 +37,7 @@ const Strategies = (props: any) => {
 
   useEffect(() => {
 
-    props.nav[0].current = false
-    props.nav[1].current = false
-    props.nav[2].current = true
+    props.setNav(props.nav[2])
 
     if (props.connectedExchanges.length < 1) props.getConnectedExchanges();
     if (props.connectedStrategies.length < 1) props.getConnectedStrategies();

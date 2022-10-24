@@ -1,7 +1,7 @@
 import { connect } from "react-redux"
-import { Line, ComposedChart, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { AreaChart, Area, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import Loader from 'react-loader-spinner';
-import React, { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { getConnectedStrategies, getDailyBalances, getDashboardData } from '../../actions/common';
 import { format } from "date-fns";
 import { Listbox, Transition } from '@headlessui/react'
@@ -250,43 +250,45 @@ const StrategyStats = (props: any) => {
                     </span>
                   </div>
                   <div className="h-96 flex items-center justify-center relative">
-                  {props.dailyBalances.length > 0 ?
-                    props.dailyBalances[0].data.length < 3 ?
-                    <h3 className="text-white">We need {3 - props.dailyBalances[0].data.length} days to gather more data</h3>
-                    :
-                    <ResponsiveContainer width="100%" height="100%">
-                      <AreaChart width={800} height={300} data={data} margin={{top: 25, right: 30, left: 20, bottom: 5}}>
-                      <defs>
-                        <linearGradient id="colorUv" x1="0" y1="0" x2="100%" y2="1">
-                          <stop offset="5%" stopColor="#129a74" stopOpacity={0.1}/>
-                          <stop offset="95%" stopColor="#FFFFFF" stopOpacity={0.1}/>
-                          <stop offset="5%" stopColor="#31C48D" stopOpacity={0.1}/>
-                          <stop offset="95%" stopColor="#1A202E" stopOpacity={0.1}/>
-                        </linearGradient>
-                      </defs>
+                  {props.connectedStrategies.length > 0 ?
+                    props.dailyBalances.length > 0 ?
+                      props.dailyBalances[0].data.length < 3 ?
+                      <h3 className="text-white">We need {3 - props.dailyBalances[0].data.length} days to gather more data</h3>
+                      :
+                      <ResponsiveContainer width="100%" height="100%">
+                        <AreaChart width={800} height={300} data={data} margin={{top: 25, right: 30, left: 20, bottom: 5}}>
+                        <defs>
+                          <linearGradient id="colorUv" x1="0" y1="0" x2="100%" y2="1">
+                            <stop offset="5%" stopColor="#129a74" stopOpacity={0.1}/>
+                            <stop offset="95%" stopColor="#FFFFFF" stopOpacity={0.1}/>
+                            <stop offset="5%" stopColor="#31C48D" stopOpacity={0.1}/>
+                            <stop offset="95%" stopColor="#1A202E" stopOpacity={0.1}/>
+                          </linearGradient>
+                        </defs>
 
-                      <YAxis 
-                        axisLine={false}
-                        tickLine={false}
-                      />
-                      
-                      <XAxis
-                        dataKey="date"
+                        <YAxis 
+                          axisLine={false}
+                          tickLine={false}
+                        />
                         
-                        axisLine={false}
-                        tickLine={false}
-                        tickFormatter={dateFormatter}
-                        tick={{fill: 'white', fontSize: '13', textAnchor: 'right' }}
-                      />
-                      
-                      <Tooltip />
-                      <Legend verticalAlign="top" height={36} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}/>
-                      <Area name="HODL Value" type="monotone" dataKey="hodl_value" stroke="#006991" strokeWidth={2} fillOpacity={opacity.hodl_value} fill="url(#colorUv)" />
-                      <Area name="Strategy Value" type="monotone" dataKey="strategy_value" stroke="#31C48D" strokeWidth={2} fillOpacity={opacity.strategy_value} fill="url(#colorUv)" />
-                      </AreaChart>
-                    </ResponsiveContainer>
-                    :
-                    <Loader type="Circles" color="#00BFFF" height={24} width={24}/>
+                        <XAxis
+                          dataKey="date"
+                          
+                          axisLine={false}
+                          tickLine={false}
+                          tickFormatter={dateFormatter}
+                          tick={{fill: 'white', fontSize: '13', textAnchor: 'right' }}
+                        />
+                        
+                        <Tooltip />
+                        <Legend verticalAlign="top" height={36} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}/>
+                        <Area name="HODL Value" type="monotone" dataKey="hodl_value" stroke="#006991" strokeWidth={2} fillOpacity={opacity.hodl_value} fill="url(#colorUv)" />
+                        <Area name="Strategy Value" type="monotone" dataKey="strategy_value" stroke="#31C48D" strokeWidth={2} fillOpacity={opacity.strategy_value} fill="url(#colorUv)" />
+                        </AreaChart>
+                      </ResponsiveContainer>
+                      :
+                      <Loader type="Circles" color="#00BFFF" height={24} width={24}/>
+                    : <h3 className="text-white">Please connect to a strategy</h3>
                     } 
                     
                     </div>

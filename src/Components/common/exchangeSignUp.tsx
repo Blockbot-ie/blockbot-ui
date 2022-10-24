@@ -1,7 +1,6 @@
 import { getExchanges } from '../../actions/common';
-import React, { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { connect } from "react-redux"
-import { convertToObject } from 'typescript';
 
 const ExchangeSignUp = (props: any) => {
 

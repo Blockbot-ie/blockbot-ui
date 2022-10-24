@@ -5,7 +5,6 @@ import { Link, Redirect } from 'react-router-dom';
 import { login } from '../../actions/auth';
 import '../../fontawesome';
 import Loader from 'react-loader-spinner';
-import axios from 'axios';
 import GoogleSocialAuth from './Google';
 import FacebookSocialAuth from './Facebook';
 

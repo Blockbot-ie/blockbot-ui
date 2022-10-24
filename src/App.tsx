@@ -1,9 +1,9 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import { Fragment, useEffect } from 'react';
 import Nav from './Components/Nav';
 import LoginForm from './Components/accounts/LoginForm';
 import SignupForm from './Components/accounts/SignUpForm';
 import './App.css';
-import { BrowserRouter as Router, Route, Switch, BrowserRouter } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Provider as AlertProvider } from 'react-alert'
 import AlertTemplate from 'react-alert-template-basic';
 import { Provider } from 'react-redux';

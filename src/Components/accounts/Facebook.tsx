@@ -1,4 +1,3 @@
-import React, { Component } from 'react';
 import FacebookLogin from 'react-facebook-login';
 import { facebookLogin } from '../../actions/auth';
 import { connect } from 'react-redux';
@@ -6,6 +5,7 @@ import { connect } from 'react-redux';
 const FacebookSocialAuth = (props: any) => {
   
     const fbResponse = async (response)  => {
+      console.log(response)
       props.facebookLogin(response.accessToken)
   }
     return <>

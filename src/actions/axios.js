@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-    baseURL: "https://myblockbot-api.herokuapp.com"
+    baseURL: "https://blockbot-api.onrender.com"
 //   baseURL: "http://localhost:8000"
 });
 

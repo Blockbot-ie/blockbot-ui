@@ -15,10 +15,7 @@ const Dashboard = (props: any) => {
     const [bugReportModalOpen, setBugReportModalOpen] = React.useState(false);
 
     useEffect(() => {
-      props.nav[0].current = true
-      props.nav[1].current = false
-      props.nav[2].current = false
-
+      props.setNav(props.nav[0])
       props.getDashboardData()
       props.getConnectedExchanges()
       props.getConnectedStrategies()
@@ -31,7 +28,8 @@ const Dashboard = (props: any) => {
     const [isOpen, setIsOpen] = useState(false)
 
     useEffect(() => {
-      if (props.connectedStrategies.length < 1 && props.isLoading) setIsOpen(true)
+
+      if (props.connectedStrategies.length < 1 && !props.isLoading) setIsOpen(true)
     }, [props.connectedStrategies])
 
     return <>

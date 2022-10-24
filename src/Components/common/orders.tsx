@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { getOrders } from '../../actions/common';
-import Moment from 'moment';
 
 const Orders = (props: any) => {
 
@@ -20,14 +19,14 @@ const Orders = (props: any) => {
     }
 
     const openOrders = () => {
-        if (props.orders.filter(order => order.status == 'open').length < 1) {
-            return <p className="text-sm font-medium text-white truncate">No open orders</p>
+        if (props.orders.filter(order => order.status === 'open').length < 1) {
+            return <tr><td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-white">No open orders</td></tr>
         }
         else {
-            return props.orders.filter(order => order.status == 'open').map(openOrder => (
+            return props.orders.filter(order => order.status === 'open').map(openOrder => (
                 <tr>
                     <td className={classNames(
-                        openOrder.side == 'buy'
+                        openOrder.side === 'buy'
                         ? "text-buyGreen"
                         : "text-red-500"
                         ,"px-6 py-4 whitespace-nowrap text-sm font-medium"
@@ -57,14 +56,14 @@ const Orders = (props: any) => {
     }
 
     const filledOrders = () => {
-        if (props.orders.filter(order => order.status == 'closed').length < 1) {
-            return <p className="text-sm font-medium text-white truncate">No filled orders</p>
+        if (props.orders.filter(order => order.status === 'closed').length < 1) {
+            return <tr><td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-white">No filled orders</td></tr>
         }
         else {
-            return props.orders.filter(order => order.status == 'closed').map(filledOrder => (
+            return props.orders.filter(order => order.status === 'closed').map(filledOrder => (
                 <tr>
                     <td className={classNames(
-                        filledOrder.side == 'buy'
+                        filledOrder.side === 'buy'
                         ? "text-buyGreen"
                         : "text-red-600"
                         ,"px-6 py-4 whitespace-nowrap text-sm font-medium"
@@ -100,18 +99,18 @@ const Orders = (props: any) => {
             <div>
             <div className="sm:hidden">
                 <label htmlFor="tabs" className="sr-only">Select a tab</label>
-                <select id="tabs" name="tabs" className="block w-full focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md">
-                <option>Open</option>
-                <option selected>Filled</option>
+                <select defaultValue='filled' id="tabs" name="tabs" className="block w-full focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md">
+                <option value='open'>Open</option>
+                <option value='filled'>Filled</option>
                 </select>
             </div>
             <div className="hidden sm:block">
                 <nav className="flex space-x-4" aria-label="Tabs">
-                <button onClick={() => setTab('Open')} className={tab == 'Open' ? 'bg-indigo-100 text-indigo-700 px-3 py-2 font-medium text-sm rounded-md' : 'bg-gray-700 text-white hover:text-gray-700 px-3 py-2 font-medium text-sm rounded-md'}>
+                <button onClick={() => setTab('Open')} className={tab === 'Open' ? 'bg-indigo-100 text-indigo-700 px-3 py-2 font-medium text-sm rounded-md' : 'bg-gray-700 text-white hover:text-gray-700 px-3 py-2 font-medium text-sm rounded-md'}>
                     Open
                 </button>
 
-                <button onClick={() => setTab('Filled')} className={tab == 'Filled' ? 'bg-indigo-100 text-indigo-700 px-3 py-2 font-medium text-sm rounded-md' : 'bg-gray-700 text-white hover:text-gray-700 px-3 py-2 font-medium text-sm rounded-md'} aria-current="page">
+                <button onClick={() => setTab('Filled')} className={tab === 'Filled' ? 'bg-indigo-100 text-indigo-700 px-3 py-2 font-medium text-sm rounded-md' : 'bg-gray-700 text-white hover:text-gray-700 px-3 py-2 font-medium text-sm rounded-md'} aria-current="page">
                     Filled
                 </button>
                 </nav>

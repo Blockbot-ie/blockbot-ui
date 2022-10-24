@@ -13,11 +13,7 @@ const usePrevious = <T extends unknown>(value: T): T | undefined => {
 
 const Alerts = (props: any) => {  
     useEffect(() => {
-            if (props.error.msg.name) props.alert.error(`Name: ${props.error.msg.name.join()}`);
-            if (props.error.msg.email) props.alert.error(`Email: ${props.error.msg.email.join()}`);
-            if (props.error.msg.message) props.alert.error(`Message: ${props.error.msg.message.join()}`);
-            if (props.error.msg.non_field_errors) props.alert.error(props.error.msg.non_field_errors.join());
-            if (props.error.msg.username) props.alert.error(props.error.msg.username.join());
+            if (props.error.status == 400) props.alert.error(props.error.msg["Error"]);
           
       
             // if (props.error.status == 400) props.alert.error(props.error.msg.Error)

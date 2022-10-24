@@ -13,9 +13,8 @@ const ConnectExhange = (props: any) => {
     const [currentExchange, setCurrentExchangeState] = useState(null);
 
     useEffect(() => {
-      props.nav[0].current = false
-      props.nav[1].current = true
-      props.nav[2].current = false
+      props.setNav(props.nav[1])
+      
       if (props.connectedExchanges.length < 1) props.getConnectedExchanges();
     }, [])
 

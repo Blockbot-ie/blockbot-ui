@@ -1,9 +1,7 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import { Fragment, useState } from 'react';
 import { connect } from 'react-redux';
 import { useLocation } from 'react-router-dom'
 import {
-    BrowserRouter as Router,
-    Switch,
     Route,
     Link,
     Redirect
@@ -12,11 +10,8 @@ import store from '../store';
 import { logout } from '../actions/auth';
 import { Dialog, Transition } from '@headlessui/react'
 import {
-  CalendarIcon,
-  ChartBarIcon,
   FolderIcon,
   HomeIcon,
-  InboxIcon,
   MenuIcon,
   UsersIcon,
   XIcon,
@@ -30,9 +25,9 @@ import connectExchangeForm from './forms/connectExchangeForm';
 import connectStrategyForm from './forms/connectStrategyForm';
 
 const navigation = [
-  { name: 'Dashboard', link: "/", icon: HomeIcon, current: true },
-  { name: 'Exchanges', link: "/exchanges", icon: UsersIcon, current: false },
-  { name: 'Strategies', link: "/strategies", icon: FolderIcon, current: false },
+  { name: 'Dashboard', link: "/", icon: HomeIcon},
+  { name: 'Exchanges', link: "/exchanges", icon: UsersIcon},
+  { name: 'Strategies', link: "/strategies", icon: FolderIcon},
 ]
 
 function classNames(...classes) {
@@ -41,6 +36,8 @@ function classNames(...classes) {
 
 const Nav = (props: any) => {
 
+  const [currentNav, setCurrentNav] = useState(navigation[0])
+  
   const location = useLocation();
 
   const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -54,7 +51,7 @@ const Nav = (props: any) => {
 
   return (
     <>
-    {props.isAuthenticated && location.pathname != '/user-story' ?
+    {props.isAuthenticated && location.pathname !== '/user-story' ?
 
       <div className="h-screen flex overflow-hidden bg-gray-900">
       <Transition.Root show={sidebarOpen} as={Fragment}>
@@ -119,7 +116,7 @@ const Nav = (props: any) => {
                       to={item.link}
                       key={item.name}
                       className={classNames(
-                        item.current
+                        item.name === currentNav.name
                           ? 'bg-gray-500 text-white hover:text-gray-900'
                           : 'text-white hover:bg-gray-500 hover:text-gray-900',
                         'group flex items-center px-2 py-2 text-base font-medium rounded-md'
@@ -127,7 +124,7 @@ const Nav = (props: any) => {
                     >
                       <item.icon
                         className={classNames(
-                          item.current ? 'text-gray-300' : 'text-gray-500 group-hover:text-gray-500',
+                          item.name === currentNav.name ? 'text-gray-300' : 'text-gray-500 group-hover:text-gray-500',
                           'mr-4 h-6 w-6'
                         )}
                         aria-hidden="true"
@@ -170,13 +167,13 @@ const Nav = (props: any) => {
                     to={item.link}
                     key={i}
                     className={classNames(
-                      item.current ? 'bg-gray-500 text-white' : 'text-white hover:bg-gray-500 hover:text-gray-900',
+                      item.name === currentNav.name ? 'bg-gray-500 text-white' : 'text-white hover:bg-gray-500 hover:text-gray-900',
                       'group flex items-center px-2 py-2 text-sm font-medium rounded-md'
                     )}
                   >
                     <item.icon
                       className={classNames(
-                        item.current ? 'text-gray-300' : 'text-gray-500 group-hover:text-gray-500',
+                        item.name === currentNav.name ? 'text-gray-300' : 'text-gray-500 group-hover:text-gray-500',
                         'mr-3 h-6 w-6'
                       )}
                       aria-hidden="true"
@@ -213,9 +210,9 @@ const Nav = (props: any) => {
         <main className="flex-1 relative z-0 overflow-y-auto focus:outline-none">
           <div className="py-6">
             
-              <Route exact path="/" render={() => <Dashboard nav={navigation} /> } />
-              <Route path="/exchanges" render={() => <ConnectExchange nav={navigation} /> }/>
-              <Route path="/strategies" render={() => <Strategies nav={navigation} /> } />
+              <Route exact path="/" render={() => <Dashboard nav={navigation} setNav={setCurrentNav} /> } />
+              <Route path="/exchanges" render={() => <ConnectExchange nav={navigation} setNav={setCurrentNav} /> }/>
+              <Route path="/strategies" render={() => <Strategies nav={navigation} setNav={setCurrentNav} /> } />
               <PrivateRoute path="/connect-exchange" component={connectExchangeForm} />
               <PrivateRoute path="/connect-strategy" component={connectStrategyForm} />
             
@@ -224,7 +221,7 @@ const Nav = (props: any) => {
       </div>
       </div>
     :
-      location.pathname != "/user-story" &&   
+      location.pathname !== "/user-story" &&   
         <Redirect to="/login" />
     }
     </>

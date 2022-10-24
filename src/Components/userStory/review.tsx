@@ -6,6 +6,7 @@ import { getConnectedStrategies } from '../../actions/common';
 const Review = (props: any) => {
 
     useEffect(() => {
+        console.log(props.strategies)
         if (props.connectedStrategies.length < 1) {
             props.getConnectedStrategies()
         }
