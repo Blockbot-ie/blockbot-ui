@@ -1,5 +1,5 @@
 import axios from "./axios";
-import { returnErrors } from './messages';
+import { createMessage, returnErrors } from './messages';
 
 import {
   USER_LOADED,
@@ -192,12 +192,13 @@ export const signup = (first_name, last_name, email, username, password1, passwo
 
   try {
       const res = await axios.post(`/api/dj-rest-auth/registration/`, body, config);
-
+      dispatch(createMessage({ emailSent: 'Verification email sent' }));
       dispatch({
           type: SIGNUP_SUCCESS,
           payload: res.data
       });
   } catch (err) {
+      dispatch(returnErrors(err.response.data, err.response.status));
       dispatch({
           type: SIGNUP_FAIL
       })

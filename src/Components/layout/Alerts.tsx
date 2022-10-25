@@ -13,7 +13,13 @@ const usePrevious = <T extends unknown>(value: T): T | undefined => {
 
 const Alerts = (props: any) => {  
     useEffect(() => {
-            if (props.error.status == 400) props.alert.error(props.error.msg["Error"]);
+            if (props.error.msg.username) {
+              props.alert.error(props.error.msg.username)
+            } else if (props.error.msg.email) {
+              props.alert.error(props.error.msg.email)
+            } else if (props.error.status == 400) {
+              props.alert.error(props.error.msg["Error"])
+            }
           
       
             // if (props.error.status == 400) props.alert.error(props.error.msg.Error)
@@ -22,6 +28,7 @@ const Alerts = (props: any) => {
             if (props.message.belowMinAmount) props.alert.error(props.message.belowMinAmount);
             if (props.message.reportSubmitted) props.alert.success(props.message.reportSubmitted);
             if (props.message.strategyToppedUp) props.alert.success(props.message.strategyToppedUp);
+            if (props.message.emailSent) props.alert.success(props.message.emailSent);
               
     },[props] )
   
